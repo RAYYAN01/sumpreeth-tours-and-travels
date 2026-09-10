@@ -162,6 +162,17 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
             </Link>
           </nav>
         </div>
+        <div className="container-page pb-5 text-center text-xs text-forest-200/60 sm:text-right">
+          Developed &amp; designed by{" "}
+          <a
+            href="https://www.naazailabs.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-forest-100 hover:text-white hover:underline"
+          >
+            Naaz AI Labs
+          </a>
+        </div>
       </div>
     </footer>
   );
