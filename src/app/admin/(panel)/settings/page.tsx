@@ -1,6 +1,7 @@
 import { PageTitle, Panel } from "@/components/admin/ui";
 import PasswordForm from "./PasswordForm";
-import { currentPasswordSource } from "./actions";
+import AdminIdForm from "./AdminIdForm";
+import { currentPasswordSource, getCurrentAdminId } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,10 @@ const SOURCE_TEXT = {
 };
 
 export default async function SettingsPage() {
-  const source = await currentPasswordSource();
+  const [source, adminId] = await Promise.all([
+    currentPasswordSource(),
+    getCurrentAdminId(),
+  ]);
 
   return (
     <>
@@ -19,11 +23,23 @@ export default async function SettingsPage() {
         title="Settings"
         subtitle="Admin account for the whole office (single shared login)"
       />
+
       <Panel>
-        <h2 className="font-semibold text-slate-900">Change password</h2>
-        <p className="mt-1 mb-5 text-sm text-slate-500">{SOURCE_TEXT[source]}</p>
-        <PasswordForm />
+        <h2 className="font-semibold text-slate-900">Login ID</h2>
+        <p className="mt-1 mb-5 text-sm text-slate-500">
+          The ID you enter alongside the password on the Admin portal sign-in
+          screen.
+        </p>
+        <AdminIdForm current={adminId} />
       </Panel>
+
+      <div className="mt-6">
+        <Panel>
+          <h2 className="font-semibold text-slate-900">Change password</h2>
+          <p className="mt-1 mb-5 text-sm text-slate-500">{SOURCE_TEXT[source]}</p>
+          <PasswordForm />
+        </Panel>
+      </div>
     </>
   );
 }

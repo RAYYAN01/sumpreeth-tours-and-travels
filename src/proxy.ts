@@ -2,7 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   SESSION_COOKIE,
   SESSION_MAX_AGE,
+  SESSION_MAX_AGE_REMEMBER,
   SESSION_REFRESH_THRESHOLD,
+  SESSION_REFRESH_THRESHOLD_REMEMBER,
 } from "@/lib/constants";
 import { inspectSessionToken, signSessionToken } from "@/lib/jwt";
 import {
@@ -61,7 +63,7 @@ export async function proxy(req: NextRequest) {
   // 4. Admin area: gate everything except the login page itself.
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
     const token = req.cookies.get(SESSION_COOKIE)?.value;
-    const { valid, exp } = await inspectSessionToken(token);
+    const { valid, exp, remember } = await inspectSessionToken(token);
 
     if (!valid) {
       const url = req.nextUrl.clone();
@@ -70,15 +72,20 @@ export async function proxy(req: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Sliding session: re-issue when close to expiry.
+    // Sliding session: re-issue when close to expiry, keeping the
+    // "remember me" lifetime if that's what the visitor chose.
     const secondsLeft = exp ? exp - Math.floor(Date.now() / 1000) : 0;
-    if (secondsLeft > 0 && secondsLeft < SESSION_REFRESH_THRESHOLD) {
-      res.cookies.set(SESSION_COOKIE, await signSessionToken(), {
+    const maxAge = remember ? SESSION_MAX_AGE_REMEMBER : SESSION_MAX_AGE;
+    const threshold = remember
+      ? SESSION_REFRESH_THRESHOLD_REMEMBER
+      : SESSION_REFRESH_THRESHOLD;
+    if (secondsLeft > 0 && secondsLeft < threshold) {
+      res.cookies.set(SESSION_COOKIE, await signSessionToken(maxAge, remember), {
         httpOnly: true,
         secure: isProd,
         sameSite: "lax",
         path: "/",
-        maxAge: SESSION_MAX_AGE,
+        maxAge,
       });
     }
   }

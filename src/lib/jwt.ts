@@ -3,24 +3,25 @@ import { SESSION_MAX_AGE } from "./constants";
 
 /**
  * Edge-safe JWT helpers (no `next/headers`, no `server-only`) so they can be
- * used from middleware as well as server components / actions.
+ * used from the proxy as well as server components / actions.
  */
 
 function secretKey(): Uint8Array {
   const secret = process.env.SESSION_SECRET;
   if (!secret || secret.length < 16) {
-    throw new Error(
-      "SESSION_SECRET is missing or too short (min 16 chars).",
-    );
+    throw new Error("SESSION_SECRET is missing or too short (min 16 chars).");
   }
   return new TextEncoder().encode(secret);
 }
 
-export async function signSessionToken(): Promise<string> {
-  return new SignJWT({ sub: "admin" })
+export async function signSessionToken(
+  maxAgeSec: number = SESSION_MAX_AGE,
+  remember = false,
+): Promise<string> {
+  return new SignJWT({ sub: "admin", rem: remember })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(`${SESSION_MAX_AGE}s`)
+    .setExpirationTime(`${maxAgeSec}s`)
     .sign(secretKey());
 }
 
@@ -37,19 +38,25 @@ export async function verifySessionToken(
 }
 
 /**
- * Returns `{ valid, exp }` for a session token in one verification pass so
- * middleware can decide whether to slide the expiry without re-verifying.
+ * Returns `{ valid, exp, remember }` for a session token in one verification
+ * pass so the proxy can decide whether (and how long) to slide the expiry.
  * `exp` is Unix seconds, or `null` when the token is missing/invalid.
  */
 export async function inspectSessionToken(
   token: string | undefined | null,
-): Promise<{ valid: boolean; exp: number | null }> {
-  if (!token) return { valid: false, exp: null };
+): Promise<{ valid: boolean; exp: number | null; remember: boolean }> {
+  if (!token) return { valid: false, exp: null, remember: false };
   try {
     const { payload } = await jwtVerify(token, secretKey());
-    if (payload.sub !== "admin") return { valid: false, exp: null };
-    return { valid: true, exp: typeof payload.exp === "number" ? payload.exp : null };
+    if (payload.sub !== "admin") {
+      return { valid: false, exp: null, remember: false };
+    }
+    return {
+      valid: true,
+      exp: typeof payload.exp === "number" ? payload.exp : null,
+      remember: payload.rem === true,
+    };
   } catch {
-    return { valid: false, exp: null };
+    return { valid: false, exp: null, remember: false };
   }
 }

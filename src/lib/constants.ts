@@ -80,6 +80,9 @@ export const SESSION_COOKIE =
   process.env.NODE_ENV === "production"
     ? "__Host-sumpreeth_admin"
     : "sumpreeth_admin";
-export const SESSION_MAX_AGE = 60 * 60 * 2; // 2 hours
-/** Slide the expiry when fewer than this many seconds remain. */
+export const SESSION_MAX_AGE = 60 * 60 * 2; // 2 hours (default)
+export const SESSION_MAX_AGE_REMEMBER = 60 * 60 * 24 * 30; // 30 days ("remember me")
+/** Slide a normal session's expiry when fewer than this many seconds remain. */
 export const SESSION_REFRESH_THRESHOLD = 30 * 60; // 30 minutes
+/** Slide a "remember me" session when fewer than this many seconds remain. */
+export const SESSION_REFRESH_THRESHOLD_REMEMBER = 60 * 60 * 24 * 7; // 7 days

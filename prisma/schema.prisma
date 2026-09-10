@@ -145,7 +145,17 @@ model SiteSettings {
   instagramUrl String?
   youtubeUrl   String?
 
+  adminId           String  @default("admin")
   adminPasswordHash String?
 
   updatedAt DateTime @updatedAt
+}
+
+// One-time password for the admin "forgot password" flow. Single row.
+model AdminOtp {
+  id        String   @id @default("singleton")
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
 }

@@ -1,18 +1,23 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { SESSION_COOKIE, SESSION_MAX_AGE } from "./constants";
+import {
+  SESSION_COOKIE,
+  SESSION_MAX_AGE,
+  SESSION_MAX_AGE_REMEMBER,
+} from "./constants";
 import { signSessionToken, verifySessionToken } from "./jwt";
 
-export async function createSession(): Promise<void> {
-  const token = await signSessionToken();
+export async function createSession(remember = false): Promise<void> {
+  const maxAge = remember ? SESSION_MAX_AGE_REMEMBER : SESSION_MAX_AGE;
+  const token = await signSessionToken(maxAge, remember);
   const store = await cookies();
   store.set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: SESSION_MAX_AGE,
+    maxAge,
   });
 }
 

@@ -29,6 +29,31 @@ export async function verifyAdminPassword(password: string): Promise<boolean> {
   }
 }
 
+/** The configured admin login ID (defaults to "admin"). */
+export async function getAdminId(): Promise<string> {
+  try {
+    const s = await prisma.siteSettings.findUnique({
+      where: { id: "singleton" },
+      select: { adminId: true },
+    });
+    return (s?.adminId || process.env.ADMIN_ID || "admin").trim();
+  } catch {
+    return process.env.ADMIN_ID || "admin";
+  }
+}
+
+/** Constant-time-ish check of the ID + password pair. */
+export async function verifyAdminCredentials(
+  id: string,
+  password: string,
+): Promise<boolean> {
+  const expectedId = await getAdminId();
+  const idOk = id.trim().toLowerCase() === expectedId.toLowerCase();
+  // Always run the password compare so timing doesn't leak whether the ID matched.
+  const pwOk = await verifyAdminPassword(password).catch(() => false);
+  return idOk && pwOk;
+}
+
 export async function setAdminPassword(newPassword: string): Promise<void> {
   const hash = await bcrypt.hash(newPassword, 10);
   await prisma.siteSettings.update({

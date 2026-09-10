@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { verifyAdminPassword, setAdminPassword } from "@/lib/auth";
@@ -66,4 +67,42 @@ export async function currentPasswordSource(): Promise<"database" | "environment
   if (s?.adminPasswordHash) return "database";
   if (process.env.ADMIN_PASSWORD_HASH) return "environment";
   return "none";
+}
+
+export async function getCurrentAdminId(): Promise<string> {
+  const s = await prisma.siteSettings.findUnique({
+    where: { id: "singleton" },
+    select: { adminId: true },
+  });
+  return s?.adminId || "admin";
+}
+
+const adminIdSchema = z
+  .string()
+  .trim()
+  .min(3, "At least 3 characters")
+  .max(60)
+  .regex(/^[a-zA-Z0-9._-]+$/, "Letters, numbers, dot, dash and underscore only");
+
+export async function changeAdminIdAction(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  await requireAdmin();
+
+  const parsed = adminIdSchema.safeParse(formData.get("adminId"));
+  if (!parsed.success) {
+    return {
+      error: "Please fix the highlighted field.",
+      fieldErrors: { adminId: [parsed.error.issues[0]?.message ?? "Invalid"] },
+    };
+  }
+
+  await seedSettingsIfMissing();
+  await prisma.siteSettings.update({
+    where: { id: "singleton" },
+    data: { adminId: parsed.data },
+  });
+
+  return { ok: true, message: `Login ID updated to "${parsed.data}".` };
 }

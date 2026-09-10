@@ -152,6 +152,7 @@ async function main() {
       hours: "Open all days · 24/7",
       mapEmbedUrl:
         "https://www.google.com/maps?q=Bangalore%20560078&output=embed",
+      adminId: "admin",
       adminPasswordHash: hash,
     },
   });
