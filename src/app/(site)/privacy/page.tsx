@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSiteSettings } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
+import Section from "@/components/site/Section";
 
 export const metadata = pageMeta({
   title: "Privacy & Cookie Policy",
@@ -10,11 +11,17 @@ export const metadata = pageMeta({
   path: "/privacy",
 });
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export default async function PrivacyPage() {
   const settings = await getSiteSettings();
-  const updated = "September 2026";
+  const updated = "10 September 2026";
+  const mail = (
+    <a href={`mailto:${settings.email}`}>{settings.email}</a>
+  );
+  const tel = (
+    <a href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}>{settings.phone}</a>
+  );
 
   return (
     <>
@@ -25,148 +32,157 @@ export default async function PrivacyPage() {
         intro={`How we handle the details you share with us, and what this website stores on your device. Last updated ${updated}.`}
       />
 
-      <section className="container-page max-w-3xl py-16">
-        <div className="space-y-10 text-sm leading-relaxed text-bodytext">
-          <div>
-            <h2 className="text-lg font-bold text-ink">Who we are</h2>
-            <p className="mt-2">
-              Sumpreeth Tours and Travels is a Bangalore-based cab and outstation
-              travel service. For any question about this policy or your data,
-              contact us at{" "}
-              <a
-                href={`mailto:${settings.email}`}
-                className="font-medium text-forest-700 hover:underline dark:text-forest-200"
-              >
-                {settings.email}
-              </a>{" "}
-              or{" "}
-              <a
-                href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}
-                className="font-medium text-forest-700 hover:underline dark:text-forest-200"
-              >
-                {settings.phone}
-              </a>
-              .
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold text-ink">
-              What we collect when you enquire
-            </h2>
-            <p className="mt-2">
-              When you send an enquiry through this website, we collect only what
-              you type into the form: your name, phone number, the type of
-              service, pickup and drop locations, preferred date and time, and
-              any message. We use these details solely to prepare your quote and
-              arrange your trip.
-            </p>
-            <p className="mt-2">
-              On submitting the form, your browser also opens WhatsApp with the
-              same trip details pre-filled so you can send them to us directly.
-              Messages you send on WhatsApp are handled by WhatsApp / Meta under
-              their own privacy terms.
-            </p>
-            <p className="mt-2">
-              To keep out spam, our server briefly records the IP address of
-              enquiry submissions and limits how many can be sent from one
-              address per hour. This is deleted automatically.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold text-ink">
-              Cookies &amp; local storage
-            </h2>
-            <p className="mt-2">
-              This website does <strong>not</strong> use advertising, analytics
-              or third-party tracking cookies. What it does use:
-            </p>
-            <ul className="mt-3 space-y-2">
-              <li className="flex gap-2">
-                <span aria-hidden className="text-saffron-600">
-                  •
-                </span>
-                <span>
-                  <strong>Theme preference</strong> — a small value stored in
-                  your browser&apos;s local storage to remember whether you chose
-                  light or dark mode. It never leaves your device.
-                </span>
-              </li>
-              <li className="flex gap-2">
-                <span aria-hidden className="text-saffron-600">
-                  •
-                </span>
-                <span>
-                  <strong>Staff login session</strong> — a single strictly
-                  necessary cookie set only if a staff member signs in to the
-                  private admin area. It is not set for ordinary visitors.
-                </span>
-              </li>
-              <li className="flex gap-2">
-                <span aria-hidden className="text-saffron-600">
-                  •
-                </span>
-                <span>
-                  <strong>Google Maps</strong> — the map on our{" "}
-                  <Link
-                    href="/contact"
-                    className="font-medium text-forest-700 hover:underline dark:text-forest-200"
-                  >
-                    Contact
-                  </Link>{" "}
-                  page is embedded from Google, which may set its own cookies
-                  when the map loads. See Google&apos;s privacy policy for
-                  details.
-                </span>
-              </li>
-            </ul>
-            <p className="mt-3">
-              Because we only use strictly necessary and preference storage, no
-              cookie consent banner is shown. You can clear this site&apos;s
-              storage at any time from your browser settings.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold text-ink">
-              How long we keep enquiry details
-            </h2>
-            <p className="mt-2">
-              Enquiry records are kept while we arrange and follow up on your
-              trip, and for a reasonable period afterwards for our own records.
-              You can ask us to delete your details at any time using the contact
-              information above.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold text-ink">Sharing</h2>
-            <p className="mt-2">
-              We do not sell your information. Trip details are shared only with
-              the driver assigned to your booking. We may disclose information if
-              required by law.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-bold text-ink">Your choices</h2>
-            <p className="mt-2">
-              You can contact us to access, correct or delete the details you
-              have shared, or to raise a concern about how they are used.
-            </p>
-          </div>
-        </div>
-
-        <p className="mt-12 text-sm">
-          <Link
-            href="/contact"
-            className="font-semibold text-forest-700 hover:text-ink dark:text-forest-200"
-          >
-            Back to contact &amp; booking →
-          </Link>
+      <Section className="prose-legal">
+        <h2>1. Who we are</h2>
+        <p>
+          Sumpreeth Tours and Travels (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is a
+          Bengaluru-based cab and outstation travel service. For the purposes of
+          the Digital Personal Data Protection Act, 2023 (&ldquo;DPDP Act&rdquo;)
+          we are the <strong>Data Fiduciary</strong> for the personal data
+          described below. You can reach us at {mail} or {tel}, or by post at{" "}
+          {settings.address}.
         </p>
-      </section>
+
+        <h2>2. What personal data we collect</h2>
+        <p>When you send an enquiry through this website, we collect only what you enter into the form:</p>
+        <ul>
+          <li><span>Your name and phone number.</span></li>
+          <li><span>The type of service, pickup and drop locations, and preferred date and time.</span></li>
+          <li><span>Any message you choose to add.</span></li>
+        </ul>
+        <p>
+          Our server also records, for a short period, the IP address of enquiry
+          submissions and limits how many can be sent from one address per hour.
+          This is used solely to prevent spam and abuse and is discarded
+          automatically. We do not use advertising, analytics or third-party
+          tracking cookies, and we do not build profiles of visitors.
+        </p>
+
+        <h2>3. Purpose and lawful basis</h2>
+        <p>
+          We process your enquiry details to prepare your quote, arrange and
+          follow up on your trip, and keep basic records of the bookings we
+          handle. Our lawful bases under the DPDP Act are your{" "}
+          <strong>consent</strong>, given when you submit the enquiry form, and
+          the <strong>legitimate uses</strong> of responding to a request you
+          have voluntarily made. Anti-spam IP handling relies on our legitimate
+          use of keeping the service secure and available.
+        </p>
+
+        <h2>4. Cookies and local storage</h2>
+        <p>
+          By default this website uses only strictly necessary storage. When you
+          first visit, a banner lets you accept or reject the optional items. Your
+          choice is saved in your browser&apos;s local storage (not a cookie) and
+          can be changed at any time from the{" "}
+          <button type="button" data-consent-open>Cookie settings</button> link in
+          the footer.
+        </p>
+        <ul>
+          <li>
+            <span>
+              <strong>Strictly necessary</strong> — security and load-balancing
+              at our host, and a single sign-in cookie set only if a staff member
+              logs in to the private admin area. Not set for ordinary visitors.
+            </span>
+          </li>
+          <li>
+            <span>
+              <strong>Preferences (optional)</strong> — a small value that
+              remembers whether you chose light or dark mode. It never leaves your
+              device.
+            </span>
+          </li>
+          <li>
+            <span>
+              <strong>Google Maps (optional)</strong> — the map on our{" "}
+              <Link href="/contact">Contact</Link> page loads from Google only
+              after you allow it; Google may then set its own cookies under its
+              own privacy terms.
+            </span>
+          </li>
+        </ul>
+
+        <h2>5. Who we share it with</h2>
+        <p>
+          We do not sell your personal data. We share it only as needed to
+          provide the service:
+        </p>
+        <ul>
+          <li><span>The driver assigned to your booking, for trip details.</span></li>
+          <li>
+            <span>
+              WhatsApp / Meta, if you use the &ldquo;Book on WhatsApp&rdquo;
+              option — your message is then handled under WhatsApp&apos;s own
+              terms.
+            </span>
+          </li>
+          <li><span>Google Maps, only if you load the map on the Contact page.</span></li>
+          <li><span>Authorities or advisors where we are required to by law.</span></li>
+        </ul>
+        <p>
+          We do not transfer your data outside India except through the
+          third-party services named above, which you choose to use.
+        </p>
+
+        <h2>6. How long we keep it</h2>
+        <p>
+          Enquiry records are kept while we arrange and follow up on your trip and
+          for a reasonable period afterwards for our own accounting and dispute
+          records, after which they are deleted or anonymised. Anti-spam IP data
+          is kept for at most a few hours.
+        </p>
+
+        <h2>7. Your rights as a Data Principal</h2>
+        <p>Under the DPDP Act you may, by contacting us using the details in section 1:</p>
+        <ul>
+          <li><span>Ask for access to a summary of the personal data we hold about you and how it is processed.</span></li>
+          <li><span>Ask us to correct or complete inaccurate or incomplete data.</span></li>
+          <li><span>Ask us to erase your data where it is no longer needed.</span></li>
+          <li><span>Withdraw a consent you previously gave (this does not affect processing already carried out).</span></li>
+          <li><span>Nominate another person to exercise these rights in the event of your death or incapacity.</span></li>
+          <li><span>Raise a grievance with us, and if unresolved, complain to the Data Protection Board of India.</span></li>
+        </ul>
+        <p>
+          We aim to respond to any request within 30 days. Please help us verify
+          your identity so we do not disclose your data to the wrong person.
+        </p>
+
+        <h2>8. Children&apos;s data</h2>
+        <p>
+          This website and our booking process are intended for adults. We do not
+          knowingly collect personal data of anyone under 18 without the consent
+          of a parent or lawful guardian. If you believe a child&apos;s data has
+          been shared with us, contact us and we will delete it.
+        </p>
+
+        <h2>9. How we protect your data</h2>
+        <p>
+          Access to enquiry records is limited to authorised staff and protected
+          by a password-based login. The website is served over HTTPS with modern
+          security headers, and submissions are rate-limited and screened for
+          spam. No system is perfectly secure, but we take reasonable technical
+          and organisational measures to safeguard your information.
+        </p>
+
+        <h2>10. Changes to this policy</h2>
+        <p>
+          We may update this policy from time to time. The &ldquo;last
+          updated&rdquo; date at the top of the page shows when it last changed.
+        </p>
+
+        <h2>11. Contact and grievance officer</h2>
+        <p>
+          For any question, request or complaint about your personal data,
+          contact our grievance officer at {mail} or {tel}. If you are not
+          satisfied with our response, you may escalate to the Data Protection
+          Board of India.
+        </p>
+
+        <p>
+          <Link href="/contact">Back to contact &amp; booking →</Link>
+        </p>
+      </Section>
     </>
   );
 }

@@ -2,6 +2,7 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import FloatingButtons from "@/components/site/FloatingButtons";
 import RevealInit from "@/components/site/RevealInit";
+import ConsentBanner from "@/components/site/ConsentBanner";
 import { getSiteSettings } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
 import { businessJsonLd } from "@/lib/structured-data";
@@ -38,6 +39,7 @@ export default async function SiteLayout({
       <Footer settings={settings} />
       <FloatingButtons phone={settings.phone} whatsappHref={waHref} />
       <RevealInit />
+      <ConsentBanner />
     </>
   );
 }

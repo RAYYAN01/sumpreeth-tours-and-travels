@@ -151,6 +151,9 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
             <Link href="/privacy" className="hover:text-white">
               Privacy &amp; Cookies
             </Link>
+            <Link href="/terms" className="hover:text-white">
+              Terms
+            </Link>
             <button
               type="button"
               data-consent-open

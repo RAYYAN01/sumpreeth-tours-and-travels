@@ -17,8 +17,9 @@ const csp = [
   "upgrade-insecure-requests",
   // Next.js injects small inline bootstrap scripts; dev also needs eval.
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  // Fonts are self-hosted via next/font; only inline styles remain.
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://maps.gstatic.com https://maps.googleapis.com",
   "frame-src https://www.google.com https://maps.google.com",
   "connect-src 'self'",
@@ -47,6 +48,9 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

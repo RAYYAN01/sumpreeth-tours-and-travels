@@ -8,6 +8,7 @@ import SectionHeading from "@/components/site/SectionHeading";
 import EnquiryForm from "@/components/site/EnquiryForm";
 import FaqAccordion from "@/components/site/FaqAccordion";
 import Section from "@/components/site/Section";
+import MapEmbed from "@/components/site/MapEmbed";
 
 export const metadata = pageMeta({
   title: "Contact & Booking",
@@ -111,12 +112,9 @@ export default async function ContactPage({
           </div>
 
           <div className="card overflow-hidden">
-            <iframe
-              title="Sumpreeth Tours and Travels location — Bangalore 560078"
+            <MapEmbed
               src={settings.mapEmbedUrl}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="h-64 w-full border-0"
+              title="Sumpreeth Tours and Travels location — Bengaluru 560078"
             />
           </div>
         </aside>

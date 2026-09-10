@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { enquiryInputSchema } from "@/lib/validation";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -14,10 +14,11 @@ function clientIp(req: NextRequest): string {
 export async function POST(req: NextRequest) {
   const ip = clientIp(req);
   const limit = rateLimit(`enquiry:${ip}`, 8, 60 * 60 * 1000); // 8 / hour / IP
+  const rlHeaders = rateLimitHeaders(limit);
   if (!limit.ok) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
-      { status: 429, headers: { "Retry-After": String(limit.retryAfterSec) } },
+      { status: 429, headers: rlHeaders },
     );
   }
 
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
 
   // Honeypot: a bot filled the hidden "company" field.
   if (data.company) {
-    return NextResponse.json({ ok: true, id: "skipped" });
+    return NextResponse.json({ ok: true, id: "skipped" }, { headers: rlHeaders });
   }
 
   try {
@@ -64,7 +65,10 @@ export async function POST(req: NextRequest) {
       },
       select: { id: true },
     });
-    return NextResponse.json({ ok: true, id: enquiry.id });
+    return NextResponse.json(
+      { ok: true, id: enquiry.id },
+      { headers: rlHeaders },
+    );
   } catch (err) {
     console.error("Failed to save enquiry:", err);
     // The client still opens WhatsApp, so contact is never blocked.

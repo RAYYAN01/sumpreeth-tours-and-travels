@@ -1,10 +1,12 @@
 "use server";
 
+import { headers } from "next/headers";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { verifyAdminPassword, setAdminPassword } from "@/lib/auth";
 import { passwordChangeSchema } from "@/lib/validation";
 import { formObject } from "@/lib/form";
+import { rateLimit } from "@/lib/rate-limit";
 import type { ActionResult } from "@/components/admin/form";
 import { seedSettingsIfMissing } from "../content/ensure";
 
@@ -13,6 +15,20 @@ export async function changePasswordAction(
   formData: FormData,
 ): Promise<ActionResult> {
   await requireAdmin();
+
+  const hdrs = await headers();
+  const ip =
+    hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    hdrs.get("x-real-ip") ??
+    "unknown";
+  const limit = rateLimit(`pwchange:${ip}`, 5, 15 * 60 * 1000);
+  if (!limit.ok) {
+    return {
+      error: `Too many attempts. Try again in ${Math.ceil(
+        limit.retryAfterSec / 60,
+      )} minute(s).`,
+    };
+  }
 
   const parsed = passwordChangeSchema.safeParse(formObject(formData));
   if (!parsed.success) {
