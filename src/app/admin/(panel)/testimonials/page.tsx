@@ -44,18 +44,18 @@ export default async function TestimonialsAdminPage() {
                     className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                       t.isActive
                         ? "bg-green-100 text-green-800"
-                        : "bg-slate-200 text-slate-500"
+                        : "bg-forest-100 text-forest-700/70"
                     }`}
                   >
                     {t.isActive ? "Active" : "Hidden"}
                   </button>
                 </form>
               </div>
-              <p className="mt-2 line-clamp-3 text-sm text-slate-700">
+              <p className="mt-2 line-clamp-3 text-sm text-forest-800">
                 “{t.quote}”
               </p>
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-forest-700/60">
                   {t.authorName} · {t.location}
                 </span>
                 <Link

@@ -75,7 +75,7 @@ export default async function EnquiriesPage({
         action={
           <a
             href={`/admin/enquiries/export?${qs.toString()}`}
-            className="inline-flex items-center justify-center rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200"
+            className="inline-flex items-center justify-center rounded-lg bg-forest-50 px-4 py-2 text-sm font-semibold text-forest-800 hover:bg-forest-100"
           >
             Export CSV
           </a>
@@ -88,12 +88,12 @@ export default async function EnquiriesPage({
             name="q"
             defaultValue={sp.q ?? ""}
             placeholder="Search name, phone, location…"
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-200"
+            className="rounded-lg border border-forest-200 px-3 py-2 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-200"
           />
           <select
             name="status"
             defaultValue={sp.status ?? ""}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+            className="rounded-lg border border-forest-200 px-3 py-2 text-sm"
           >
             <option value="">All statuses</option>
             {ENQUIRY_STATUS_ORDER.map((s) => (
@@ -105,7 +105,7 @@ export default async function EnquiriesPage({
           <select
             name="serviceType"
             defaultValue={sp.serviceType ?? ""}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+            className="rounded-lg border border-forest-200 px-3 py-2 text-sm"
           >
             <option value="">All services</option>
             {SERVICE_TYPE_ORDER.map((s) => (
@@ -128,7 +128,7 @@ export default async function EnquiriesPage({
       ) : (
         <Panel className="overflow-x-auto p-0">
           <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+            <thead className="border-b border-forest-100 text-xs uppercase tracking-wide text-forest-700/60">
               <tr>
                 <th className="px-4 py-3">Received</th>
                 <th className="px-4 py-3">Customer</th>
@@ -137,10 +137,10 @@ export default async function EnquiriesPage({
                 <th className="px-4 py-3">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-forest-100">
               {rows.map((e) => (
-                <tr key={e.id} className="hover:bg-slate-50">
-                  <td className="px-4 py-3 text-slate-500">
+                <tr key={e.id} className="hover:bg-forest-50/60">
+                  <td className="px-4 py-3 text-forest-700/60">
                     {formatDateTime(e.createdAt)}
                   </td>
                   <td className="px-4 py-3">
@@ -150,12 +150,12 @@ export default async function EnquiriesPage({
                     >
                       {e.name}
                     </Link>
-                    <div className="text-xs text-slate-500">{e.phone}</div>
+                    <div className="text-xs text-forest-700/60">{e.phone}</div>
                   </td>
                   <td className="px-4 py-3">
                     {SERVICE_TYPE_LABELS[e.serviceType as ServiceType]}
                   </td>
-                  <td className="px-4 py-3 text-slate-600">
+                  <td className="px-4 py-3 text-forest-700/80">
                     {e.pickupLocation}
                     {e.dropLocation ? ` → ${e.dropLocation}` : ""}
                   </td>
@@ -182,7 +182,7 @@ export default async function EnquiriesPage({
                 className={`rounded-md px-3 py-1.5 ${
                   p === page
                     ? "bg-forest-600 text-white"
-                    : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50"
+                    : "bg-white text-forest-700/80 ring-1 ring-forest-200 hover:bg-forest-50/60"
                 }`}
               >
                 {p}

@@ -23,8 +23,8 @@ export default async function EditVehiclePage({
       </Panel>
 
       <Panel className="mt-6">
-        <h2 className="mb-2 font-semibold text-slate-900">Delete</h2>
-        <p className="mb-3 text-sm text-slate-500">
+        <h2 className="mb-2 font-semibold text-forest-900">Delete</h2>
+        <p className="mb-3 text-sm text-forest-700/60">
           Removes this vehicle from the site permanently.
         </p>
         <form action={deleteVehicleAction}>

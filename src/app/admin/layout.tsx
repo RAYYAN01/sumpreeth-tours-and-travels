@@ -10,5 +10,10 @@ export default function AdminRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-slate-100 text-slate-900">{children}</div>;
+  // Admin is always light + brand-coloured, independent of the public theme.
+  return (
+    <div className="min-h-screen bg-[#eef3ee] text-forest-900 [color-scheme:light]">
+      {children}
+    </div>
+  );
 }

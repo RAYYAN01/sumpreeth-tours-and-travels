@@ -23,8 +23,8 @@ export function SubmitButton({
     variant === "danger"
       ? "bg-red-600 hover:bg-red-700 text-white"
       : variant === "ghost"
-        ? "bg-slate-100 hover:bg-slate-200 text-slate-700"
-        : "bg-forest-600 hover:bg-forest-700 text-white";
+        ? "bg-forest-50 hover:bg-forest-100 text-forest-800 ring-1 ring-forest-200"
+        : "bg-forest-600 hover:bg-forest-700 text-white shadow-sm";
   return (
     <button
       type="submit"
@@ -51,18 +51,18 @@ function FieldShell({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="mb-1 block text-sm font-medium text-slate-700">
+      <label htmlFor={htmlFor} className="mb-1 block text-sm font-medium text-forest-800">
         {label}
       </label>
       {children}
-      {hint && !error && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
+      {hint && !error && <p className="mt-1 text-xs text-forest-700/60">{hint}</p>}
       {error && <p className="mt-1 text-xs font-medium text-red-600">{error[0]}</p>}
     </div>
   );
 }
 
 const inputCls =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-200";
+  "w-full rounded-lg border border-forest-200 bg-white px-3 py-2 text-sm text-forest-900 outline-none transition focus:border-forest-500 focus:ring-2 focus:ring-forest-200";
 
 export function Text({
   name,
@@ -164,13 +164,13 @@ export function Checkbox({
   defaultChecked?: boolean;
 }) {
   return (
-    <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+    <label className="flex items-center gap-2 text-sm font-medium text-forest-800">
       <input
         type="checkbox"
         name={name}
         value="true"
         defaultChecked={defaultChecked}
-        className="h-4 w-4 rounded border-slate-300 text-forest-600 focus:ring-forest-500"
+        className="h-4 w-4 rounded border-forest-300 accent-forest-600 focus:ring-forest-500"
       />
       {label}
     </label>

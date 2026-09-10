@@ -58,7 +58,7 @@ export default async function EnquiryDetailPage({
     <>
       <Link
         href="/admin/enquiries"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-forest-700/60 hover:text-forest-900"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to enquiries
@@ -71,11 +71,11 @@ export default async function EnquiryDetailPage({
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         <Panel>
-          <dl className="divide-y divide-slate-100">
+          <dl className="divide-y divide-forest-100">
             {rows.map(([label, value]) => (
               <div key={label} className="grid grid-cols-3 gap-3 py-3 text-sm">
-                <dt className="text-slate-500">{label}</dt>
-                <dd className="col-span-2 whitespace-pre-line text-slate-900">
+                <dt className="text-forest-700/60">{label}</dt>
+                <dd className="col-span-2 whitespace-pre-line text-forest-900">
                   {value}
                 </dd>
               </div>
@@ -101,7 +101,7 @@ export default async function EnquiryDetailPage({
 
         <div className="space-y-6">
           <Panel>
-            <h2 className="mb-4 font-semibold text-slate-900">
+            <h2 className="mb-4 font-semibold text-forest-900">
               Status &amp; notes
             </h2>
             <EditForm
@@ -112,8 +112,8 @@ export default async function EnquiryDetailPage({
           </Panel>
 
           <Panel>
-            <h2 className="mb-2 font-semibold text-slate-900">Danger zone</h2>
-            <p className="mb-3 text-sm text-slate-500">
+            <h2 className="mb-2 font-semibold text-forest-900">Danger zone</h2>
+            <p className="mb-3 text-sm text-forest-700/60">
               Permanently delete this enquiry.
             </p>
             <form action={deleteEnquiryAction}>

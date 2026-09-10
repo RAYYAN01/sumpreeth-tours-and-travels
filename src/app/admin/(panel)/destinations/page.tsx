@@ -29,7 +29,7 @@ export default async function DestinationsAdminPage() {
       ) : (
         <Panel className="overflow-x-auto p-0">
           <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+            <thead className="border-b border-forest-100 text-xs uppercase tracking-wide text-forest-700/60">
               <tr>
                 <th className="px-4 py-3">#</th>
                 <th className="px-4 py-3">Name</th>
@@ -39,10 +39,10 @@ export default async function DestinationsAdminPage() {
                 <th className="px-4 py-3" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-forest-100">
               {destinations.map((d) => (
-                <tr key={d.id} className="hover:bg-slate-50">
-                  <td className="px-4 py-3 text-slate-400">{d.sortOrder}</td>
+                <tr key={d.id} className="hover:bg-forest-50/60">
+                  <td className="px-4 py-3 text-forest-700/50">{d.sortOrder}</td>
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/destinations/${d.id}`}
@@ -54,7 +54,7 @@ export default async function DestinationsAdminPage() {
                   <td className="px-4 py-3">
                     {DESTINATION_CATEGORY_LABELS[d.category as DestinationCategory]}
                   </td>
-                  <td className="px-4 py-3 text-slate-600">
+                  <td className="px-4 py-3 text-forest-700/80">
                     {d.distanceKm != null ? `${d.distanceKm} km` : "—"}
                   </td>
                   <td className="px-4 py-3">
@@ -65,7 +65,7 @@ export default async function DestinationsAdminPage() {
                         className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                           d.isActive
                             ? "bg-green-100 text-green-800"
-                            : "bg-slate-200 text-slate-500"
+                            : "bg-forest-100 text-forest-700/70"
                         }`}
                       >
                         {d.isActive ? "Active" : "Hidden"}

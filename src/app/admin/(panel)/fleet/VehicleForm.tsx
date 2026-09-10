@@ -69,9 +69,9 @@ export default function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
         </div>
       </div>
 
-      <fieldset className="rounded-xl border border-slate-200 p-4">
-        <legend className="px-1 text-sm font-semibold text-slate-700">
-          Rates <span className="font-normal text-slate-400">(leave blank if not offered)</span>
+      <fieldset className="rounded-xl border border-forest-100 p-4">
+        <legend className="px-1 text-sm font-semibold text-forest-800">
+          Rates <span className="font-normal text-forest-700/50">(leave blank if not offered)</span>
         </legend>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Text name="oneWayRate" label="One-way rate (₹)" type="number" defaultValue={vehicle?.oneWayRate} error={fe.oneWayRate} />
@@ -92,7 +92,7 @@ export default function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
         <SubmitButton>{vehicle ? "Save vehicle" : "Create vehicle"}</SubmitButton>
         <Link
           href="/admin/fleet"
-          className="rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200"
+          className="rounded-lg bg-forest-50 px-4 py-2 text-sm font-semibold text-forest-800 hover:bg-forest-100"
         >
           Cancel
         </Link>

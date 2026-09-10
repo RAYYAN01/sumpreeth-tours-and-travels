@@ -25,8 +25,8 @@ export default async function SettingsPage() {
       />
 
       <Panel>
-        <h2 className="font-semibold text-slate-900">Login ID</h2>
-        <p className="mt-1 mb-5 text-sm text-slate-500">
+        <h2 className="font-semibold text-forest-900">Login ID</h2>
+        <p className="mt-1 mb-5 text-sm text-forest-700/60">
           The ID you enter alongside the password on the Admin portal sign-in
           screen.
         </p>
@@ -35,8 +35,8 @@ export default async function SettingsPage() {
 
       <div className="mt-6">
         <Panel>
-          <h2 className="font-semibold text-slate-900">Change password</h2>
-          <p className="mt-1 mb-5 text-sm text-slate-500">{SOURCE_TEXT[source]}</p>
+          <h2 className="font-semibold text-forest-900">Change password</h2>
+          <p className="mt-1 mb-5 text-sm text-forest-700/60">{SOURCE_TEXT[source]}</p>
           <PasswordForm />
         </Panel>
       </div>

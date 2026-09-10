@@ -23,7 +23,7 @@ export default async function EditFaqPage({
       </Panel>
 
       <Panel className="mt-6">
-        <h2 className="mb-2 font-semibold text-slate-900">Delete</h2>
+        <h2 className="mb-2 font-semibold text-forest-900">Delete</h2>
         <form action={deleteFaqAction}>
           <input type="hidden" name="id" value={item.id} />
           <button

@@ -26,8 +26,8 @@ export default async function FaqsAdminPage() {
             <Panel key={f.id}>
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="font-medium text-slate-900">{f.question}</p>
-                  <p className="mt-1 line-clamp-2 text-sm text-slate-500">
+                  <p className="font-medium text-forest-900">{f.question}</p>
+                  <p className="mt-1 line-clamp-2 text-sm text-forest-700/60">
                     {f.answer}
                   </p>
                 </div>
@@ -39,7 +39,7 @@ export default async function FaqsAdminPage() {
                       className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                         f.isActive
                           ? "bg-green-100 text-green-800"
-                          : "bg-slate-200 text-slate-500"
+                          : "bg-forest-100 text-forest-700/70"
                       }`}
                     >
                       {f.isActive ? "Active" : "Hidden"}

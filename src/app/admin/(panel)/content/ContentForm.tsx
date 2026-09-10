@@ -18,7 +18,7 @@ export default function ContentForm({ settings }: { settings: SiteSettings }) {
   return (
     <form action={action} className="space-y-8">
       <section className="space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-forest-700/60">
           Hero
         </h2>
         <Text name="heroHeadline" label="Headline" defaultValue={settings.heroHeadline} error={fe.heroHeadline} />
@@ -27,7 +27,7 @@ export default function ContentForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-forest-700/60">
           About
         </h2>
         <Textarea name="aboutStory" label="Company story" defaultValue={settings.aboutStory} error={fe.aboutStory} rows={5} />
@@ -35,7 +35,7 @@ export default function ContentForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-forest-700/60">
           Trust bar
         </h2>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -47,7 +47,7 @@ export default function ContentForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-forest-700/60">
           Contact details
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -61,7 +61,7 @@ export default function ContentForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-forest-700/60">
           Social links (optional)
         </h2>
         <div className="grid gap-4 sm:grid-cols-3">

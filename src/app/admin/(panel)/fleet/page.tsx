@@ -25,7 +25,7 @@ export default async function FleetAdminPage() {
       ) : (
         <Panel className="overflow-x-auto p-0">
           <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+            <thead className="border-b border-forest-100 text-xs uppercase tracking-wide text-forest-700/60">
               <tr>
                 <th className="px-4 py-3">#</th>
                 <th className="px-4 py-3">Vehicle</th>
@@ -35,10 +35,10 @@ export default async function FleetAdminPage() {
                 <th className="px-4 py-3" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-forest-100">
               {vehicles.map((v) => (
-                <tr key={v.id} className="hover:bg-slate-50">
-                  <td className="px-4 py-3 text-slate-400">{v.sortOrder}</td>
+                <tr key={v.id} className="hover:bg-forest-50/60">
+                  <td className="px-4 py-3 text-forest-700/50">{v.sortOrder}</td>
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/fleet/${v.id}`}
@@ -46,12 +46,12 @@ export default async function FleetAdminPage() {
                     >
                       {v.name}
                     </Link>
-                    <div className="text-xs text-slate-500">{v.seats} seats</div>
+                    <div className="text-xs text-forest-700/60">{v.seats} seats</div>
                   </td>
                   <td className="px-4 py-3">
                     {VEHICLE_CATEGORY_LABELS[v.category as VehicleCategory]}
                   </td>
-                  <td className="px-4 py-3 text-slate-600">
+                  <td className="px-4 py-3 text-forest-700/80">
                     {v.quoteOnRequest
                       ? "Quote on request"
                       : [
@@ -76,7 +76,7 @@ export default async function FleetAdminPage() {
                         className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                           v.isActive
                             ? "bg-green-100 text-green-800"
-                            : "bg-slate-200 text-slate-500"
+                            : "bg-forest-100 text-forest-700/70"
                         }`}
                       >
                         {v.isActive ? "Active" : "Hidden"}
