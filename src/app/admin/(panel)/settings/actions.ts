@@ -1,0 +1,53 @@
+"use server";
+
+import { prisma } from "@/lib/db";
+import { requireAdmin } from "@/lib/session";
+import { verifyAdminPassword, setAdminPassword } from "@/lib/auth";
+import { passwordChangeSchema } from "@/lib/validation";
+import { formObject } from "@/lib/form";
+import type { ActionResult } from "@/components/admin/form";
+import { seedSettingsIfMissing } from "../content/ensure";
+
+export async function changePasswordAction(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  await requireAdmin();
+
+  const parsed = passwordChangeSchema.safeParse(formObject(formData));
+  if (!parsed.success) {
+    return {
+      error: "Please fix the highlighted fields.",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+  const { currentPassword, newPassword } = parsed.data;
+
+  let ok = false;
+  try {
+    ok = await verifyAdminPassword(currentPassword);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Login not configured." };
+  }
+  if (!ok) {
+    return { error: "Current password is incorrect.", fieldErrors: { currentPassword: ["Incorrect"] } };
+  }
+
+  await seedSettingsIfMissing();
+  await setAdminPassword(newPassword);
+
+  return {
+    ok: true,
+    message: "Password updated. Use the new password next time you sign in.",
+  };
+}
+
+export async function currentPasswordSource(): Promise<"database" | "environment" | "none"> {
+  const s = await prisma.siteSettings.findUnique({
+    where: { id: "singleton" },
+    select: { adminPasswordHash: true },
+  });
+  if (s?.adminPasswordHash) return "database";
+  if (process.env.ADMIN_PASSWORD_HASH) return "environment";
+  return "none";
+}

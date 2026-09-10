@@ -1,0 +1,67 @@
+"use client";
+
+import { useActionState } from "react";
+import Link from "next/link";
+import type { Testimonial } from "@prisma/client";
+import { saveTestimonialAction } from "./actions";
+import {
+  emptyResult,
+  SubmitButton,
+  FormNotice,
+  Text,
+  Textarea,
+  Select,
+  Checkbox,
+} from "@/components/admin/form";
+
+export default function TestimonialForm({ item }: { item?: Testimonial }) {
+  const [state, action] = useActionState(saveTestimonialAction, emptyResult);
+  const fe = state.fieldErrors ?? {};
+
+  return (
+    <form action={action} className="space-y-5">
+      {item && <input type="hidden" name="id" value={item.id} />}
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Text name="authorName" label="Author name" defaultValue={item?.authorName} error={fe.authorName} required />
+        <Text name="location" label="Location" defaultValue={item?.location} error={fe.location} required />
+        <Select
+          name="rating"
+          label="Rating"
+          defaultValue={String(item?.rating ?? 5)}
+          error={fe.rating}
+          options={[5, 4, 3, 2, 1].map((n) => ({
+            value: String(n),
+            label: `${n} star${n > 1 ? "s" : ""}`,
+          }))}
+        />
+        <Text name="imageUrl" label="Photo URL (optional)" defaultValue={item?.imageUrl} error={fe.imageUrl} />
+      </div>
+
+      <Textarea
+        name="quote"
+        label="Quote"
+        defaultValue={item?.quote}
+        error={fe.quote}
+        rows={4}
+      />
+
+      <div className="flex items-end gap-6">
+        <Text name="sortOrder" label="Sort order" type="number" defaultValue={item?.sortOrder ?? 0} error={fe.sortOrder} />
+        <Checkbox name="isActive" label="Active" defaultChecked={item ? item.isActive : true} />
+      </div>
+
+      <FormNotice result={state} />
+
+      <div className="flex gap-2">
+        <SubmitButton>{item ? "Save testimonial" : "Create testimonial"}</SubmitButton>
+        <Link
+          href="/admin/testimonials"
+          className="rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200"
+        >
+          Cancel
+        </Link>
+      </div>
+    </form>
+  );
+}

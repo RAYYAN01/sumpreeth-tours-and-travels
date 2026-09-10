@@ -1,0 +1,57 @@
+import type { Metadata } from "next";
+import { getSiteSettings, getDestinations } from "@/lib/site";
+import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import PageHeader from "@/components/site/PageHeader";
+import DestinationView from "@/components/site/DestinationView";
+import CoverageMap from "@/components/site/CoverageMap";
+import CtaBanner from "@/components/site/CtaBanner";
+
+export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: "Destinations Across Karnataka & South India",
+  description:
+    "Cab and tempo traveller trips from Bangalore to Coorg, Chikmagalur, Hampi, Mysore, Dharmasthala, Gokarna and interior Karnataka towns, plus outstation routes to Ooty, Munnar, Tirupati and Hyderabad.",
+};
+
+export default async function DestinationPage() {
+  const [settings, destinations] = await Promise.all([
+    getSiteSettings(),
+    getDestinations(),
+  ]);
+
+  const waHref = whatsappLink(
+    settings.whatsappNumber,
+    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
+  );
+
+  return (
+    <>
+      <PageHeader
+        title="From city landmarks to interior villages"
+        intro="We cover every major Karnataka city and countless interior towns and villages, with extended outstation routes into Tamil Nadu, Kerala, Andhra Pradesh and Telangana. Pick a destination to start planning."
+        image="/images/destinations/hero-bangalore.webp"
+        imageAlt="Bengaluru skyline at dusk"
+      />
+
+      <section className="container-page py-14">
+        <div className="reveal mb-12">
+          <CoverageMap />
+        </div>
+
+        <DestinationView destinations={destinations} />
+
+        <p className="mt-10 rounded-xl bg-forest-50 dark:bg-white/[0.04] p-4 text-sm text-ink">
+          Don&apos;t see your town? We build custom routes across Karnataka&apos;s
+          interior on request — just share your pickup and drop points.
+        </p>
+      </section>
+
+      <CtaBanner
+        text={settings.ctaBannerText}
+        phone={settings.phone}
+        whatsappHref={waHref}
+      />
+    </>
+  );
+}

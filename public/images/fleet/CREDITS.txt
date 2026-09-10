@@ -1,0 +1,23 @@
+Image credits
+=============
+
+Most fleet photos (IMG-20260901-WA00xx.jpg) are original photographs supplied
+by Sumpreeth Tours and Travels.
+
+Reference photos used where no original front/exterior shot was available.
+Number plates have been removed. Please keep this attribution if these images
+are used publicly:
+
+stock-dzire.jpg
+  Source : Wikimedia Commons — "Maruti Suzuki Swift Dzire (cropped).jpg"
+  Author : Aman Gupta
+  Licence: CC BY-SA 3.0  (https://creativecommons.org/licenses/by-sa/3.0/)
+  Page   : https://commons.wikimedia.org/wiki/File:Maruti_Suzuki_Swift_Dzire_(cropped).jpg
+
+stock-innova.jpg
+  Source : Wikimedia Commons — "Toyota Innova Crysta 2.4 Z front right.jpg"
+  Licence: CC BY-SA 4.0  (https://creativecommons.org/licenses/by-sa/4.0/)
+  Page   : https://commons.wikimedia.org/wiki/File:Toyota_Innova_Crysta_2.4_Z_front_right.jpg
+
+Replace these with your own photos of the actual vehicles when available
+(edit the vehicle in /admin/fleet).
