@@ -39,6 +39,10 @@ export async function proxy(req: NextRequest) {
     pathname,
     search,
     canonicalHost: process.env.NEXT_PUBLIC_CANONICAL_HOST,
+    redirectHosts: (process.env.NEXT_PUBLIC_REDIRECT_HOSTS ?? "")
+      .split(",")
+      .map((h) => h.trim())
+      .filter(Boolean),
     isProd,
   });
   if (redirectTo) return NextResponse.redirect(redirectTo, 308);

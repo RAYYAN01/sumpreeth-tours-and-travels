@@ -33,12 +33,16 @@ type CanonicalInput = {
   pathname: string;
   search: string;
   canonicalHost?: string;
+  /** Hosts always redirected to the canonical host even if *.vercel.app. */
+  redirectHosts?: string[];
   isProd: boolean;
 };
 
 /**
  * Returns the absolute URL to 308-redirect to when the request is on http or
- * on a non-canonical host, otherwise `null`. No-ops for local/preview hosts.
+ * on a non-canonical host, otherwise `null`. No-ops for local/preview hosts,
+ * except hosts explicitly listed in `redirectHosts` (e.g. the old
+ * `<project>.vercel.app` alias, which we want consolidated for SEO).
  */
 export function canonicalRedirect({
   proto,
@@ -46,9 +50,12 @@ export function canonicalRedirect({
   pathname,
   search,
   canonicalHost,
+  redirectHosts = [],
   isProd,
 }: CanonicalInput): string | null {
-  if (!isProd || isLocalOrPreviewHost(host)) return null;
+  const bareHost = host.split(":")[0]?.toLowerCase() ?? "";
+  const forced = redirectHosts.map((h) => h.toLowerCase()).includes(bareHost);
+  if (!isProd || (!forced && isLocalOrPreviewHost(host))) return null;
 
   const wantHost = (canonicalHost || "").replace(/^https?:\/\//, "").trim();
   const targetHost = wantHost || host.split(":")[0];

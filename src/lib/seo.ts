@@ -53,11 +53,13 @@ type PageMetaInput = {
  * Builds a consistent per-route `Metadata` block: canonical + Open Graph +
  * Twitter, derived from one title/description/path.
  */
+export const DEFAULT_OG_IMAGE = "/og.jpg";
+
 export function pageMeta({
   title,
   description,
   path,
-  image = "/logo.png",
+  image = DEFAULT_OG_IMAGE,
   noindex = false,
 }: PageMetaInput): Metadata {
   const url = canonical(path);
@@ -78,7 +80,14 @@ export function pageMeta({
       url,
       title: fullTitle,
       description,
-      images: [{ url: image }],
+      images: [
+        {
+          url: image,
+          width: image === DEFAULT_OG_IMAGE ? 1200 : undefined,
+          height: image === DEFAULT_OG_IMAGE ? 630 : undefined,
+          alt: SITE_NAME,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",

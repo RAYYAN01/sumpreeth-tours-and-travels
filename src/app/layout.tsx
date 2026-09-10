@@ -60,6 +60,9 @@ export const metadata: Metadata = {
       "Sumpreeth Tours and Travels | Bangalore Cabs & Karnataka Outstation Travel",
     description:
       "24/7 cabs, tempo travellers and buses for airport, local and outstation trips across Karnataka.",
+    images: [
+      { url: "/og.jpg", width: 1200, height: 630, alt: "Sumpreeth Tours and Travels" },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -67,6 +70,7 @@ export const metadata: Metadata = {
       "Sumpreeth Tours and Travels | Bangalore Cabs & Karnataka Outstation Travel",
     description:
       "24/7 cabs, tempo travellers and buses for airport, local and outstation trips across Karnataka.",
+    images: ["/og.jpg"],
   },
 };
 
