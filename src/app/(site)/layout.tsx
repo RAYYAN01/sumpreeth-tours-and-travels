@@ -2,7 +2,6 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import FloatingButtons from "@/components/site/FloatingButtons";
 import RevealInit from "@/components/site/RevealInit";
-import ConsentBanner from "@/components/site/ConsentBanner";
 import Analytics from "@/components/site/Analytics";
 import { getSiteSettings } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
@@ -42,7 +41,6 @@ export default async function SiteLayout({
       <div aria-hidden className="h-14 md:hidden" />
       <FloatingButtons phone={settings.phone} whatsappHref={waHref} />
       <RevealInit />
-      <ConsentBanner />
       <Analytics />
     </>
   );

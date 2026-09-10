@@ -154,13 +154,6 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
             <Link href="/terms" className="hover:text-white">
               Terms
             </Link>
-            <button
-              type="button"
-              data-consent-open
-              className="hover:text-white"
-            >
-              Cookie settings
-            </button>
             <Link href="/sitemap.xml" className="hover:text-white">
               Sitemap
             </Link>

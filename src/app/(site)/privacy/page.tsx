@@ -54,10 +54,8 @@ export default async function PrivacyPage() {
           Our server also records, for a short period, the IP address of enquiry
           submissions and limits how many can be sent from one address per hour.
           This is used solely to prevent spam and abuse and is discarded
-          automatically. We use no advertising or cross-site tracking, and we do
-          not build profiles of visitors. If — and only if — you allow it in the
-          consent banner, we load Google Analytics to see, in aggregate, which
-          pages and services people use (see section 4).
+          automatically. We use no advertising or cross-site tracking cookies and
+          do not build profiles of visitors.
         </p>
 
         <h2>3. Purpose and lawful basis</h2>
@@ -73,47 +71,38 @@ export default async function PrivacyPage() {
 
         <h2>4. Cookies and local storage</h2>
         <p>
-          By default this website uses only strictly necessary storage. When you
-          first visit, a banner lets you accept or reject the optional items. Your
-          choice is saved in your browser&apos;s local storage (not a cookie) and
-          can be changed at any time from the{" "}
-          <button type="button" data-consent-open>Cookie settings</button> link in
-          the footer.
+          This website uses only strictly necessary and functional storage, so no
+          cookie consent banner is shown. Specifically:
         </p>
         <ul>
           <li>
             <span>
               <strong>Strictly necessary</strong> — security and load-balancing
               at our host, and a single sign-in cookie set only if a staff member
-              logs in to the private admin area. Not set for ordinary visitors.
+              logs in to the private admin area. It is not set for ordinary
+              visitors.
             </span>
           </li>
           <li>
             <span>
-              <strong>Preferences (optional)</strong> — a small value that
-              remembers whether you chose light or dark mode. It never leaves your
-              device.
+              <strong>Theme preference</strong> — a small value in your
+              browser&apos;s local storage (not a cookie) that remembers whether
+              you chose light or dark mode. It never leaves your device.
             </span>
           </li>
           <li>
             <span>
-              <strong>Google Maps (optional)</strong> — the map on our{" "}
-              <Link href="/contact">Contact</Link> page loads from Google only
-              after you allow it; Google may then set its own cookies under its
-              own privacy terms.
-            </span>
-          </li>
-          <li>
-            <span>
-              <strong>Analytics (optional)</strong> — if you accept it, Google
-              Analytics 4 is loaded with IP anonymisation to measure aggregate
-              page and feature usage. It sets its own cookies. It is never loaded
-              if you reject non-essential storage, and you can withdraw consent
-              any time from{" "}
-              <button type="button" data-consent-open>Cookie settings</button>.
+              <strong>Google Maps</strong> — the map on our{" "}
+              <Link href="/contact">Contact</Link> page is embedded from Google,
+              which may set its own cookies when it loads. See Google&apos;s
+              privacy policy for details.
             </span>
           </li>
         </ul>
+        <p>
+          You can clear this site&apos;s storage at any time from your browser
+          settings.
+        </p>
 
         <h2>5. Who we share it with</h2>
         <p>

@@ -1,7 +1,7 @@
 /**
  * Thin wrapper over Google Analytics 4. Every call is a no-op unless
- * `NEXT_PUBLIC_GA_ID` is set AND the visitor granted "analytics" consent
- * (which is what causes the gtag script to load in the first place).
+ * `NEXT_PUBLIC_GA_ID` is set (which is what causes the gtag script to load).
+ * GA runs with IP anonymisation and page views sent manually.
  */
 
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
