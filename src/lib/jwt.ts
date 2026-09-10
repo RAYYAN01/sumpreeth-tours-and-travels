@@ -35,3 +35,21 @@ export async function verifySessionToken(
     return false;
   }
 }
+
+/**
+ * Returns `{ valid, exp }` for a session token in one verification pass so
+ * middleware can decide whether to slide the expiry without re-verifying.
+ * `exp` is Unix seconds, or `null` when the token is missing/invalid.
+ */
+export async function inspectSessionToken(
+  token: string | undefined | null,
+): Promise<{ valid: boolean; exp: number | null }> {
+  if (!token) return { valid: false, exp: null };
+  try {
+    const { payload } = await jwtVerify(token, secretKey());
+    if (payload.sub !== "admin") return { valid: false, exp: null };
+    return { valid: true, exp: typeof payload.exp === "number" ? payload.exp : null };
+  } catch {
+    return { valid: false, exp: null };
+  }
+}

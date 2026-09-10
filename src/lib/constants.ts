@@ -73,5 +73,13 @@ export const DESTINATION_CATEGORY_ORDER: DestinationCategory[] = [
   "OUTSTATION_GETAWAY",
 ];
 
-export const SESSION_COOKIE = "sumpreeth_admin";
-export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
+// `__Host-` prefix in production hardens the cookie (requires Secure, no
+// Domain, Path=/). Browsers reject that prefix over plain http, so dev keeps
+// the bare name.
+export const SESSION_COOKIE =
+  process.env.NODE_ENV === "production"
+    ? "__Host-sumpreeth_admin"
+    : "sumpreeth_admin";
+export const SESSION_MAX_AGE = 60 * 60 * 2; // 2 hours
+/** Slide the expiry when fewer than this many seconds remain. */
+export const SESSION_REFRESH_THRESHOLD = 30 * 60; // 30 minutes
