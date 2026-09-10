@@ -3,7 +3,11 @@ import type { SiteSettingsData } from "./site";
 import type { VehicleView } from "./features";
 import { vehiclePhotos } from "./features";
 
-/** LocalBusiness / TravelAgency graph for the site-wide JSON-LD. */
+/**
+ * Site-wide JSON-LD graph: the local business (TravelAgency / TaxiService /
+ * LocalBusiness), the Organization that runs it, and the WebSite itself —
+ * linked by `@id` so search engines and LLMs read them as one entity.
+ */
 export function businessJsonLd(settings: SiteSettingsData) {
   const sameAs = [
     settings.facebookUrl,
@@ -11,52 +15,86 @@ export function businessJsonLd(settings: SiteSettingsData) {
     settings.youtubeUrl,
   ].filter((x): x is string => Boolean(x));
 
+  const address = {
+    "@type": "PostalAddress",
+    streetAddress: BUSINESS.streetAddress,
+    addressLocality: BUSINESS.locality,
+    postalCode: BUSINESS.postalCode,
+    addressRegion: BUSINESS.region,
+    addressCountry: BUSINESS.country,
+  };
+
   return {
     "@context": "https://schema.org",
-    "@type": ["TravelAgency", "TaxiService", "LocalBusiness"],
-    "@id": `${SITE_URL}/#business`,
-    name: SITE_NAME,
-    url: SITE_URL,
-    telephone: settings.phone,
-    email: settings.email,
-    image: canonical("/logo.png"),
-    priceRange: BUSINESS.priceRange,
-    description:
-      "24/7 cab rental and outstation travel service in Bengaluru covering Karnataka and South India — one-way, round trip, airport, local and tour packages.",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: BUSINESS.streetAddress,
-      addressLocality: BUSINESS.locality,
-      postalCode: BUSINESS.postalCode,
-      addressRegion: BUSINESS.region,
-      addressCountry: BUSINESS.country,
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: BUSINESS.latitude,
-      longitude: BUSINESS.longitude,
-    },
-    areaServed: BUSINESS.areaServed.map((name) => ({
-      "@type": "AdministrativeArea",
-      name,
-    })),
-    openingHoursSpecification: [
+    "@graph": [
       {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        legalName: BUSINESS.legalName,
+        url: SITE_URL,
+        logo: {
+          "@type": "ImageObject",
+          url: canonical("/icon.png"),
+          width: 256,
+          height: 256,
+        },
+        image: canonical("/logo.png"),
+        telephone: settings.phone,
+        email: settings.email,
+        address,
+        ...(sameAs.length ? { sameAs } : {}),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: SITE_NAME,
+        inLanguage: "en-IN",
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+      {
+        "@type": ["TravelAgency", "TaxiService", "LocalBusiness"],
+        "@id": `${SITE_URL}/#business`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        parentOrganization: { "@id": `${SITE_URL}/#organization` },
+        telephone: settings.phone,
+        email: settings.email,
+        image: canonical("/logo.png"),
+        priceRange: BUSINESS.priceRange,
+        currenciesAccepted: "INR",
+        description:
+          "24/7 cab rental and outstation travel service in Bengaluru covering Karnataka and South India — one-way, round trip, airport, local and tour packages.",
+        address,
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: BUSINESS.latitude,
+          longitude: BUSINESS.longitude,
+        },
+        areaServed: BUSINESS.areaServed.map((name) => ({
+          "@type": "AdministrativeArea",
+          name,
+        })),
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ],
+            opens: "00:00",
+            closes: "23:59",
+          },
         ],
-        opens: "00:00",
-        closes: "23:59",
+        ...(sameAs.length ? { sameAs } : {}),
       },
     ],
-    ...(sameAs.length ? { sameAs } : {}),
   };
 }
 

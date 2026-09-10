@@ -19,12 +19,13 @@ export default function CtaBanner({
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
+            data-track="book-cta"
             className="btn-accent"
           >
             <MessageCircle className="h-4 w-4" />
             Book on WhatsApp
           </a>
-          <a href={telLink(phone)} className="btn-white">
+          <a href={telLink(phone)} data-track="call" className="btn-white">
             <Phone className="h-4 w-4" />
             Call {phone}
           </a>

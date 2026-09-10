@@ -14,7 +14,11 @@ import {
   type OptionalCategory,
 } from "@/lib/consent";
 
-const OPTIONAL: OptionalCategory[] = ["preferences", "maps"];
+const OPTIONAL: OptionalCategory[] = [
+  "preferences",
+  "maps",
+  ...(process.env.NEXT_PUBLIC_GA_ID ? (["analytics"] as const) : []),
+];
 
 export default function ConsentBanner() {
   const [open, setOpen] = useState(false);

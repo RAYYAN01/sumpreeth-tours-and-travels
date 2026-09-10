@@ -8,6 +8,12 @@ const isDev = process.env.NODE_ENV !== "production";
  * the site; promote to the enforcing header once the report is clean. A nonce
  * based `script-src` is a Phase 5 follow-up.
  */
+// Google Analytics (only actually loaded when NEXT_PUBLIC_GA_ID is set +
+// the visitor opts in) — allow-listed here so it isn't a CSP violation.
+const ga = "https://www.googletagmanager.com";
+const gaData =
+  "https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com";
+
 const csp = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -16,13 +22,13 @@ const csp = [
   "frame-ancestors 'self'",
   "upgrade-insecure-requests",
   // Next.js injects small inline bootstrap scripts; dev also needs eval.
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' ${ga}${isDev ? " 'unsafe-eval'" : ""}`,
   // Fonts are self-hosted via next/font; only inline styles remain.
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
-  "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://maps.gstatic.com https://maps.googleapis.com",
+  `img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://maps.gstatic.com https://maps.googleapis.com ${ga} ${gaData}`,
   "frame-src https://www.google.com https://maps.google.com",
-  "connect-src 'self'",
+  `connect-src 'self' ${ga} ${gaData}`,
   "media-src 'self'",
   "manifest-src 'self'",
 ].join("; ");

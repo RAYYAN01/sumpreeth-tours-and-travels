@@ -138,6 +138,7 @@ export default function Header({ phone, whatsappHref }: Props) {
           <ThemeToggle light={!solid} />
           <a
             href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+            data-track="call"
             className={`hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold sm:inline-flex ${
               solid
                 ? "text-bodytext hover:bg-forest-50 dark:hover:bg-white/[0.04]"
@@ -151,6 +152,7 @@ export default function Header({ phone, whatsappHref }: Props) {
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
+            data-track="book-cta"
             className="btn-accent hidden px-5 py-2.5 sm:inline-flex"
           >
             Book Now
@@ -195,11 +197,16 @@ export default function Header({ phone, whatsappHref }: Props) {
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
+              data-track="book-cta"
               className="btn-accent mt-4"
             >
               Book Now on WhatsApp
             </a>
-            <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="btn-outline mt-2">
+            <a
+              href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+              data-track="call"
+              className="btn-outline mt-2"
+            >
               Call {phone}
             </a>
           </nav>

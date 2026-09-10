@@ -7,19 +7,27 @@
  *   - maps        — load the Google Maps embed on the Contact page
  */
 
-export type OptionalCategory = "preferences" | "maps";
+export type OptionalCategory = "preferences" | "maps" | "analytics";
 export type ConsentCategory = "necessary" | OptionalCategory;
 export type ConsentChoices = Record<OptionalCategory, boolean>;
-export type ConsentRecord = { v: 1; choices: ConsentChoices; ts: number };
+export type ConsentRecord = { v: 2; choices: ConsentChoices; ts: number };
 
 const KEY = "stt_consent";
-const VERSION = 1 as const;
+const VERSION = 2 as const;
 
 export const CONSENT_EVENT = "stt:consent";
 export const CONSENT_OPEN_EVENT = "stt:consent-open";
 
-export const ACCEPT_ALL: ConsentChoices = { preferences: true, maps: true };
-export const REJECT_ALL: ConsentChoices = { preferences: false, maps: false };
+export const ACCEPT_ALL: ConsentChoices = {
+  preferences: true,
+  maps: true,
+  analytics: true,
+};
+export const REJECT_ALL: ConsentChoices = {
+  preferences: false,
+  maps: false,
+  analytics: false,
+};
 
 export const CATEGORY_LABELS: Record<
   OptionalCategory,
@@ -32,6 +40,10 @@ export const CATEGORY_LABELS: Record<
   maps: {
     title: "Google Maps",
     body: "Loads the embedded map on our Contact page. Google may set its own cookies when the map loads.",
+  },
+  analytics: {
+    title: "Analytics",
+    body: "Anonymous, aggregated usage measurement (Google Analytics) so we can see which pages and services people use. No ads.",
   },
 };
 
@@ -48,6 +60,7 @@ export function readConsent(): ConsentRecord | null {
       choices: {
         preferences: Boolean(parsed.choices.preferences),
         maps: Boolean(parsed.choices.maps),
+        analytics: Boolean(parsed.choices.analytics),
       },
     };
   } catch {

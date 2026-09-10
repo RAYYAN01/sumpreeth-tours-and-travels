@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import {
   CONSENT_EVENT,
+  REJECT_ALL,
   hasConsent,
   readConsent,
   writeConsent,
@@ -44,10 +45,7 @@ export default function MapEmbed({ src, title }: { src: string; title: string })
       <button
         type="button"
         onClick={() => {
-          const current = readConsent()?.choices ?? {
-            preferences: false,
-            maps: false,
-          };
+          const current = readConsent()?.choices ?? REJECT_ALL;
           writeConsent({ ...current, maps: true });
           setAllowed(true);
         }}

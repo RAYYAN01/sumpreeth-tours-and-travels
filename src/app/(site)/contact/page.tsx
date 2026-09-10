@@ -79,7 +79,11 @@ export default async function ContactPage({
           <div className="card p-6">
             <h2 className="text-h4 font-bold text-ink">Reach us now</h2>
             <div className="mt-4 flex flex-col gap-3">
-              <a href={telLink(settings.phone)} className="btn-primary">
+              <a
+                href={telLink(settings.phone)}
+                data-track="call"
+                className="btn-primary"
+              >
                 <Phone className="h-4 w-4" />
                 Call {settings.phone}
               </a>
@@ -87,6 +91,7 @@ export default async function ContactPage({
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track="whatsapp"
                 className="btn-accent"
               >
                 <MessageCircle className="h-4 w-4" />
@@ -96,7 +101,11 @@ export default async function ContactPage({
             <ul className="mt-6 space-y-3 text-sm text-bodytext">
               <li className="flex items-start gap-2">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-forest-500 dark:text-forest-400" />
-                <a href={`mailto:${settings.email}`} className="hover:underline">
+                <a
+                  href={`mailto:${settings.email}`}
+                  data-track="email"
+                  className="hover:underline"
+                >
                   {settings.email}
                 </a>
               </li>

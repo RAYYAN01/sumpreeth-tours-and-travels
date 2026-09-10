@@ -54,8 +54,10 @@ export default async function PrivacyPage() {
           Our server also records, for a short period, the IP address of enquiry
           submissions and limits how many can be sent from one address per hour.
           This is used solely to prevent spam and abuse and is discarded
-          automatically. We do not use advertising, analytics or third-party
-          tracking cookies, and we do not build profiles of visitors.
+          automatically. We use no advertising or cross-site tracking, and we do
+          not build profiles of visitors. If — and only if — you allow it in the
+          consent banner, we load Google Analytics to see, in aggregate, which
+          pages and services people use (see section 4).
         </p>
 
         <h2>3. Purpose and lawful basis</h2>
@@ -99,6 +101,16 @@ export default async function PrivacyPage() {
               <Link href="/contact">Contact</Link> page loads from Google only
               after you allow it; Google may then set its own cookies under its
               own privacy terms.
+            </span>
+          </li>
+          <li>
+            <span>
+              <strong>Analytics (optional)</strong> — if you accept it, Google
+              Analytics 4 is loaded with IP anonymisation to measure aggregate
+              page and feature usage. It sets its own cookies. It is never loaded
+              if you reject non-essential storage, and you can withdraw consent
+              any time from{" "}
+              <button type="button" data-consent-open>Cookie settings</button>.
             </span>
           </li>
         </ul>

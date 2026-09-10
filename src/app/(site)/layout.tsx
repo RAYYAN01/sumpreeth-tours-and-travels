@@ -3,6 +3,7 @@ import Footer from "@/components/site/Footer";
 import FloatingButtons from "@/components/site/FloatingButtons";
 import RevealInit from "@/components/site/RevealInit";
 import ConsentBanner from "@/components/site/ConsentBanner";
+import Analytics from "@/components/site/Analytics";
 import { getSiteSettings } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
 import { businessJsonLd } from "@/lib/structured-data";
@@ -37,9 +38,12 @@ export default async function SiteLayout({
         {children}
       </main>
       <Footer settings={settings} />
+      {/* Clears the mobile sticky contact bar so it never overlaps the footer. */}
+      <div aria-hidden className="h-14 md:hidden" />
       <FloatingButtons phone={settings.phone} whatsappHref={waHref} />
       <RevealInit />
       <ConsentBanner />
+      <Analytics />
     </>
   );
 }

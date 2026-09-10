@@ -7,6 +7,7 @@ import {
   type ServiceType,
 } from "@/lib/constants";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { trackEvent } from "@/lib/analytics";
 
 type Variant = "widget" | "page";
 
@@ -122,6 +123,10 @@ export default function EnquiryForm({
     // on the enquiry save succeeding.
     const wa = whatsappLink(whatsappNumber, buildWhatsAppMessage(payload));
     setLastWa(wa);
+    trackEvent("enquiry_submit", {
+      service_type: serviceType,
+      source: sourcePage,
+    });
     const waWindow = window.open(wa, "_blank", "noopener,noreferrer");
 
     setStatus("done");
