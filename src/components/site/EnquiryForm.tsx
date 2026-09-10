@@ -40,9 +40,7 @@ export default function EnquiryForm({
   const [message, setMessage] = useState(defaultMessage);
   const [company, setCompany] = useState(""); // honeypot
 
-  const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">(
-    "idle",
-  );
+  const [status, setStatus] = useState<"idle" | "done">("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -106,7 +104,9 @@ export default function EnquiryForm({
     ],
   );
 
-  async function handleSubmit(evt: React.FormEvent) {
+  const [lastWa, setLastWa] = useState<string | null>(null);
+
+  function handleSubmit(evt: React.FormEvent) {
     evt.preventDefault();
     setNotice(null);
     const localErrors = clientValidate();
@@ -116,43 +116,32 @@ export default function EnquiryForm({
       return;
     }
     setErrors({});
-    setStatus("submitting");
 
+    // Open WhatsApp synchronously, still inside the click/tap gesture, so the
+    // browser never treats it as a blocked popup. Reaching us must not depend
+    // on the enquiry save succeeding.
     const wa = whatsappLink(whatsappNumber, buildWhatsAppMessage(payload));
+    setLastWa(wa);
+    const waWindow = window.open(wa, "_blank", "noopener,noreferrer");
 
+    setStatus("done");
+    setNotice(
+      waWindow
+        ? "Opening WhatsApp with your trip details…"
+        : "Tap “Open WhatsApp” below to send us your trip details.",
+    );
+
+    // Best-effort logging in the background — never blocks the customer.
     try {
-      const res = await fetch("/api/enquiry", {
+      void fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      });
-      const data = await res.json().catch(() => ({}));
-
-      if (res.status === 422 && data.fieldErrors) {
-        setErrors(data.fieldErrors as FieldErrors);
-        focusFirstError(data.fieldErrors as FieldErrors);
-        setStatus("error");
-        return;
-      }
-
-      if (!res.ok) {
-        // Saving failed — still let the customer reach us on WhatsApp.
-        setStatus("done");
-        setNotice(
-          "We could not log your enquiry just now, but WhatsApp is opening so you can message us directly.",
-        );
-      } else {
-        setStatus("done");
-        setNotice("Thanks! Opening WhatsApp with your trip details…");
-      }
+        keepalive: true,
+      }).catch(() => {});
     } catch {
-      setStatus("done");
-      setNotice(
-        "Network issue on our side — WhatsApp is opening so you can still message us.",
-      );
+      /* ignore — the WhatsApp hand-off already happened */
     }
-
-    window.open(wa, "_blank", "noopener,noreferrer");
   }
 
   const err = (k: string) => errors[k]?.[0];
@@ -354,17 +343,20 @@ export default function EnquiryForm({
         />
       </div>
 
-      <button
-        type="submit"
-        className="btn-accent mt-5 w-full"
-        disabled={status === "submitting"}
-      >
-        {status === "submitting"
-          ? "Sending…"
-          : status === "done"
-            ? "Reopen WhatsApp"
-            : "Book Now on WhatsApp"}
+      <button type="submit" className="btn-accent mt-5 w-full">
+        {status === "done" ? "Resend on WhatsApp" : "Book Now on WhatsApp"}
       </button>
+
+      {lastWa && (
+        <a
+          href={lastWa}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-outline btn-sm mt-2 w-full"
+        >
+          Open WhatsApp
+        </a>
+      )}
 
       {notice && (
         <p
