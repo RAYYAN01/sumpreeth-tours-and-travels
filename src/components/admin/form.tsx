@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 export type ActionResult = {
   ok?: boolean;
@@ -83,17 +85,35 @@ export function Text({
   required?: boolean;
   placeholder?: string;
 }) {
+  const [show, setShow] = useState(false);
+  const isPassword = type === "password";
+  const effectiveType = isPassword && show ? "text" : type;
+
   return (
     <FieldShell label={label} htmlFor={name} error={error} hint={hint}>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        required={required}
-        placeholder={placeholder}
-        defaultValue={defaultValue ?? ""}
-        className={inputCls}
-      />
+      <div className={isPassword ? "relative" : undefined}>
+        <input
+          id={name}
+          name={name}
+          type={effectiveType}
+          required={required}
+          placeholder={placeholder}
+          defaultValue={defaultValue ?? ""}
+          className={isPassword ? `${inputCls} pr-11` : inputCls}
+        />
+        {isPassword && (
+          <button
+            type="button"
+            onClick={() => setShow((v) => !v)}
+            aria-label={show ? "Hide password" : "Show password"}
+            aria-pressed={show}
+            tabIndex={-1}
+            className="absolute inset-y-0 right-0 grid w-11 place-items-center text-forest-700/50 hover:text-forest-800"
+          >
+            {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+        )}
+      </div>
     </FieldShell>
   );
 }

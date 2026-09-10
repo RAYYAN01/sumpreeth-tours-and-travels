@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Loader2, ShieldCheck } from "lucide-react";
+import PasswordInput from "@/components/admin/PasswordInput";
 import {
   loginAction,
   requestResetAction,
@@ -85,19 +86,13 @@ export default function LoginForm() {
                 className="field-input"
               />
             </div>
-            <div>
-              <label htmlFor="password" className="field-label">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="field-input"
-              />
-            </div>
+            <PasswordInput
+              id="password"
+              name="password"
+              label="Password"
+              autoComplete="current-password"
+              required
+            />
             <label className="flex items-center gap-2 text-sm text-bodytext">
               <input
                 type="checkbox"
@@ -185,34 +180,22 @@ export default function LoginForm() {
                 className="field-input tracking-[0.4em]"
               />
             </div>
-            <div>
-              <label htmlFor="newPassword" className="field-label">
-                New password
-              </label>
-              <input
-                id="newPassword"
-                name="newPassword"
-                type="password"
-                autoComplete="new-password"
-                minLength={8}
-                required
-                className="field-input"
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="field-label">
-                Confirm new password
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                minLength={8}
-                required
-                className="field-input"
-              />
-            </div>
+            <PasswordInput
+              id="newPassword"
+              name="newPassword"
+              label="New password"
+              autoComplete="new-password"
+              minLength={8}
+              required
+            />
+            <PasswordInput
+              id="confirmPassword"
+              name="confirmPassword"
+              label="Confirm new password"
+              autoComplete="new-password"
+              minLength={8}
+              required
+            />
             {resState.error && (
               <p className="field-error" role="alert">
                 {resState.error}
