@@ -48,6 +48,9 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  // Keep Prisma's engine out of the server bundle so it initialises correctly
+  // on the Vercel Node runtime.
+  serverExternalPackages: ["@prisma/client", "prisma", "bcryptjs"],
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
