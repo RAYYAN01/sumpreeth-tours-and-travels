@@ -25,8 +25,11 @@ export const viewport: Viewport = {
   ],
 };
 
+const gscToken = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  ...(gscToken ? { verification: { google: gscToken } } : {}),
   title: {
     default:
       "Sumpreeth Tours and Travels | Bangalore Cabs & Karnataka Outstation Travel",
