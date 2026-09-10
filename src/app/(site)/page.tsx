@@ -6,7 +6,7 @@ import {
   getDestinations,
   getTestimonials,
 } from "@/lib/site";
-import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { contactLink } from "@/lib/whatsapp";
 import EnquiryForm from "@/components/site/EnquiryForm";
 import HeroBackground from "@/components/site/HeroBackground";
 import SectionHeading from "@/components/site/SectionHeading";
@@ -45,10 +45,7 @@ export default async function HomePage() {
     getTestimonials(),
   ]);
 
-  const waHref = whatsappLink(
-    settings.whatsappNumber,
-    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
-  );
+  const waHref = contactLink(settings.whatsappNumber);
 
   const fleetPreview = [
     vehicles.find((v) => v.category === "CAR" && v.seats.startsWith("4")),

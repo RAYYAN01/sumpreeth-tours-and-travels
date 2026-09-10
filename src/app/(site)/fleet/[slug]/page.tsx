@@ -14,7 +14,7 @@ import {
 import { getVehicleBySlug, getVehicles, getSiteSettings } from "@/lib/site";
 import { vehiclePhotos } from "@/lib/features";
 import { vehicleGuide } from "@/lib/vehicle-content";
-import { buildWhatsAppMessage, whatsappLink, telLink } from "@/lib/whatsapp";
+import { contactLink, telLink } from "@/lib/whatsapp";
 import { pageMeta } from "@/lib/seo";
 import { rupees } from "@/lib/format";
 import { vehicleJsonLd } from "@/lib/structured-data";
@@ -74,11 +74,9 @@ export default async function VehicleDetailPage({
   const photos = vehiclePhotos(vehicle);
   const others = allVehicles.filter((v) => v.slug !== vehicle.slug).slice(0, 3);
 
-  const wa = whatsappLink(
+  const wa = contactLink(
     settings.whatsappNumber,
-    buildWhatsAppMessage({
-      message: `I'd like to book the ${vehicle.name} (${vehicle.seats} seater). Please share availability and a quote.`,
-    }),
+    `Welcome to Sumpreeth Tours and Travels. I'd like to book the ${vehicle.name} (${vehicle.seats} seater) — please share availability and a quote.`,
   );
 
   return (

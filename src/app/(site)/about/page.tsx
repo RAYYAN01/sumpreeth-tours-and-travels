@@ -7,7 +7,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { getSiteSettings } from "@/lib/site";
-import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { contactLink } from "@/lib/whatsapp";
 import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 import SectionHeading from "@/components/site/SectionHeading";
@@ -42,10 +42,7 @@ const PROMISE = [
 
 export default async function AboutPage() {
   const settings = await getSiteSettings();
-  const waHref = whatsappLink(
-    settings.whatsappNumber,
-    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
-  );
+  const waHref = contactLink(settings.whatsappNumber);
 
   return (
     <>

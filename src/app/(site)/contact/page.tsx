@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { getSiteSettings, getFaqs } from "@/lib/site";
-import { buildWhatsAppMessage, whatsappLink, telLink } from "@/lib/whatsapp";
+import { contactLink, telLink } from "@/lib/whatsapp";
 import { pageMeta } from "@/lib/seo";
 import { faqJsonLd } from "@/lib/structured-data";
 import PageHeader from "@/components/site/PageHeader";
@@ -29,10 +29,7 @@ export default async function ContactPage({
     getFaqs(),
   ]);
 
-  const waHref = whatsappLink(
-    settings.whatsappNumber,
-    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
-  );
+  const waHref = contactLink(settings.whatsappNumber);
 
   const dest = destination?.slice(0, 80);
 

@@ -4,7 +4,7 @@ import FloatingButtons from "@/components/site/FloatingButtons";
 import RevealInit from "@/components/site/RevealInit";
 import Analytics from "@/components/site/Analytics";
 import { getSiteSettings } from "@/lib/site";
-import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { contactLink } from "@/lib/whatsapp";
 import { businessJsonLd } from "@/lib/structured-data";
 
 export default async function SiteLayout({
@@ -13,10 +13,7 @@ export default async function SiteLayout({
   children: React.ReactNode;
 }) {
   const settings = await getSiteSettings();
-  const waHref = whatsappLink(
-    settings.whatsappNumber,
-    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
-  );
+  const waHref = contactLink(settings.whatsappNumber);
 
   const jsonLd = businessJsonLd(settings);
 

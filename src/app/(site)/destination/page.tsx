@@ -1,5 +1,5 @@
 import { getSiteSettings, getDestinations } from "@/lib/site";
-import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { contactLink } from "@/lib/whatsapp";
 import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 import DestinationView from "@/components/site/DestinationView";
@@ -23,10 +23,7 @@ export default async function DestinationPage() {
     getDestinations(),
   ]);
 
-  const waHref = whatsappLink(
-    settings.whatsappNumber,
-    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
-  );
+  const waHref = contactLink(settings.whatsappNumber);
 
   return (
     <>

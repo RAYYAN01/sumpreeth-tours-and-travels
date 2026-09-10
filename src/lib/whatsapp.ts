@@ -49,6 +49,21 @@ export function whatsappLink(numberDigitsOnly: string, message: string): string 
   return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
 }
 
+/** Greeting used by the generic "contact us" WhatsApp shortcuts. */
+export const CONTACT_GREETING = "Welcome to Sumpreeth Tours and Travels";
+
+/**
+ * WhatsApp link for a plain "contact us" shortcut (header, floating button,
+ * CTA banner, page-level hero). No structured enquiry fields — just the
+ * greeting, so it never renders the duplicated "Notes:" line.
+ */
+export function contactLink(
+  numberDigitsOnly: string,
+  greeting: string = CONTACT_GREETING,
+): string {
+  return whatsappLink(numberDigitsOnly, greeting);
+}
+
 export function telLink(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }

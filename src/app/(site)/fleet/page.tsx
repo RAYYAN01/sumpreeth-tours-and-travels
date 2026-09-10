@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ShieldCheck, Images, ArrowRight } from "lucide-react";
 import { getSiteSettings, getVehicles } from "@/lib/site";
-import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { contactLink } from "@/lib/whatsapp";
 import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 import FleetView from "@/components/site/FleetView";
@@ -24,10 +24,7 @@ export default async function FleetPage() {
     getVehicles(),
   ]);
 
-  const waHref = whatsappLink(
-    settings.whatsappNumber,
-    buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
-  );
+  const waHref = contactLink(settings.whatsappNumber);
 
   return (
     <>

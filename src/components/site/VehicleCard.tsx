@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Users, ArrowRight, MessageCircle } from "lucide-react";
 import { rupees, perKm } from "@/lib/format";
 import { vehiclePhotos, type VehicleView } from "@/lib/features";
-import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { contactLink } from "@/lib/whatsapp";
 import VehicleImages from "./VehicleImages";
 
 type Props = {
@@ -34,11 +34,9 @@ export default function VehicleCard({
   whatsappNumber,
   priority,
 }: Props) {
-  const wa = whatsappLink(
+  const wa = contactLink(
     whatsappNumber,
-    buildWhatsAppMessage({
-      message: `Interested in the ${vehicle.name} (${vehicle.seats} seater). Please share availability and a quote.`,
-    }),
+    `Welcome to Sumpreeth Tours and Travels. I'd like to book the ${vehicle.name} (${vehicle.seats} seater) — please share availability and a quote.`,
   );
   const price = priceLine(vehicle);
 
