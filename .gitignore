@@ -40,3 +40,5 @@ next-env.d.ts
 /prisma/*.db
 
 .next-dev.log
+
+.vercel
