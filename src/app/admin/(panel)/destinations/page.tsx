@@ -27,9 +27,9 @@ export default async function DestinationsAdminPage() {
       {destinations.length === 0 ? (
         <EmptyState>No destinations yet.</EmptyState>
       ) : (
-        <Panel className="overflow-x-auto p-0">
+        <Panel className="overflow-x-auto border border-forest-200 p-0">
           <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="border-b border-forest-100 text-xs uppercase tracking-wide text-forest-700/60">
+            <thead className="border-b-2 border-forest-200 bg-forest-50/70 text-xs uppercase tracking-wide text-forest-800">
               <tr>
                 <th className="px-4 py-3">#</th>
                 <th className="px-4 py-3">Name</th>
@@ -39,7 +39,7 @@ export default async function DestinationsAdminPage() {
                 <th className="px-4 py-3" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-forest-100">
+            <tbody className="divide-y divide-forest-200/70 [&>tr]:odd:bg-white [&>tr]:even:bg-forest-50/25">
               {destinations.map((d) => (
                 <tr key={d.id} className="hover:bg-forest-50/60">
                   <td className="px-4 py-3 text-forest-700/50">{d.sortOrder}</td>

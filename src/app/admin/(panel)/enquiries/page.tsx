@@ -9,8 +9,11 @@ import {
   type ServiceType,
   type EnquiryStatus,
 } from "@/lib/constants";
+import { Pencil } from "lucide-react";
 import { formatDateTime } from "@/lib/format";
 import { PageTitle, Panel, StatusBadge, EmptyState } from "@/components/admin/ui";
+import DeleteButton from "@/components/admin/DeleteButton";
+import { deleteEnquiryAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -126,31 +129,39 @@ export default async function EnquiriesPage({
       {rows.length === 0 ? (
         <EmptyState>No enquiries match these filters.</EmptyState>
       ) : (
-        <Panel className="overflow-x-auto p-0">
-          <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="border-b border-forest-100 text-xs uppercase tracking-wide text-forest-700/60">
-              <tr>
+        <Panel className="overflow-x-auto border border-forest-200 p-0">
+          <table className="w-full min-w-[820px] border-collapse text-left text-sm">
+            <thead className="border-b-2 border-forest-200 bg-forest-50/70 text-xs uppercase tracking-wide text-forest-800">
+              <tr className="[&>th]:border-r [&>th]:border-forest-100 [&>th:last-child]:border-r-0">
                 <th className="px-4 py-3">Received</th>
                 <th className="px-4 py-3">Customer</th>
                 <th className="px-4 py-3">Service</th>
                 <th className="px-4 py-3">Route</th>
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-forest-100">
+            <tbody className="divide-y divide-forest-200/70">
               {rows.map((e) => (
-                <tr key={e.id} className="hover:bg-forest-50/60">
-                  <td className="px-4 py-3 text-forest-700/60">
+                <tr
+                  key={e.id}
+                  className="odd:bg-white even:bg-forest-50/25 hover:bg-forest-50/70 [&>td]:border-r [&>td]:border-forest-100 [&>td:last-child]:border-r-0"
+                >
+                  <td className="px-4 py-3 text-forest-700/70">
                     {formatDateTime(e.createdAt)}
                   </td>
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/enquiries/${e.id}`}
-                      className="font-medium text-forest-700 hover:underline"
+                      className="font-semibold text-forest-800 hover:underline"
                     >
                       {e.name}
                     </Link>
-                    <div className="text-xs text-forest-700/60">{e.phone}</div>
+                    <div className="text-xs text-forest-700/60">
+                      <a href={`tel:${e.phone.replace(/[^\d+]/g, "")}`}>
+                        {e.phone}
+                      </a>
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     {SERVICE_TYPE_LABELS[e.serviceType as ServiceType]}
@@ -161,6 +172,24 @@ export default async function EnquiriesPage({
                   </td>
                   <td className="px-4 py-3">
                     <StatusBadge status={e.status as EnquiryStatus} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1.5">
+                      <Link
+                        href={`/admin/enquiries/${e.id}`}
+                        className="inline-flex items-center gap-1 rounded-md bg-forest-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-forest-700"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                        Edit
+                      </Link>
+                      <form action={deleteEnquiryAction}>
+                        <input type="hidden" name="id" value={e.id} />
+                        <DeleteButton
+                          ariaLabel={`Delete enquiry from ${e.name}`}
+                          confirmText={`Delete the enquiry from ${e.name}? This cannot be undone.`}
+                        />
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}
