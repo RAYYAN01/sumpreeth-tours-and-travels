@@ -1,10 +1,13 @@
 import { revalidateTag, revalidatePath } from "next/cache";
 import { TAGS } from "./site";
 
-/** Refresh public pages after an admin edit. */
+/**
+ * Refresh the public site after an admin edit. We invalidate the specific data
+ * tag *and* the whole layout, so any change (a rate, a photo, hero text, a FAQ)
+ * shows on every page on the very next request — no waiting for the ISR window.
+ * The cost of full revalidation is negligible for this site's traffic.
+ */
 export function revalidatePublic(tag: (typeof TAGS)[keyof typeof TAGS]) {
-  // Next 16 requires a cache-life profile; "max" expires every entry with the tag.
   revalidateTag(tag, "max");
-  // Home aggregates most things; other pages are covered by their tag.
-  revalidatePath("/", "page");
+  revalidatePath("/", "layout");
 }
