@@ -41,11 +41,24 @@
   h2,
   h3,
   h4 {
-    @apply font-heading tracking-tight text-ink;
+    @apply font-heading text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   ::selection {
     @apply bg-saffron-200 text-forest-900;
+  }
+
+  /* Consistent focus ring for anything keyboard-reachable. */
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-forest-600;
+  }
+  .dark :focus-visible {
+    @apply outline-forest-300;
   }
 }
 
@@ -88,6 +101,37 @@
 
   .field-error {
     @apply mt-1 text-xs font-medium text-red-600;
+  }
+
+  /* Shared eyebrow label above section/page headings. */
+  .eyebrow {
+    @apply text-eyebrow font-bold uppercase text-saffron-600;
+  }
+
+  /* Vertical rhythm for long-form legal / policy pages. */
+  .prose-legal {
+    @apply max-w-2xl text-[0.95rem] leading-relaxed text-bodytext;
+  }
+  .prose-legal > * + * {
+    @apply mt-4;
+  }
+  .prose-legal h2 {
+    @apply text-h3 mt-12 first:mt-0;
+  }
+  .prose-legal h2 + * {
+    @apply mt-3;
+  }
+  .prose-legal h3 {
+    @apply text-h4 mt-8;
+  }
+  .prose-legal ul {
+    @apply space-y-2 pl-1;
+  }
+  .prose-legal li {
+    @apply flex gap-2;
+  }
+  .prose-legal a {
+    @apply font-medium text-forest-700 hover:underline dark:text-forest-200;
   }
 }
 

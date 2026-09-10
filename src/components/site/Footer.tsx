@@ -25,21 +25,31 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 bg-forest-900 text-forest-100">
-      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="bg-forest-900 text-forest-100">
+      <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <div>
           <Link
             href="/"
             aria-label="Sumpreeth Tours and Travels — home"
-            className="inline-flex rounded-lg bg-white p-2 shadow-sm"
+            className="flex items-center gap-3 rounded-xl"
           >
-            <Image
-              src="/logo.png"
-              alt="Sumpreeth Tours and Travels"
-              width={512}
-              height={512}
-              className="h-16 w-auto"
-            />
+            <span className="inline-flex rounded-lg bg-white p-1.5 shadow-sm">
+              <Image
+                src="/logo.png"
+                alt=""
+                width={512}
+                height={512}
+                className="h-12 w-auto"
+              />
+            </span>
+            <span className="flex flex-col leading-none">
+              <span className="font-heading text-lg font-bold text-white">
+                Sumpreeth
+              </span>
+              <span className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-saffron-200">
+                Tours &amp; Travels
+              </span>
+            </span>
           </Link>
           <p className="mt-4 text-sm text-forest-200/80">
             24/7 cabs, tempo travellers and buses for airport, local and
@@ -65,7 +75,7 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-widest text-white">
+          <h3 className="text-eyebrow font-bold uppercase text-white">
             Explore
           </h3>
           <ul className="mt-4 space-y-2 text-sm">
@@ -80,7 +90,7 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-widest text-white">
+          <h3 className="text-eyebrow font-bold uppercase text-white">
             Popular routes
           </h3>
           <ul className="mt-4 space-y-2 text-sm">
@@ -106,7 +116,7 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
         </div>
 
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-widest text-white">
+          <h3 className="text-eyebrow font-bold uppercase text-white">
             Contact
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-forest-200/80">
@@ -135,16 +145,26 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-forest-200/70 sm:flex-row">
+        <div className="container-page flex flex-col items-center justify-between gap-3 py-5 text-xs text-forest-200/70 sm:flex-row">
           <p>© {year} Sumpreeth Tours and Travels. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <Link href="/privacy" className="hover:text-white">
               Privacy &amp; Cookies
+            </Link>
+            <button
+              type="button"
+              data-consent-open
+              className="hover:text-white"
+            >
+              Cookie settings
+            </button>
+            <Link href="/sitemap.xml" className="hover:text-white">
+              Sitemap
             </Link>
             <Link href="/admin" className="hover:text-white">
               Staff login
             </Link>
-          </div>
+          </nav>
         </div>
       </div>
     </footer>

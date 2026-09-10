@@ -4,6 +4,7 @@ import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
 import PageHeader from "@/components/site/PageHeader";
 import Gallery from "@/components/site/Gallery";
 import CtaBanner from "@/components/site/CtaBanner";
+import Section from "@/components/site/Section";
 
 export const revalidate = 3600;
 
@@ -30,9 +31,9 @@ export default async function GalleryPage() {
         imageAlt="Front of a Sumpreeth Force tempo traveller"
       />
 
-      <section className="container-page py-14">
+      <Section>
         <Gallery />
-      </section>
+      </Section>
 
       <CtaBanner
         text={settings.ctaBannerText}

@@ -5,6 +5,7 @@ import PageHeader from "@/components/site/PageHeader";
 import DestinationView from "@/components/site/DestinationView";
 import CoverageMap from "@/components/site/CoverageMap";
 import CtaBanner from "@/components/site/CtaBanner";
+import Section from "@/components/site/Section";
 
 export const revalidate = 300;
 
@@ -34,18 +35,18 @@ export default async function DestinationPage() {
         imageAlt="Bengaluru skyline at dusk"
       />
 
-      <section className="container-page py-14">
+      <Section>
         <div className="reveal mb-12">
           <CoverageMap />
         </div>
 
         <DestinationView destinations={destinations} />
 
-        <p className="mt-10 rounded-xl bg-forest-50 dark:bg-white/[0.04] p-4 text-sm text-ink">
+        <p className="mt-10 rounded-2xl bg-forest-50 p-5 text-sm text-ink dark:bg-white/[0.04]">
           Don&apos;t see your town? We build custom routes across Karnataka&apos;s
           interior on request — just share your pickup and drop points.
         </p>
-      </section>
+      </Section>
 
       <CtaBanner
         text={settings.ctaBannerText}

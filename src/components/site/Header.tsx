@@ -11,6 +11,7 @@ const NAV = [
   { href: "/", label: "Home" },
   { href: "/fleet", label: "Fleet" },
   { href: "/destination", label: "Destination" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -69,21 +70,44 @@ export default function Header({ phone, whatsappHref }: Props) {
         <Link
           href="/"
           aria-label="Sumpreeth Tours and Travels — home"
-          className="flex items-center"
+          className="flex items-center gap-3 rounded-xl"
         >
           <span className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-black/5">
             <Image
               src="/logo.png"
-              alt="Sumpreeth Tours and Travels"
+              alt=""
               width={512}
               height={512}
               priority
-              className="h-10 w-auto sm:h-12"
+              className="h-10 w-auto sm:h-11"
             />
+          </span>
+          <span className="flex flex-col leading-none">
+            <span
+              className={`font-heading text-base font-bold tracking-tight sm:text-lg ${
+                solid ? "text-ink" : "text-white"
+              }`}
+            >
+              Sumpreeth
+            </span>
+            <span
+              className={`mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] sm:text-[11px] ${
+                solid ? "text-saffron-600" : "text-saffron-200"
+              }`}
+            >
+              Tours &amp; Travels
+            </span>
+            <span
+              className={`mt-1 hidden text-[10px] font-medium tracking-wide lg:block ${
+                solid ? "text-muted" : "text-white/70"
+              }`}
+            >
+              Bangalore · Karnataka · South India
+            </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-0.5 lg:flex">
           {NAV.map((item) => {
             const active =
               item.href === "/"
@@ -93,7 +117,8 @@ export default function Header({ phone, whatsappHref }: Props) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                aria-current={active ? "page" : undefined}
+                className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
                   solid
                     ? active
                       ? "bg-forest-100 dark:bg-white/[0.08] text-ink"
@@ -132,7 +157,7 @@ export default function Header({ phone, whatsappHref }: Props) {
           </a>
           <button
             type="button"
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-full md:hidden ${
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full lg:hidden ${
               solid ? "text-ink" : "text-white"
             }`}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -146,17 +171,26 @@ export default function Header({ phone, whatsappHref }: Props) {
 
       {/* Mobile full-screen menu */}
       {open && (
-        <div className="fixed inset-0 top-16 z-40 overflow-y-auto bg-page md:hidden">
+        <div className="fixed inset-0 top-16 z-40 overflow-y-auto bg-page sm:top-20 lg:hidden">
           <nav className="container-page flex flex-col gap-1 py-6">
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-xl px-4 py-3 text-lg font-semibold text-ink hover:bg-forest-50 dark:hover:bg-white/[0.04]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              const active =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`rounded-xl px-4 py-3 text-lg font-semibold hover:bg-forest-50 dark:hover:bg-white/[0.04] ${
+                    active ? "bg-forest-50 text-ink dark:bg-white/[0.06]" : "text-ink"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
             <a
               href={whatsappHref}
               target="_blank"

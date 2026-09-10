@@ -6,6 +6,7 @@ import PageHeader from "@/components/site/PageHeader";
 import SectionHeading from "@/components/site/SectionHeading";
 import EnquiryForm from "@/components/site/EnquiryForm";
 import FaqAccordion from "@/components/site/FaqAccordion";
+import Section from "@/components/site/Section";
 
 export const metadata: Metadata = {
   title: "Contact & Booking",
@@ -40,7 +41,7 @@ export default async function ContactPage({
         imageAlt="Bengaluru skyline"
       />
 
-      <section className="container-page grid gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr]">
+      <Section className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           {dest && (
             <p className="mb-4 rounded-xl bg-saffron-50 px-4 py-3 text-sm font-medium text-saffron-800">
@@ -59,7 +60,7 @@ export default async function ContactPage({
 
         <aside className="space-y-4">
           <div className="card p-6">
-            <h2 className="text-lg font-bold text-ink">Reach us now</h2>
+            <h2 className="text-h4 font-bold text-ink">Reach us now</h2>
             <div className="mt-4 flex flex-col gap-3">
               <a href={telLink(settings.phone)} className="btn-primary">
                 <Phone className="h-4 w-4" />
@@ -103,23 +104,21 @@ export default async function ContactPage({
             />
           </div>
         </aside>
-      </section>
+      </Section>
 
       {faqs.length > 0 && (
-        <section className="bg-surface py-16">
-          <div className="container-page max-w-3xl">
-            <SectionHeading center eyebrow="FAQ" title="Common questions" />
-            <div className="mt-8">
-              <FaqAccordion
-                items={faqs.map((f) => ({
-                  id: f.id,
-                  question: f.question,
-                  answer: f.answer,
-                }))}
-              />
-            </div>
+        <Section bleed="surface" className="max-w-3xl">
+          <SectionHeading center eyebrow="FAQ" title="Common questions" />
+          <div className="mt-8">
+            <FaqAccordion
+              items={faqs.map((f) => ({
+                id: f.id,
+                question: f.question,
+                answer: f.answer,
+              }))}
+            />
           </div>
-        </section>
+        </Section>
       )}
     </>
   );

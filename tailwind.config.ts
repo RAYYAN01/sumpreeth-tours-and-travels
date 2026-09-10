@@ -51,6 +51,38 @@ const config: Config = {
         heading: ["var(--font-heading)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
       },
+      // Fluid type scale (viewport ~360px → ~1280px). Added as new keys so the
+      // Tailwind defaults for text-base/sm/xs stay untouched for the admin UI.
+      fontSize: {
+        display: [
+          "clamp(2.5rem, 1.30rem + 5.35vw, 4.5rem)",
+          { lineHeight: "1.04", letterSpacing: "-0.022em" },
+        ],
+        h1: [
+          "clamp(2rem, 1.45rem + 2.45vw, 3.25rem)",
+          { lineHeight: "1.1", letterSpacing: "-0.021em" },
+        ],
+        h2: [
+          "clamp(1.6rem, 1.30rem + 1.34vw, 2.25rem)",
+          { lineHeight: "1.16", letterSpacing: "-0.017em" },
+        ],
+        h3: [
+          "clamp(1.25rem, 1.12rem + 0.58vw, 1.5rem)",
+          { lineHeight: "1.26", letterSpacing: "-0.012em" },
+        ],
+        h4: [
+          "clamp(1.0625rem, 1.01rem + 0.24vw, 1.1875rem)",
+          { lineHeight: "1.34", letterSpacing: "-0.006em" },
+        ],
+        lead: [
+          "clamp(1.0625rem, 1.00rem + 0.36vw, 1.25rem)",
+          { lineHeight: "1.62", letterSpacing: "-0.003em" },
+        ],
+        eyebrow: [
+          "0.75rem",
+          { lineHeight: "1.1", letterSpacing: "0.14em" },
+        ],
+      },
       boxShadow: {
         card: "0 1px 2px rgba(15, 45, 24, 0.04), 0 8px 24px rgba(15, 45, 24, 0.08)",
         "card-hover": "0 2px 4px rgba(15, 45, 24, 0.06), 0 16px 40px rgba(15, 45, 24, 0.14)",

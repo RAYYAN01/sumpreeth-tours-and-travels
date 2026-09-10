@@ -45,19 +45,15 @@ export default function PageHeader({
           backgroundSize: "28px 28px",
         }}
       />
-      <div className="container-page relative pb-14">
+      <div className="container-page relative pb-16">
         {eyebrow && (
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-saffron-300">
+          <p className="mb-3 text-eyebrow font-bold uppercase text-saffron-300">
             {eyebrow}
           </p>
         )}
-        <h1 className="max-w-3xl text-3xl font-extrabold !text-white sm:text-4xl lg:text-5xl">
-          {title}
-        </h1>
+        <h1 className="max-w-3xl text-h1 font-extrabold !text-white">{title}</h1>
         {intro && (
-          <p className="mt-4 max-w-2xl text-base text-forest-100/85 sm:text-lg">
-            {intro}
-          </p>
+          <p className="mt-4 max-w-2xl text-lead text-forest-100/85">{intro}</p>
         )}
       </div>
     </section>

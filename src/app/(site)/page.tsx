@@ -16,6 +16,7 @@ import DestinationCard from "@/components/site/DestinationCard";
 import WhyChooseUs from "@/components/site/WhyChooseUs";
 import TestimonialCarousel from "@/components/site/TestimonialCarousel";
 import CtaBanner from "@/components/site/CtaBanner";
+import Section from "@/components/site/Section";
 
 export const revalidate = 300;
 
@@ -67,10 +68,10 @@ export default async function HomePage() {
             <p className="inline-flex rounded-full bg-surface/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-saffron-200 ring-1 ring-white/20">
               {settings.hours}
             </p>
-            <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 text-display font-extrabold text-white">
               {settings.heroHeadline}
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-forest-100/90">
+            <p className="mt-5 max-w-xl text-lead text-forest-100/90">
               {settings.heroSubheadline}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -106,7 +107,7 @@ export default async function HomePage() {
       />
 
       {/* Fleet preview */}
-      <section className="container-page py-16 lg:py-24">
+      <Section>
         <div className="reveal flex items-end justify-between gap-6">
           <SectionHeading
             eyebrow="Our fleet"
@@ -121,7 +122,7 @@ export default async function HomePage() {
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </Link>
         </div>
-        <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-8">
           {fleetPreview.map((v, i) => (
             <div key={v.id} className="reveal">
               <VehicleCard
@@ -133,67 +134,63 @@ export default async function HomePage() {
             </div>
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* Popular destinations */}
-      <section className="bg-surface py-16 lg:py-24">
-        <div className="container-page">
-          <div className="reveal flex items-end justify-between gap-6">
-            <SectionHeading
-              eyebrow="Popular routes"
-              title="Where Karnataka takes you"
-              intro="Coffee hills, temple towns, waterfalls and heritage — with extended getaways across South India."
-            />
-            <Link
-              href="/destination"
-              className="group hidden shrink-0 items-center gap-1.5 text-sm font-semibold text-bodytext hover:text-ink sm:inline-flex"
-            >
-              All destinations
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-          <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {destShown.map((d) => (
-              <div key={d.id} className="reveal h-full">
-                <DestinationCard dest={d} />
-              </div>
-            ))}
-          </div>
+      <Section bleed="surface">
+        <div className="reveal flex items-end justify-between gap-6">
+          <SectionHeading
+            eyebrow="Popular routes"
+            title="Where Karnataka takes you"
+            intro="Coffee hills, temple towns, waterfalls and heritage — with extended getaways across South India."
+          />
+          <Link
+            href="/destination"
+            className="group hidden shrink-0 items-center gap-1.5 text-sm font-semibold text-bodytext hover:text-ink sm:inline-flex"
+          >
+            All destinations
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </Link>
         </div>
-      </section>
+        <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-8">
+          {destShown.map((d) => (
+            <div key={d.id} className="reveal h-full">
+              <DestinationCard dest={d} />
+            </div>
+          ))}
+        </div>
+      </Section>
 
       {/* Why choose us */}
-      <section className="container-page py-16 lg:py-24">
+      <Section>
         <WhyChooseUs
           years={settings.trustYears}
           trips={settings.trustTrips}
         />
-      </section>
+      </Section>
 
       {/* Testimonials */}
       {testimonials.length > 0 && (
-        <section className="bg-surface py-20">
-          <div className="container-page">
-            <div className="reveal">
-              <SectionHeading
-                center
-                eyebrow="Riders"
-                title="What our customers say"
-              />
-            </div>
-            <div className="reveal mt-12">
-              <TestimonialCarousel
-                items={testimonials.map((t) => ({
-                  id: t.id,
-                  authorName: t.authorName,
-                  location: t.location,
-                  rating: t.rating,
-                  quote: t.quote,
-                }))}
-              />
-            </div>
+        <Section bleed="surface">
+          <div className="reveal">
+            <SectionHeading
+              center
+              eyebrow="Riders"
+              title="What our customers say"
+            />
           </div>
-        </section>
+          <div className="reveal mt-12">
+            <TestimonialCarousel
+              items={testimonials.map((t) => ({
+                id: t.id,
+                authorName: t.authorName,
+                location: t.location,
+                rating: t.rating,
+                quote: t.quote,
+              }))}
+            />
+          </div>
+        </Section>
       )}
 
       <CtaBanner

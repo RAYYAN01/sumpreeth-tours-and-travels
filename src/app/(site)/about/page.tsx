@@ -13,6 +13,7 @@ import PageHeader from "@/components/site/PageHeader";
 import SectionHeading from "@/components/site/SectionHeading";
 import Gallery from "@/components/site/Gallery";
 import CtaBanner from "@/components/site/CtaBanner";
+import Section from "@/components/site/Section";
 
 export const revalidate = 300;
 
@@ -53,15 +54,15 @@ export default async function AboutPage() {
         imageAlt="A Sumpreeth Toyota Etios on a Bangalore highway"
       />
 
-      <section className="container-page py-16">
+      <Section>
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div className="reveal">
             <SectionHeading eyebrow="Our story" title="Who we are" />
-            <p className="mt-4 whitespace-pre-line text-ink">
+            <p className="mt-4 whitespace-pre-line text-lead text-bodytext">
               {settings.aboutStory}
             </p>
 
-            <h3 className="mt-10 text-lg font-bold text-ink">
+            <h3 className="mt-10 text-h4 font-bold text-ink">
               Our service promise
             </h3>
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -80,7 +81,7 @@ export default async function AboutPage() {
           </div>
 
           <aside className="reveal card h-fit p-6">
-            <h3 className="flex items-center gap-2 text-lg font-bold text-ink">
+            <h3 className="flex items-center gap-2 text-h4 font-bold text-ink">
               <BadgeCheck className="h-5 w-5 text-forest-600 dark:text-forest-300" />
               Driver standards
             </h3>
@@ -93,7 +94,7 @@ export default async function AboutPage() {
               ))}
             </ul>
 
-            <h3 className="mt-8 flex items-center gap-2 text-lg font-bold text-ink">
+            <h3 className="mt-8 flex items-center gap-2 text-h4 font-bold text-ink">
               <Leaf className="h-5 w-5 text-forest-600 dark:text-forest-300" />
               Safety &amp; hygiene
             </h3>
@@ -112,22 +113,20 @@ export default async function AboutPage() {
             alike — and outstation routes across South India.
           </p>
         </div>
-      </section>
+      </Section>
 
-      <section className="bg-surface py-16">
-        <div className="container-page">
-          <div className="reveal">
-            <SectionHeading
-              eyebrow="Our fleet on the road"
-              title="Real vehicles, real trips"
-              intro="A look at the cars, tempo travellers and coaches our customers travel in — sanitised between trips and GPS-enabled."
-            />
-          </div>
-          <div className="mt-10">
-            <Gallery />
-          </div>
+      <Section bleed="surface">
+        <div className="reveal">
+          <SectionHeading
+            eyebrow="Our fleet on the road"
+            title="Real vehicles, real trips"
+            intro="A look at the cars, tempo travellers and coaches our customers travel in — sanitised between trips and GPS-enabled."
+          />
         </div>
-      </section>
+        <div className="mt-10">
+          <Gallery />
+        </div>
+      </Section>
 
       <CtaBanner
         text={settings.ctaBannerText}
