@@ -68,7 +68,15 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-[transform,box-shadow,background-color,border-color] duration-200 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest-600 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+    @apply inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-[transform,box-shadow,background-color,border-color] duration-200 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest-600 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0;
+  }
+
+  /* Size modifiers — compose with a variant, e.g. `btn-accent btn-lg`. */
+  .btn-sm {
+    @apply min-h-[2.25rem] gap-1.5 px-4 py-2 text-xs;
+  }
+  .btn-lg {
+    @apply min-h-[3.25rem] px-7 py-3.5 text-base;
   }
 
   .btn-primary {
@@ -80,27 +88,50 @@
   }
 
   .btn-outline {
-    @apply btn border border-forest-600 text-forest-700 hover:bg-forest-50 hover:shadow-md hover:shadow-forest-900/10 active:shadow-none;
+    @apply btn border border-forest-600 text-forest-700 hover:bg-forest-50 hover:shadow-md hover:shadow-forest-900/10 active:shadow-none dark:border-forest-300 dark:text-forest-200 dark:hover:bg-white/[0.04];
   }
 
   .btn-white {
     @apply btn bg-surface text-forest-800 shadow-sm hover:bg-forest-50 hover:shadow-lg hover:shadow-black/10 active:shadow-sm dark:text-ink dark:hover:bg-raised;
   }
 
+  .btn-ghost {
+    @apply btn text-bodytext hover:bg-forest-50 hover:shadow-none dark:hover:bg-white/[0.04];
+  }
+
   .card {
     @apply rounded-2xl bg-surface shadow-card ring-1 ring-black/5 dark:ring-white/10;
   }
 
+  /* Card composition helpers — one radius / ring / body-padding / footer rule
+     for every card on the site. */
+  .card-interactive {
+    @apply card transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-card-hover motion-reduce:transform-none motion-reduce:transition-none;
+  }
+  .card-media {
+    @apply relative overflow-hidden bg-forest-50 dark:bg-white/[0.04];
+  }
+  .card-body {
+    @apply flex flex-1 flex-col p-5 sm:p-6;
+  }
+  .card-foot {
+    @apply mt-auto flex items-end justify-between gap-3 border-t border-line pt-4;
+  }
+
   .field-label {
-    @apply mb-1 block text-sm font-medium text-ink;
+    @apply mb-1.5 block text-sm font-medium text-ink;
   }
 
   .field-input {
     @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-bodytext outline-none transition focus:border-forest-500 focus:ring-2 focus:ring-forest-200 dark:focus:ring-forest-800;
   }
 
+  .field-hint {
+    @apply mt-1.5 text-xs text-muted;
+  }
+
   .field-error {
-    @apply mt-1 text-xs font-medium text-red-600;
+    @apply mt-1.5 text-xs font-medium text-red-600;
   }
 
   /* Shared eyebrow label above section/page headings. */

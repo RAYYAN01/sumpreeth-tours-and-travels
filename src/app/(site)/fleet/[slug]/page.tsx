@@ -14,11 +14,12 @@ import {
 import { getVehicleBySlug, getVehicles, getSiteSettings } from "@/lib/site";
 import { vehiclePhotos } from "@/lib/features";
 import { vehicleGuide } from "@/lib/vehicle-content";
-import { rupees, perKm } from "@/lib/format";
 import { buildWhatsAppMessage, whatsappLink, telLink } from "@/lib/whatsapp";
 import VehicleImages from "@/components/site/VehicleImages";
 import VehicleCard from "@/components/site/VehicleCard";
+import RateCard from "@/components/site/RateCard";
 import CtaBanner from "@/components/site/CtaBanner";
+import Section from "@/components/site/Section";
 
 export const revalidate = 300;
 
@@ -68,36 +69,12 @@ export default async function VehicleDetailPage({
     }),
   );
 
-  const rateRows: [string, string][] = [];
-  if (!vehicle.quoteOnRequest) {
-    if (vehicle.oneWayRate != null)
-      rateRows.push([
-        "One way",
-        `${rupees(vehicle.oneWayRate)}${vehicle.oneWayNote ? ` ${vehicle.oneWayNote}` : ""}`,
-      ]);
-    if (vehicle.roundTripPerKm != null)
-      rateRows.push(["Round trip", `${perKm(vehicle.roundTripPerKm)}`]);
-    if (vehicle.minKmPerDay != null)
-      rateRows.push(["Minimum running", `${vehicle.minKmPerDay} km / day`]);
-    if (vehicle.driverBata != null)
-      rateRows.push(["Driver bata", `${rupees(vehicle.driverBata)} / day`]);
-    if (vehicle.localPackageRate != null)
-      rateRows.push([
-        "Local package (8 hr / 80 km)",
-        `${rupees(vehicle.localPackageRate)}`,
-      ]);
-    if (vehicle.localExtraPerKm != null)
-      rateRows.push(["Local — extra per km", perKm(vehicle.localExtraPerKm)]);
-    if (vehicle.localExtraPerHr != null)
-      rateRows.push(["Local — extra per hour", `₹${vehicle.localExtraPerHr}`]);
-  }
-
   return (
     <>
-      <section className="container-page pt-28 pb-8">
+      <section className="container-page pb-8 pt-28">
         <Link
           href="/fleet"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-forest-600 dark:text-forest-300 hover:text-ink"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-forest-600 hover:text-ink dark:text-forest-300"
         >
           <ArrowLeft className="h-4 w-4" />
           All vehicles
@@ -115,13 +92,13 @@ export default async function VehicleDetailPage({
 
           <div className="reveal">
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-3xl font-bold sm:text-4xl">{vehicle.name}</h1>
-              <span className="inline-flex items-center gap-1 rounded-full bg-forest-50 dark:bg-white/[0.04] px-3 py-1 text-sm font-semibold text-bodytext">
+              <h1 className="text-h1 font-bold">{vehicle.name}</h1>
+              <span className="inline-flex items-center gap-1 rounded-full bg-forest-50 px-3 py-1 text-sm font-semibold text-bodytext dark:bg-white/[0.04]">
                 <Users className="h-4 w-4" />
                 {vehicle.seats} seater
               </span>
             </div>
-            <p className="mt-3 text-lg text-bodytext">{guide.tagline}</p>
+            <p className="mt-3 text-lead text-bodytext">{guide.tagline}</p>
 
             <ul className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {vehicle.features.map((f) => (
@@ -132,50 +109,35 @@ export default async function VehicleDetailPage({
               ))}
             </ul>
 
-            <div className="mt-6 rounded-2xl bg-page p-5 ring-1 ring-line">
-              <h2 className="text-sm font-bold uppercase tracking-wide text-saffron-600">
-                {vehicle.quoteOnRequest ? "Pricing" : "Rate card"}
-              </h2>
-              {vehicle.quoteOnRequest ? (
-                <p className="mt-2 text-ink">
-                  {vehicle.roundTripNote || "Contact us for a group quote."}
-                </p>
-              ) : (
-                <dl className="mt-3 divide-y divide-line">
-                  {rateRows.map(([k, v]) => (
-                    <div key={k} className="flex justify-between gap-4 py-2 text-sm">
-                      <dt className="text-forest-600 dark:text-forest-300">{k}</dt>
-                      <dd className="font-semibold text-ink">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-              {vehicle.roundTripNote && !vehicle.quoteOnRequest && (
-                <p className="mt-2 text-xs text-forest-500 dark:text-forest-400">{vehicle.roundTripNote}</p>
-              )}
-              <p className="mt-2 text-xs text-forest-500 dark:text-forest-400">
-                Tolls, parking, permits and state taxes are charged at actuals.
-              </p>
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-accent">
-                <MessageCircle className="h-4 w-4" />
-                Book this vehicle
-              </a>
-              <a href={telLink(settings.phone)} className="btn-outline">
-                <Phone className="h-4 w-4" />
-                {settings.phone}
-              </a>
+            <div className="mt-6">
+              <RateCard
+                vehicle={vehicle}
+                actions={
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={wa}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-accent"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      Book this vehicle
+                    </a>
+                    <a href={telLink(settings.phone)} className="btn-outline">
+                      <Phone className="h-4 w-4" />
+                      {settings.phone}
+                    </a>
+                  </div>
+                }
+              />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-surface py-14">
-        <div className="container-page grid gap-8 md:grid-cols-3">
+      <Section bleed="surface" className="grid gap-8 md:grid-cols-3">
           <div className="reveal">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-ink">
+            <h2 className="flex items-center gap-2 text-h4 font-bold text-ink">
               <ThumbsUp className="h-5 w-5 text-forest-600 dark:text-forest-300" />
               Best for
             </h2>
@@ -189,7 +151,7 @@ export default async function VehicleDetailPage({
             </ul>
           </div>
           <div className="reveal">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-ink">
+            <h2 className="flex items-center gap-2 text-h4 font-bold text-ink">
               <Sparkles className="h-5 w-5 text-forest-600 dark:text-forest-300" />
               Highlights
             </h2>
@@ -203,7 +165,7 @@ export default async function VehicleDetailPage({
             </ul>
           </div>
           <div className="reveal">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-ink">
+            <h2 className="flex items-center gap-2 text-h4 font-bold text-ink">
               <Info className="h-5 w-5 text-forest-600 dark:text-forest-300" />
               Good to know
             </h2>
@@ -216,13 +178,12 @@ export default async function VehicleDetailPage({
               ))}
             </ul>
           </div>
-        </div>
-      </section>
+      </Section>
 
       {others.length > 0 && (
-        <section className="container-page py-14">
-          <h2 className="text-2xl font-bold">Compare other vehicles</h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Section>
+          <h2 className="text-h2 font-bold">Compare other vehicles</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {others.map((v) => (
               <VehicleCard
                 key={v.id}
@@ -232,7 +193,7 @@ export default async function VehicleDetailPage({
               />
             ))}
           </div>
-        </section>
+        </Section>
       )}
 
       <CtaBanner

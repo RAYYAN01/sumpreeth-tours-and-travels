@@ -43,8 +43,8 @@ export default function VehicleCard({
   const price = priceLine(vehicle);
 
   return (
-    <article className="group card relative flex flex-col overflow-hidden transition-shadow hover:shadow-card-hover">
-      <div className="relative">
+    <article className="group card-interactive relative flex h-full flex-col overflow-hidden">
+      <div className="card-media">
         <VehicleImages
           photos={vehiclePhotos(vehicle)}
           name={vehicle.name}
@@ -59,13 +59,13 @@ export default function VehicleCard({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Book the ${vehicle.name} on WhatsApp`}
-          className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-[#25D366] text-white shadow-md transition hover:scale-105"
+          className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-[#25D366] text-white shadow-md transition hover:scale-105 motion-reduce:transition-none"
         >
           <MessageCircle className="h-4 w-4" />
         </a>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="card-body">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-lg font-bold text-ink">
             <Link
@@ -94,13 +94,13 @@ export default function VehicleCard({
           </ul>
         )}
 
-        <div className="mt-auto flex items-end justify-between gap-3 border-t border-line pt-4">
+        <div className="card-foot">
           {price && (
             <div>
               <span className="block text-[11px] uppercase tracking-wide text-muted">
                 {vehicle.quoteOnRequest ? "" : "From"}
               </span>
-              <span className="text-xl font-extrabold text-ink">
+              <span className="text-xl font-extrabold tabular-nums text-ink">
                 {price.amount}
               </span>{" "}
               <span className="text-xs text-forest-500 dark:text-forest-400">{price.unit}</span>

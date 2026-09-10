@@ -56,10 +56,8 @@ export default function WhyChooseUs({
   return (
     <div className="grid gap-10 lg:grid-cols-[4fr_7fr] lg:gap-16">
       <div className="reveal lg:sticky lg:top-28 lg:self-start">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-saffron-600">
-          Why choose us
-        </p>
-        <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+        <p className="eyebrow">Why choose us</p>
+        <h2 className="mt-3 text-h2 font-bold">
           Safety-first travel, every single trip
         </h2>
         <p className="mt-4 max-w-md text-bodytext">

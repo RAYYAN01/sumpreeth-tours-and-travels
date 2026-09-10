@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Clock, MapPin, Route, ShieldCheck } from "lucide-react";
 import Counter from "./Counter";
+import Section from "./Section";
 
 export default function BentoStats({
   years,
@@ -12,7 +13,7 @@ export default function BentoStats({
   cities: string;
 }) {
   return (
-    <section className="container-page py-12 lg:py-16">
+    <Section size="sm">
       <div className="grid auto-rows-[130px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {/* Big — 24/7 */}
         <div className="reveal relative col-span-2 row-span-2 flex flex-col justify-between overflow-hidden rounded-2xl bg-forest-900 p-6 text-white ring-1 ring-white/5">
@@ -80,6 +81,6 @@ export default function BentoStats({
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

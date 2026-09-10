@@ -11,11 +11,9 @@ export default function CtaBanner({
   whatsappHref: string;
 }) {
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-16 lg:py-20">
       <div className="reveal card flex flex-col items-center gap-6 bg-gradient-to-br from-forest-700 to-forest-900 p-10 text-center text-white sm:p-14">
-        <h2 className="max-w-2xl text-2xl font-bold text-white sm:text-3xl">
-          {text}
-        </h2>
+        <h2 className="max-w-2xl text-h2 font-bold text-white">{text}</h2>
         <div className="flex flex-wrap justify-center gap-3">
           <a
             href={whatsappHref}

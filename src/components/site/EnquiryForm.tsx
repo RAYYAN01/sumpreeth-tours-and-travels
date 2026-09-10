@@ -157,6 +157,16 @@ export default function EnquiryForm({
 
   const err = (k: string) => errors[k]?.[0];
 
+  const FIELD_LABELS: Record<string, string> = {
+    name: "Name",
+    phone: "Phone",
+    pickupLocation: "Pickup location",
+    dropLocation: "Drop location",
+    pickupAt: "Pickup date & time",
+    message: "Message",
+  };
+  const errorKeys = Object.keys(errors).filter((k) => errors[k]?.length);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -168,9 +178,31 @@ export default function EnquiryForm({
       noValidate
     >
       {variant === "widget" && (
-        <h2 className="mb-4 text-lg font-semibold text-ink">
-          Quick enquiry
-        </h2>
+        <h2 className="mb-4 text-h4 font-semibold text-ink">Quick enquiry</h2>
+      )}
+
+      {errorKeys.length > 0 && (
+        <div
+          role="alert"
+          className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300"
+        >
+          <p className="font-semibold">Please check the following:</p>
+          <ul className="mt-1 list-disc space-y-0.5 pl-5">
+            {errorKeys.map((k) => (
+              <li key={k}>
+                <button
+                  type="button"
+                  className="underline underline-offset-2"
+                  onClick={() => document.getElementById(k)?.focus()}
+                >
+                  {FIELD_LABELS[k] ?? k}
+                </button>
+                {": "}
+                {errors[k]?.[0]}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {/* Service type — tabs for the widget, select for the page form */}
