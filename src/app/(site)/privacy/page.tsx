@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Privacy & Cookie Policy",
   description:
-    "How Sumpreeth Tours and Travels handles the details you share when booking a cab, and the cookies and local storage the website uses.",
-};
+    "How Sumpreeth Tours and Travels collects, uses and protects the details you share when booking a cab, your rights under India's DPDP Act 2023, and the cookies and local storage this website uses.",
+  path: "/privacy",
+});
 
 export const revalidate = 3600;
 
@@ -18,6 +19,7 @@ export default async function PrivacyPage() {
   return (
     <>
       <PageHeader
+        trail={[["Privacy & cookies", "/privacy"]]}
         eyebrow="Legal"
         title="Privacy & Cookie Policy"
         intro={`How we handle the details you share with us, and what this website stores on your device. Last updated ${updated}.`}

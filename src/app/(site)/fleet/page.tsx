@@ -1,20 +1,22 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ShieldCheck, Images, ArrowRight } from "lucide-react";
 import { getSiteSettings, getVehicles } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 import FleetView from "@/components/site/FleetView";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
 
-export const revalidate = 300;
+export const revalidate = 600;
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Fleet & Rates",
   description:
-    "Sedans, SUVs, 12 & 16-seater tempo travellers and buses for hire in Bangalore. One-way, round trip, airport and local rates for Toyota Etios, Swift Dzire, Innova, Innova Crysta and more.",
-};
+    "Sedans, SUVs, 12 & 16-seater tempo travellers and buses for hire in Bangalore. Compare one-way, round trip, airport and local rates for the Toyota Etios, Swift Dzire, Innova, Innova Crysta and more.",
+  path: "/fleet",
+  image: "/images/fleet/IMG-20260901-WA0058.jpg",
+});
 
 export default async function FleetPage() {
   const [settings, vehicles] = await Promise.all([
@@ -30,6 +32,7 @@ export default async function FleetPage() {
   return (
     <>
       <PageHeader
+        trail={[["Fleet & rates", "/fleet"]]}
         eyebrow="Our fleet"
         title="A vehicle for every group size and trip"
         intro="Sedans, SUVs, 12 & 16-seater tempo travellers and coaches — all GPS-enabled, sanitised, and driven by verified drivers. Book by the kilometre, by the day, or as a fixed one-way fare."

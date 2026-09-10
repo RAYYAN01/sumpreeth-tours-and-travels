@@ -4,6 +4,7 @@ import FloatingButtons from "@/components/site/FloatingButtons";
 import RevealInit from "@/components/site/RevealInit";
 import { getSiteSettings } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { businessJsonLd } from "@/lib/structured-data";
 
 export default async function SiteLayout({
   children,
@@ -16,25 +17,7 @@ export default async function SiteLayout({
     buildWhatsAppMessage({ message: "Hi, I'd like to book a cab" }),
   );
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "TaxiService",
-    name: "Sumpreeth Tours and Travels",
-    description:
-      "24/7 cab rental and outstation travel service in Bangalore covering Karnataka and South India.",
-    telephone: settings.phone,
-    email: settings.email,
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-    areaServed: "Karnataka, India",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Bangalore",
-      postalCode: "560078",
-      addressRegion: "Karnataka",
-      addressCountry: "IN",
-    },
-    openingHours: "Mo-Su 00:00-23:59",
-  };
+  const jsonLd = businessJsonLd(settings);
 
   return (
     <>

@@ -29,11 +29,24 @@ export const metadata: Metadata = {
     "one way cab Karnataka",
     "Coorg cab package",
   ],
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "Sumpreeth Tours and Travels",
     url: siteUrl,
+    title:
+      "Sumpreeth Tours and Travels | Bangalore Cabs & Karnataka Outstation Travel",
+    description:
+      "24/7 cabs, tempo travellers and buses for airport, local and outstation trips across Karnataka.",
+  },
+  twitter: {
+    card: "summary_large_image",
     title:
       "Sumpreeth Tours and Travels | Bangalore Cabs & Karnataka Outstation Travel",
     description:
@@ -49,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-IN" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

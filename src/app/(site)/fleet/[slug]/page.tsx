@@ -15,11 +15,15 @@ import { getVehicleBySlug, getVehicles, getSiteSettings } from "@/lib/site";
 import { vehiclePhotos } from "@/lib/features";
 import { vehicleGuide } from "@/lib/vehicle-content";
 import { buildWhatsAppMessage, whatsappLink, telLink } from "@/lib/whatsapp";
+import { pageMeta } from "@/lib/seo";
+import { rupees } from "@/lib/format";
+import { vehicleJsonLd } from "@/lib/structured-data";
 import VehicleImages from "@/components/site/VehicleImages";
 import VehicleCard from "@/components/site/VehicleCard";
 import RateCard from "@/components/site/RateCard";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
+import Breadcrumbs from "@/components/site/Breadcrumbs";
 
 export const revalidate = 300;
 
@@ -37,11 +41,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const vehicle = await getVehicleBySlug(slug);
-  if (!vehicle) return { title: "Vehicle not found" };
-  return {
-    title: `${vehicle.name} (${vehicle.seats}) — Rates & Booking`,
-    description: vehicleGuide(vehicle).tagline,
-  };
+  if (!vehicle) return { title: "Vehicle not found", robots: { index: false } };
+
+  const guide = vehicleGuide(vehicle);
+  const from =
+    !vehicle.quoteOnRequest && vehicle.oneWayRate != null
+      ? ` One-way fares from ${rupees(vehicle.oneWayRate)}.`
+      : "";
+  return pageMeta({
+    title: `${vehicle.name} (${vehicle.seats} seater) — Rates & Booking`,
+    description: `${guide.tagline}${from} Book on WhatsApp or call — GPS-tracked, driven by verified drivers across Karnataka.`,
+    path: `/fleet/${vehicle.slug}`,
+    image: vehiclePhotos(vehicle)[0] ?? "/logo.png",
+  });
 }
 
 export default async function VehicleDetailPage({
@@ -71,14 +83,28 @@ export default async function VehicleDetailPage({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(vehicleJsonLd(vehicle, guide.tagline)),
+        }}
+      />
       <section className="container-page pb-8 pt-28">
-        <Link
-          href="/fleet"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-forest-600 hover:text-ink dark:text-forest-300"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          All vehicles
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Breadcrumbs
+            trail={[
+              ["Fleet", "/fleet"],
+              [vehicle.name, `/fleet/${vehicle.slug}`],
+            ]}
+          />
+          <Link
+            href="/fleet"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-forest-600 hover:text-ink dark:text-forest-300"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            All vehicles
+          </Link>
+        </div>
 
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="reveal">
@@ -178,6 +204,23 @@ export default async function VehicleDetailPage({
               ))}
             </ul>
           </div>
+      </Section>
+
+      <Section size="sm">
+        <div className="flex flex-col gap-3 rounded-2xl bg-forest-50 p-5 dark:bg-white/[0.04] sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-ink">
+            Know where you&apos;re headed? Browse routes and distances, or send
+            your trip details for a quick quote.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/destination" className="btn-ghost btn-sm">
+              Browse destinations
+            </Link>
+            <Link href="/contact" className="btn-outline btn-sm">
+              Get a quote
+            </Link>
+          </div>
+        </div>
       </Section>
 
       {others.length > 0 && (

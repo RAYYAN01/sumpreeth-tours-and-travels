@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import {
   Clock,
   SprayCan,
@@ -9,19 +8,22 @@ import {
 } from "lucide-react";
 import { getSiteSettings } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 import SectionHeading from "@/components/site/SectionHeading";
 import Gallery from "@/components/site/Gallery";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "About Us",
   description:
-    "Sumpreeth Tours and Travels is a Bangalore-based 24/7 cab and outstation travel service covering Karnataka and South India with verified drivers and transparent pricing.",
-};
+    "Sumpreeth Tours and Travels is a Bangalore-based 24/7 cab and outstation travel service covering Karnataka and South India, with vetted drivers, GPS-tracked vehicles and transparent, no-surprise pricing.",
+  path: "/about",
+  image: "/images/fleet/IMG-20260901-WA0040.jpg",
+});
 
 const DRIVER_STANDARDS = [
   "Address verification",
@@ -48,6 +50,7 @@ export default async function AboutPage() {
   return (
     <>
       <PageHeader
+        trail={[["About us", "/about"]]}
         title="Reliable, comfortable, safe rides — any hour"
         intro={settings.aboutPromise}
         image="/images/fleet/IMG-20260901-WA0040.jpg"

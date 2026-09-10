@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default function PageHeader({
   title,
@@ -6,6 +7,7 @@ export default function PageHeader({
   eyebrow,
   image,
   imageAlt,
+  trail,
 }: {
   title: string;
   intro?: string;
@@ -13,6 +15,8 @@ export default function PageHeader({
   /** Optional background photo behind the title (darkened for legibility). */
   image?: string;
   imageAlt?: string;
+  /** Breadcrumb trail after Home; renders a nav + BreadcrumbList JSON-LD. */
+  trail?: [string, string][];
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-forest-900 pt-28 text-white sm:pt-36">
@@ -46,6 +50,11 @@ export default function PageHeader({
         }}
       />
       <div className="container-page relative pb-16">
+        {trail && (
+          <div className="mb-5 [&_a:hover]:text-white [&_a]:text-white/70 [&_[aria-current]]:text-white [&_svg]:text-white/40">
+            <Breadcrumbs trail={trail} />
+          </div>
+        )}
         {eyebrow && (
           <p className="mb-3 text-eyebrow font-bold uppercase text-saffron-300">
             {eyebrow}

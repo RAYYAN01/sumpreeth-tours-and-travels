@@ -1,19 +1,21 @@
-import type { Metadata } from "next";
 import { getSiteSettings, getDestinations } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
+import { pageMeta } from "@/lib/seo";
 import PageHeader from "@/components/site/PageHeader";
 import DestinationView from "@/components/site/DestinationView";
 import CoverageMap from "@/components/site/CoverageMap";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
 
-export const revalidate = 300;
+export const revalidate = 600;
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Destinations Across Karnataka & South India",
   description:
     "Cab and tempo traveller trips from Bangalore to Coorg, Chikmagalur, Hampi, Mysore, Dharmasthala, Gokarna and interior Karnataka towns, plus outstation routes to Ooty, Munnar, Tirupati and Hyderabad.",
-};
+  path: "/destination",
+  image: "/images/destinations/hero-bangalore.webp",
+});
 
 export default async function DestinationPage() {
   const [settings, destinations] = await Promise.all([
@@ -29,6 +31,7 @@ export default async function DestinationPage() {
   return (
     <>
       <PageHeader
+        trail={[["Destinations", "/destination"]]}
         title="From city landmarks to interior villages"
         intro="We cover every major Karnataka city and countless interior towns and villages, with extended outstation routes into Tamil Nadu, Kerala, Andhra Pradesh and Telangana. Pick a destination to start planning."
         image="/images/destinations/hero-bangalore.webp"

@@ -1,18 +1,21 @@
-import type { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { getSiteSettings, getFaqs } from "@/lib/site";
 import { buildWhatsAppMessage, whatsappLink, telLink } from "@/lib/whatsapp";
+import { pageMeta } from "@/lib/seo";
+import { faqJsonLd } from "@/lib/structured-data";
 import PageHeader from "@/components/site/PageHeader";
 import SectionHeading from "@/components/site/SectionHeading";
 import EnquiryForm from "@/components/site/EnquiryForm";
 import FaqAccordion from "@/components/site/FaqAccordion";
 import Section from "@/components/site/Section";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Contact & Booking",
   description:
-    "Book a cab with Sumpreeth Tours and Travels — call +91 94486 48898, message us on WhatsApp, or send an enquiry. Open 24/7, based in Bangalore 560078.",
-};
+    "Book a cab with Sumpreeth Tours and Travels — call +91 94486 48898, message us on WhatsApp, or send an enquiry. Open 24/7, based in Bengaluru 560078.",
+  path: "/contact",
+  image: "/images/destinations/hero-bangalore.webp",
+});
 
 export default async function ContactPage({
   searchParams,
@@ -34,7 +37,20 @@ export default async function ContactPage({
 
   return (
     <>
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              faqJsonLd(
+                faqs.map((f) => ({ question: f.question, answer: f.answer })),
+              ),
+            ),
+          }}
+        />
+      )}
       <PageHeader
+        trail={[["Contact & booking", "/contact"]]}
         title="Book your trip"
         intro="Send an enquiry and we'll open WhatsApp with your details, or reach us directly — any hour, any day."
         image="/images/destinations/hero-bangalore.webp"

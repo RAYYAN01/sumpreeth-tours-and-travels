@@ -17,8 +17,16 @@ import WhyChooseUs from "@/components/site/WhyChooseUs";
 import TestimonialCarousel from "@/components/site/TestimonialCarousel";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
+import { pageMeta } from "@/lib/seo";
 
 export const revalidate = 300;
+
+export const metadata = pageMeta({
+  title: "Bangalore Cabs & Karnataka Outstation Travel",
+  description:
+    "24/7 cab rental in Bangalore for one-way, round trip, airport and local trips, plus tempo travellers and buses for outstation tours across Karnataka and South India. Transparent rates, vetted drivers, GPS-tracked.",
+  path: "/",
+});
 
 const PREVIEW_DESTS = [
   "Madikeri / Coorg",
