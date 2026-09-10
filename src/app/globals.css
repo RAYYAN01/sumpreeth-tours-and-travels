@@ -98,6 +98,33 @@
     @apply btn text-bodytext hover:bg-forest-50 hover:shadow-none dark:hover:bg-white/[0.04];
   }
 
+  /* Periodic gleam sweep for a hero CTA. Compose: `btn-accent btn-shine`. */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    width: 45%;
+    pointer-events: none;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 100%
+    );
+    transform: skewX(-18deg);
+    animation: btn-shine 3.4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-shine::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
   .card {
     @apply rounded-2xl bg-surface shadow-card ring-1 ring-black/5 dark:ring-white/10;
   }
@@ -202,5 +229,15 @@
       transform: none;
       transition: none;
     }
+  }
+}
+
+@keyframes btn-shine {
+  0%,
+  55% {
+    left: -60%;
+  }
+  100% {
+    left: 120%;
   }
 }

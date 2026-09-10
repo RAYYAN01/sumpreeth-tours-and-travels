@@ -144,7 +144,8 @@ export default async function VehicleDetailPage({
                       href={wa}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-accent"
+                      data-track="book-cta"
+                      className="btn-accent btn-shine"
                     >
                       <MessageCircle className="h-4 w-4" />
                       Book this vehicle

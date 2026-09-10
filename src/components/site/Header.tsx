@@ -153,7 +153,7 @@ export default function Header({ phone, whatsappHref }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             data-track="book-cta"
-            className="btn-accent hidden px-5 py-2.5 sm:inline-flex"
+            className="btn-accent btn-shine hidden px-5 py-2.5 sm:inline-flex"
           >
             Book Now
           </a>

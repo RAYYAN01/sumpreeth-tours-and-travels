@@ -103,14 +103,28 @@ export default function VehicleCard({
               <span className="text-xl font-extrabold tabular-nums text-ink">
                 {price.amount}
               </span>{" "}
-              <span className="text-xs text-forest-500 dark:text-forest-400">{price.unit}</span>
+              <span className="text-xs text-forest-500 dark:text-forest-400">
+                {price.unit}
+              </span>
             </div>
           )}
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-bodytext transition group-hover:text-ink">
-            Details
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </span>
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track="book-cta"
+            aria-label={`Book the ${vehicle.name} now on WhatsApp`}
+            className="btn-accent btn-sm btn-shine relative z-10 shrink-0"
+          >
+            <MessageCircle className="h-3.5 w-3.5" />
+            Book now
+          </a>
         </div>
+
+        <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-bodytext transition group-hover:text-ink">
+          View details &amp; rates
+          <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+        </span>
       </div>
     </article>
   );
