@@ -59,6 +59,7 @@ export default function Header({ phone, whatsappHref }: Props) {
   const solid = scrolled || !overHero || open;
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-[60] transition-colors duration-300 ${
         solid
@@ -170,9 +171,14 @@ export default function Header({ phone, whatsappHref }: Props) {
           </button>
         </div>
       </div>
+    </header>
 
-      {/* Mobile full-screen menu — self-contained (own header row), so it
-          never depends on matching the fixed header's exact height. */}
+      {/* Mobile full-screen menu — rendered as a SIBLING of <header>, not a
+          child: the header's `backdrop-blur` (backdrop-filter) establishes a
+          containing block for `position: fixed` descendants, which would
+          otherwise confine this overlay to the header's own ~64-80px box
+          instead of the full viewport. Self-contained with its own header
+          row so it never depends on matching the header's exact height. */}
       {open && (
         <div
           role="dialog"
@@ -251,6 +257,6 @@ export default function Header({ phone, whatsappHref }: Props) {
           </nav>
         </div>
       )}
-    </header>
+    </>
   );
 }
