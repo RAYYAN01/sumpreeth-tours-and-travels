@@ -60,7 +60,7 @@ export default function Header({ phone, whatsappHref }: Props) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-[60] transition-colors duration-300 ${
         solid
           ? "bg-page/95 shadow-sm backdrop-blur"
           : "bg-transparent"
@@ -171,10 +171,46 @@ export default function Header({ phone, whatsappHref }: Props) {
         </div>
       </div>
 
-      {/* Mobile full-screen menu */}
+      {/* Mobile full-screen menu — self-contained (own header row), so it
+          never depends on matching the fixed header's exact height. */}
       {open && (
-        <div className="fixed inset-0 top-16 z-40 overflow-y-auto bg-page sm:top-20 lg:hidden">
-          <nav className="container-page flex flex-col gap-1 py-6">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          className="fixed inset-0 z-[70] flex flex-col overflow-y-auto bg-page lg:hidden"
+        >
+          <div className="container-page flex h-16 items-center justify-between sm:h-20">
+            <Link
+              href="/"
+              aria-label="Sumpreeth Tours and Travels — home"
+              className="flex items-center gap-3"
+              onClick={() => setOpen(false)}
+            >
+              <span className="inline-flex rounded-lg bg-white p-1 shadow-sm ring-1 ring-black/5">
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={512}
+                  height={512}
+                  className="h-10 w-auto"
+                />
+              </span>
+              <span className="font-heading text-base font-bold text-ink">
+                Sumpreeth
+              </span>
+            </Link>
+            <button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setOpen(false)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink hover:bg-forest-50"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          <nav className="container-page flex flex-1 flex-col gap-1 py-6">
             {NAV.map((item) => {
               const active =
                 item.href === "/"
@@ -185,6 +221,7 @@ export default function Header({ phone, whatsappHref }: Props) {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
+                  onClick={() => setOpen(false)}
                   className={`rounded-xl px-4 py-3 text-lg font-semibold hover:bg-forest-50 dark:hover:bg-white/[0.04] ${
                     active ? "bg-forest-50 text-ink dark:bg-white/[0.06]" : "text-ink"
                   }`}
@@ -198,6 +235,7 @@ export default function Header({ phone, whatsappHref }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               data-track="book-cta"
+              onClick={() => setOpen(false)}
               className="btn-accent mt-4"
             >
               Book Now on WhatsApp
@@ -205,6 +243,7 @@ export default function Header({ phone, whatsappHref }: Props) {
             <a
               href={`tel:${phone.replace(/[^\d+]/g, "")}`}
               data-track="call"
+              onClick={() => setOpen(false)}
               className="btn-outline mt-2"
             >
               Call {phone}
