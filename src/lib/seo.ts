@@ -1,4 +1,20 @@
 import type { Metadata } from "next";
+import type { PackageState } from "./constants";
+
+/**
+ * Official state/UT government tourism board for each destination state —
+ * used as an authoritative outbound citation on destination and package
+ * pages (real government sources, not affiliate or paid links).
+ */
+export const STATE_TOURISM_BOARD: Record<PackageState, { name: string; url: string }> = {
+  KARNATAKA: { name: "Karnataka Tourism (Govt. of Karnataka)", url: "https://karnatakatourism.org/en" },
+  KERALA: { name: "Kerala Tourism (Govt. of Kerala)", url: "https://www.keralatourism.org" },
+  TAMIL_NADU: { name: "Tamil Nadu Tourism (Govt. of Tamil Nadu)", url: "https://www.tamilnadutourism.tn.gov.in" },
+  ANDHRA_PRADESH: { name: "Andhra Pradesh Tourism (Govt. of AP)", url: "https://tourism.ap.gov.in" },
+  TELANGANA: { name: "Telangana Tourism (Govt. of Telangana)", url: "https://telanganatourism.gov.in" },
+  GOA: { name: "Goa Tourism (Govt. of Goa)", url: "https://goatourism.gov.in" },
+  PUDUCHERRY: { name: "Puducherry Tourism (Govt. of Puducherry)", url: "https://www.py.gov.in/tourism-0" },
+};
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -47,6 +63,8 @@ type PageMetaInput = {
   image?: string;
   /** Set true for thin/utility pages that should not be indexed. */
   noindex?: boolean;
+  /** Optional comma-separated keywords (Google ignores this tag; kept for other engines/bots). */
+  keywords?: string;
 };
 
 /**
@@ -61,6 +79,7 @@ export function pageMeta({
   path,
   image = DEFAULT_OG_IMAGE,
   noindex = false,
+  keywords,
 }: PageMetaInput): Metadata {
   const url = canonical(path);
   // Top-level `title` stays bare so the root layout template appends the brand;
@@ -69,6 +88,7 @@ export function pageMeta({
   return {
     title,
     description,
+    ...(keywords ? { keywords } : {}),
     alternates: { canonical: url },
     robots: noindex
       ? { index: false, follow: true }

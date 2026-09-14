@@ -1053,7 +1053,11 @@ async function main() {
         sortOrder: pkg.sortOrder,
         seoTitle: `${pkg.title} — Itinerary & Booking`,
         seoDescription: pkg.shortDescription,
-        seoKeywords: [pkg.destination, pkg.route, ...pkg.tags.slice(0, 3)].join(", "),
+        seoKeywords: [
+          `${pkg.destination} tour package`,
+          `Bangalore to ${pkg.destination} cab`,
+          `${pkg.destination} one way taxi`,
+        ].join(", "),
       },
     });
   }

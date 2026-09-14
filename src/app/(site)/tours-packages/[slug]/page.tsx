@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Check, MapPin, MessageCircle, Phone, X as XIcon } from "lucide-react";
+import { Check, MapPin, MessageCircle, Phone, X as XIcon, ExternalLink } from "lucide-react";
 import { getPackages, getPackageBySlug, getSiteSettings } from "@/lib/site";
-import { pageMeta } from "@/lib/seo";
+import { pageMeta, STATE_TOURISM_BOARD } from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { packageJsonLd, faqJsonLd } from "@/lib/structured-data";
 import {
@@ -39,6 +39,7 @@ export async function generateMetadata({
       `${pkg.shortDescription} ${pkg.durationNights} nights / ${pkg.durationDays} days from Bangalore.`,
     path: `/tours-packages/${pkg.slug}`,
     image: pkg.featuredImage,
+    keywords: pkg.seoKeywords || undefined,
   });
 }
 
@@ -227,6 +228,24 @@ export default async function PackageDetailPage({
               quotation.
             </p>
           </div>
+
+          {/* Official tourism board citation */}
+          {STATE_TOURISM_BOARD[pkg.state as PackageState] && (
+            <p className="reveal text-xs text-muted">
+              For government travel advisories on {pkg.destination}, see the
+              official{" "}
+              <a
+                href={STATE_TOURISM_BOARD[pkg.state as PackageState].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-semibold text-forest-700 hover:underline dark:text-forest-300"
+              >
+                {STATE_TOURISM_BOARD[pkg.state as PackageState].name}
+                <ExternalLink className="h-3 w-3" />
+              </a>
+              .
+            </p>
+          )}
 
           {/* FAQ */}
           {pkg.faq.length > 0 && (

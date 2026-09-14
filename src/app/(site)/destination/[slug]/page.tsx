@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Check, MapPin, MessageCircle, Phone, ArrowRight } from "lucide-react";
+import { Check, MapPin, MessageCircle, Phone, ArrowRight, ExternalLink } from "lucide-react";
 import {
   getDestinations,
   getDestinationBySlug,
@@ -9,7 +9,7 @@ import {
   getVehicles,
   getSiteSettings,
 } from "@/lib/site";
-import { pageMeta } from "@/lib/seo";
+import { pageMeta, STATE_TOURISM_BOARD } from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { destinationJsonLd, faqJsonLd } from "@/lib/structured-data";
 import {
@@ -48,6 +48,11 @@ export async function generateMetadata({
       `Book a one-way or round-trip cab from Bangalore to ${dest.name}. ${dest.description}`,
     path: `/destination/${dest.slug}`,
     image: dest.imageUrl,
+    keywords: [
+      `Bangalore to ${dest.name} cab`,
+      `${dest.name} one way taxi`,
+      `${dest.name} outstation cab`,
+    ].join(", "),
   });
 }
 
@@ -70,6 +75,7 @@ export default async function DestinationDetailPage({
     : null;
 
   const stateLabel = PACKAGE_STATE_LABELS[dest.state as PackageState] ?? dest.state;
+  const stateBoard = STATE_TOURISM_BOARD[dest.state as PackageState];
   const wa = contactLink(
     settings.whatsappNumber,
     `Hi, I need a cab from Bangalore to ${dest.name}. Please share availability and fares.`,
@@ -274,6 +280,25 @@ export default async function DestinationDetailPage({
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+
+          {stateBoard && (
+            <div className="card mt-6 p-5">
+              <h2 className="text-sm font-bold text-ink">Official travel information</h2>
+              <p className="mt-1.5 text-xs text-bodytext">
+                For government travel advisories, permits and civic details on{" "}
+                {dest.name}, see the official {stateBoard.name}.
+              </p>
+              <a
+                href={stateBoard.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-forest-700 dark:text-forest-300"
+              >
+                {stateBoard.name}
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          )}
         </div>
       </Section>
 
