@@ -191,6 +191,42 @@ export function destinationJsonLd(dest: DestinationView) {
   };
 }
 
+/**
+ * AggregateRating + Review for the LocalBusiness, built only from testimonials
+ * that are actually visible on the page rendering this — never emit this on a
+ * page that doesn't show the same reviews (schema must match on-page content).
+ */
+export function reviewJsonLd(
+  testimonials: { authorName: string; location: string; rating: number; quote: string }[],
+) {
+  if (testimonials.length === 0) return null;
+  const avg =
+    testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length;
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${SITE_URL}/#business`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: Number(avg.toFixed(1)),
+      reviewCount: testimonials.length,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    review: testimonials.map((t) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: t.authorName },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: t.rating,
+        bestRating: 5,
+        worstRating: 1,
+      },
+      reviewBody: t.quote,
+    })),
+  };
+}
+
 /** FAQPage from the contact-page FAQ list. */
 export function faqJsonLd(items: { question: string; answer: string }[]) {
   return {

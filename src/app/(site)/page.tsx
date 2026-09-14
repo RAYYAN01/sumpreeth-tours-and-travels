@@ -18,6 +18,7 @@ import TestimonialCarousel from "@/components/site/TestimonialCarousel";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
 import { pageMeta } from "@/lib/seo";
+import { reviewJsonLd } from "@/lib/structured-data";
 
 export const revalidate = 300;
 
@@ -57,8 +58,24 @@ export default async function HomePage() {
     destinations.filter((d) => PREVIEW_DESTS.includes(d.name)).slice(0, 6);
   const destShown = destPreview.length >= 3 ? destPreview : destinations.slice(0, 6);
 
+  const testimonialRating = reviewJsonLd(
+    testimonials.map((t) => ({
+      authorName: t.authorName,
+      location: t.location,
+      rating: t.rating,
+      quote: t.quote,
+    })),
+  );
+
   return (
     <>
+      {testimonialRating && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(testimonialRating) }}
+        />
+      )}
+
       {/* Hero */}
       <section className="relative isolate flex min-h-[92vh] items-center overflow-hidden">
         <HeroBackground
