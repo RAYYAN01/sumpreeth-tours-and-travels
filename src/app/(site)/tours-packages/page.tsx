@@ -10,7 +10,7 @@ import { contactLink } from "@/lib/whatsapp";
 export const metadata = pageMeta({
   title: "Tours & Packages from Bangalore",
   description:
-    "Bangalore-origin tour packages across Karnataka, Kerala, Tamil Nadu, Andhra Pradesh, Telangana, Goa and Puducherry — weekend getaways, family holidays, honeymoon trips, group tours and customized itineraries.",
+    "Bangalore-origin tour packages across Karnataka, Kerala, Tamil Nadu, Andhra Pradesh, Goa and Puducherry — weekend getaways, family holidays, honeymoon trips and group tours.",
   path: "/tours-packages",
   image: "/images/destinations/coorg-getaway.webp",
 });

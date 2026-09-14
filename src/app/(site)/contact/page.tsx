@@ -1,7 +1,7 @@
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { getSiteSettings, getFaqs } from "@/lib/site";
 import { contactLink, telLink } from "@/lib/whatsapp";
-import { pageMeta } from "@/lib/seo";
+import { pageMeta, GOOGLE_MAPS_URL } from "@/lib/seo";
 import { faqJsonLd } from "@/lib/structured-data";
 import PageHeader from "@/components/site/PageHeader";
 import SectionHeading from "@/components/site/SectionHeading";
@@ -108,7 +108,17 @@ export default async function ContactPage({
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-forest-500 dark:text-forest-400" />
-                {settings.address}
+                <span>
+                  {settings.address}
+                  <a
+                    href={GOOGLE_MAPS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-2 font-semibold text-forest-700 underline dark:text-forest-300"
+                  >
+                    Get directions
+                  </a>
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-forest-500 dark:text-forest-400" />

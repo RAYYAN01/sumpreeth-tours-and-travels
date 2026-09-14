@@ -20,7 +20,7 @@ export const revalidate = 3600;
 export const metadata = pageMeta({
   title: "About Us",
   description:
-    "Sumpreeth Tours and Travels is a Bangalore-based 24/7 cab and outstation travel service covering Karnataka and South India, with vetted drivers, GPS-tracked vehicles and transparent, no-surprise pricing.",
+    "Sumpreeth Tours and Travels is a Bangalore-based 24/7 cab and outstation travel service covering Karnataka & South India, with vetted drivers and GPS-tracked vehicles.",
   path: "/about",
   image: "/images/fleet/IMG-20260901-WA0040.jpg",
 });

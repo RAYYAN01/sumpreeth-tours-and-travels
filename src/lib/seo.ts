@@ -50,6 +50,10 @@ export const BUSINESS = {
   ],
 } as const;
 
+/** Google Maps deep link to the business's exact coordinates — used for both
+ * the on-site "Get directions" link and the `hasMap` structured-data property. */
+export const GOOGLE_MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${BUSINESS.latitude},${BUSINESS.longitude}`;
+
 /** Absolute canonical URL for a path (`/fleet`, `/` …). */
 export function canonical(path = "/"): string {
   return new URL(path, SITE_URL).toString();

@@ -25,7 +25,7 @@ export const revalidate = 300;
 export const metadata = pageMeta({
   title: "Bangalore Cabs & Karnataka Outstation Travel",
   description:
-    "24/7 cab rental in Bangalore for one-way, round trip, airport and local trips, plus tempo travellers and buses for outstation tours across Karnataka and South India. Transparent rates, vetted drivers, GPS-tracked.",
+    "24/7 Bangalore cab rental — one-way, round trip, airport & local trips, plus tempo travellers and buses for outstation tours across Karnataka & South India.",
   path: "/",
 });
 

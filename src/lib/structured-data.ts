@@ -1,4 +1,4 @@
-import { BUSINESS, SITE_NAME, SITE_URL, canonical } from "./seo";
+import { BUSINESS, SITE_NAME, SITE_URL, canonical, GOOGLE_MAPS_URL } from "./seo";
 import type { SiteSettingsData, DestinationView } from "./site";
 import type { VehicleView } from "./features";
 import { vehiclePhotos } from "./features";
@@ -75,6 +75,7 @@ export function businessJsonLd(settings: SiteSettingsData) {
           latitude: BUSINESS.latitude,
           longitude: BUSINESS.longitude,
         },
+        hasMap: GOOGLE_MAPS_URL,
         areaServed: BUSINESS.areaServed.map((name) => ({
           "@type": "AdministrativeArea",
           name,

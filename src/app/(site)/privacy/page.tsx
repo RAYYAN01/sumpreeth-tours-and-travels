@@ -7,7 +7,7 @@ import Section from "@/components/site/Section";
 export const metadata = pageMeta({
   title: "Privacy & Cookie Policy",
   description:
-    "How Sumpreeth Tours and Travels collects, uses and protects the details you share when booking a cab, your rights under India's DPDP Act 2023, and the cookies and local storage this website uses.",
+    "How Sumpreeth Tours and Travels collects, uses and protects your details when booking a cab, your rights under India's DPDP Act 2023, and the cookies this website uses.",
   path: "/privacy",
 });
 

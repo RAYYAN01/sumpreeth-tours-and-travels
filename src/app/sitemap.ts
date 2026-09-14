@@ -38,7 +38,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .slice(0, 20);
 
   const entries: Entry[] = [
-    { url: abs("/"), lastModified: now, changeFrequency: "weekly", priority: 1 },
+    // No trailing slash on the root — matches the canonical tag Next.js
+    // renders for the homepage (it normalizes a bare-root canonical URL).
+    { url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 },
     {
       url: abs("/tours-packages"),
       lastModified: now,

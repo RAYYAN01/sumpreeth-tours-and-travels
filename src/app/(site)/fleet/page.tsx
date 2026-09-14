@@ -13,7 +13,7 @@ export const revalidate = 600;
 export const metadata = pageMeta({
   title: "Fleet & Rates",
   description:
-    "Sedans, SUVs, 12 & 16-seater tempo travellers and buses for hire in Bangalore. Compare one-way, round trip, airport and local rates for the Toyota Etios, Swift Dzire, Innova, Innova Crysta and more.",
+    "Sedans, SUVs, tempo travellers and buses for hire in Bangalore. Compare one-way, round trip, airport and local rates for the Etios, Dzire, Innova, Innova Crysta and more.",
   path: "/fleet",
   image: "/images/fleet/IMG-20260901-WA0058.jpg",
 });

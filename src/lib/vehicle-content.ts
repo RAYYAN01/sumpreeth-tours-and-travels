@@ -71,11 +71,14 @@ export function vehicleGuide(v: VehicleView): VehicleGuide {
   const sevenSeater = v.seats.startsWith("7") || v.seats.startsWith("6");
   const premium = /crysta/i.test(name);
   const ertiga = /ertiga/i.test(name);
+  const dzire = /dzire/i.test(name);
 
   return {
     tagline: sevenSeater
       ? `A spacious ${v.seats} ${premium ? "premium " : ""}ride for families and small groups.`
-      : `A comfortable ${v.seats} sedan for airport runs, city trips and outstation drives.`,
+      : dzire
+        ? `Maruti Suzuki's popular ${v.seats} sedan — easy to manoeuvre in city traffic, still roomy for outstation drives.`
+        : `A comfortable ${v.seats} sedan for airport runs, city trips and outstation drives.`,
     bestFor: sevenSeater
       ? [
           "Families of 4–7 with luggage",

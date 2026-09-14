@@ -346,6 +346,8 @@ async function main() {
   // ---------------------------------------------------------------------
   type DestSeed = {
     name: string;
+    /** Shorter alias for SEO titles when `name` carries a long parenthetical. */
+    shortName?: string;
     category: DestinationCategory;
     state: PackageStateSeed;
     description: string;
@@ -360,7 +362,7 @@ async function main() {
     { name: "Chikmagalur", category: "HILL_STATION", state: "KARNATAKA", description: "Karnataka's coffee land with trekking trails up to Mullayanagiri, the state's highest peak.", distanceKm: 245, packageSlug: "bangalore-to-chikmagalur", highlights: ["Mullayanagiri, Karnataka's highest peak", "Baba Budangiri hill shrine", "Working coffee estate stays"] },
     { name: "Savandurga Hills", category: "HILL_STATION", state: "KARNATAKA", description: "One of Asia's largest monolithic hills, a popular day trip for hikes and sunrise views.", distanceKm: 55, highlights: ["One of Asia's largest monolithic hills", "Popular sunrise trek close to the city", "A base for local rock-climbing groups"] },
     { name: "Bilikal Rangaswamy Betta", category: "HILL_STATION", state: "KARNATAKA", description: "Forest hill shrine near Kanakapura with panoramic ridge-line views.", distanceKm: 90, highlights: ["Forest hill shrine near Kanakapura", "Ridge-line views over the Cauvery valley", "A quieter day-trek away from crowded trails"] },
-    { name: "Chikkaballapura (Nandi region)", category: "HILL_STATION", state: "KARNATAKA", description: "Gateway to Nandi Hills, Skandagiri and cool early-morning drives from the city.", distanceKm: 60, highlights: ["Nandi Hills sunrise viewpoint", "Skandagiri night trekking", "Bhoga Nandeeswara Temple, one of Karnataka's oldest"] },
+    { name: "Chikkaballapura (Nandi region)", shortName: "Nandi Hills", category: "HILL_STATION", state: "KARNATAKA", description: "Gateway to Nandi Hills, Skandagiri and cool early-morning drives from the city.", distanceKm: 60, highlights: ["Nandi Hills sunrise viewpoint", "Skandagiri night trekking", "Bhoga Nandeeswara Temple, one of Karnataka's oldest"] },
     { name: "Sakleshpur", category: "HILL_STATION", state: "KARNATAKA", description: "Misty Western Ghats hill town on the Bengaluru–Mangaluru route, with coffee estates and the scenic Green Route railway.", distanceKm: 220, packageSlug: "bangalore-to-sakleshpur", highlights: ["Manjarabad Fort's star-shaped ramparts", "The historic Green Route railway trail", "Western Ghats coffee-estate stays"] },
 
     // Heritage & culture
@@ -370,7 +372,7 @@ async function main() {
     { name: "Srirangapatna", category: "HERITAGE", state: "KARNATAKA", description: "Island fortress town of Tipu Sultan with palaces, temples and riverside history.", distanceKm: 125, highlights: ["Tipu Sultan's island fortress and Summer Palace", "Sri Ranganathaswamy Temple", "Close to Ranganathittu Bird Sanctuary"] },
     { name: "Bangalore Palace", category: "HERITAGE", state: "KARNATAKA", description: "Tudor-style royal residence of the Wadiyars in the heart of the city.", distanceKm: 5, highlights: ["Tudor-style royal residence of the Wadiyars", "Antique furniture and royal portrait galleries", "Popular concert and event lawns"] },
     { name: "Bijapur (Vijayapura)", category: "HERITAGE", state: "KARNATAKA", description: "Home of the Gol Gumbaz and grand Adil Shahi monuments of the Deccan.", distanceKm: 530, highlights: ["Gol Gumbaz, one of the world's largest domes", "Ibrahim Rauza's Indo-Islamic architecture", "Adil Shahi-era forts and mosques"] },
-    { name: "Bagalkot / Badami-Aihole belt", category: "HERITAGE", state: "KARNATAKA", description: "Cave temples and early Chalukyan rock architecture around Badami.", distanceKm: 460, highlights: ["Badami's rock-cut cave temples", "Aihole's early Chalukyan temple cluster", "Pattadakal, a UNESCO World Heritage site nearby"] },
+    { name: "Bagalkot / Badami-Aihole belt", shortName: "Badami-Aihole", category: "HERITAGE", state: "KARNATAKA", description: "Cave temples and early Chalukyan rock architecture around Badami.", distanceKm: 460, highlights: ["Badami's rock-cut cave temples", "Aihole's early Chalukyan temple cluster", "Pattadakal, a UNESCO World Heritage site nearby"] },
     { name: "Channapatna", category: "HERITAGE", state: "KARNATAKA", description: "The 'toy town' famous for lacquered wooden toys, an easy stop on the Mysore road.", distanceKm: 60, highlights: ["The 'toy town' famous for lacquered wooden toys", "Roadside workshops open to visitors", "A handy stop on the Bangalore–Mysore highway"] },
 
     // Pilgrimage
@@ -411,21 +413,22 @@ async function main() {
     { name: "Wayanad", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Kerala's forested plateau with caves, waterfalls and wildlife.", distanceKm: 290, packageSlug: "bangalore-to-wayanad", highlights: ["Edakkal Caves' prehistoric rock carvings", "Banasura Sagar Dam", "Soochipara and Meenmutty waterfalls"] },
     { name: "Coimbatore", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Industrial gateway city at the foot of the Western Ghats.", distanceKm: 360, highlights: ["Industrial gateway at the foot of the Western Ghats", "A base for Ooty and Valparai hill trips", "Marudamalai temple and Isha Yoga Center nearby"] },
     { name: "Chennai", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Tamil Nadu's capital on the Coromandel Coast.", distanceKm: 350, highlights: ["Marina Beach, one of the world's longest urban beaches", "Kapaleeshwarar Temple in Mylapore", "Fort St. George's colonial history"] },
-    { name: "Trichy (Tiruchirappalli)", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Rockfort city and the vast Srirangam temple complex.", distanceKm: 490, highlights: ["Rockfort Temple perched on an ancient outcrop", "The vast Srirangam temple complex nearby", "Rock-cut cave temples with Pallava-era carvings"] },
+    { name: "Trichy (Tiruchirappalli)", shortName: "Trichy", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Rockfort city and the vast Srirangam temple complex.", distanceKm: 490, highlights: ["Rockfort Temple perched on an ancient outcrop", "The vast Srirangam temple complex nearby", "Rock-cut cave temples with Pallava-era carvings"] },
     { name: "Madurai", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Temple city built around the Meenakshi Amman shrine.", distanceKm: 435, highlights: ["Meenakshi Amman Temple's towering gopurams", "Thirumalai Nayakkar Mahal palace", "One of India's oldest continuously inhabited cities"] },
     { name: "Pondicherry", category: "OUTSTATION_GETAWAY", state: "PUDUCHERRY", description: "French-quarter streets, seafront promenade and Auroville.", distanceKm: 410, packageSlug: "bangalore-to-pondicherry", highlights: ["French Quarter's colonial streets", "Auroville and the Matrimandir", "Promenade and Paradise beaches"] },
     { name: "Hyderabad", category: "OUTSTATION_GETAWAY", state: "TELANGANA", description: "Telangana's capital — Charminar, Golconda and Hussain Sagar.", distanceKm: 570, highlights: ["Charminar and the old-city bazaars", "Golconda Fort's acoustic engineering", "Hussain Sagar lake and the Buddha statue"] },
     { name: "Vijayawada", category: "OUTSTATION_GETAWAY", state: "ANDHRA_PRADESH", description: "Andhra Pradesh city on the Krishna river, near Amaravati.", distanceKm: 660, highlights: ["Kanaka Durga Temple on Indrakeeladri hill", "Prakasam Barrage across the Krishna river", "Undavalli cave temples nearby"] },
     { name: "Kanyakumari", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "India's southern tip where three seas meet — sunrise and sunset over water.", distanceKm: 690, packageSlug: "bangalore-to-kanyakumari-rameswaram", highlights: ["Vivekananda Rock Memorial", "Thiruvalluvar Statue", "Sunrise and sunset where three seas meet"] },
     { name: "Goa", category: "OUTSTATION_GETAWAY", state: "GOA", description: "Beaches, Portuguese-era churches and easy nightlife on the Konkan coast.", distanceKm: 560, packageSlug: "bangalore-to-goa", highlights: ["Baga, Calangute and Palolem beaches", "Basilica of Bom Jesus in Old Goa", "Fort Aguada and Portuguese-era churches"] },
-    { name: "Alleppey (Kerala Backwaters)", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Houseboat cruises through the palm-fringed backwater canals of Alappuzha.", distanceKm: 590, highlights: ["Houseboat cruises through palm-fringed canals", "Kerala's 'Venice of the East'", "Alappuzha Beach and lighthouse"] },
-    { name: "Trivandrum & Kovalam", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Kerala's capital with the Padmanabhaswamy temple and the crescent beaches of Kovalam.", distanceKm: 715, highlights: ["Padmanabhaswamy Temple", "Kovalam's crescent lighthouse beach", "Napier Museum and Kerala capital sights"] },
+    { name: "Alleppey (Kerala Backwaters)", shortName: "Alleppey", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Houseboat cruises through the palm-fringed backwater canals of Alappuzha.", distanceKm: 590, highlights: ["Houseboat cruises through palm-fringed canals", "Kerala's 'Venice of the East'", "Alappuzha Beach and lighthouse"] },
+    { name: "Trivandrum & Kovalam", shortName: "Trivandrum", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Kerala's capital with the Padmanabhaswamy temple and the crescent beaches of Kovalam.", distanceKm: 715, highlights: ["Padmanabhaswamy Temple", "Kovalam's crescent lighthouse beach", "Napier Museum and Kerala capital sights"] },
   ];
 
   let order = 0;
   for (const d of destinations) {
     order += 1;
     const slug = slugify(d.name);
+    const short = d.shortName ?? d.name;
     const data = {
       name: d.name,
       slug,
@@ -438,8 +441,8 @@ async function main() {
       imageUrl: DEST_IMG[d.name] ?? destImageFor(d.category),
       sortOrder: order,
       isActive: true,
-      seoTitle: `Bangalore to ${d.name} Cab — One Way & Round Trip`,
-      seoDescription: `Book a one-way or round-trip cab from Bangalore to ${d.name}. ${d.description}`.slice(0, 165),
+      seoTitle: `Bangalore to ${short} Cab — One Way & Round Trip`,
+      seoDescription: `Book a one-way or round-trip cab from Bangalore to ${short}. ${d.description}`.slice(0, 165),
     };
     await prisma.destination.upsert({
       where: { slug },
@@ -577,6 +580,8 @@ async function main() {
     featured?: boolean;
     popular?: boolean;
     sortOrder: number;
+    /** Shorter title for the SEO <title> tag when `title` is unusually long. */
+    seoTitle?: string;
   };
 
   const STD_INCLUSIONS = [
@@ -985,6 +990,7 @@ async function main() {
     },
     {
       title: "Bangalore to Kanyakumari & Rameswaram Tour Package",
+      seoTitle: "Kanyakumari & Rameswaram Tour — Itinerary & Booking",
       destination: "Kanyakumari & Rameswaram",
       route: "Bangalore → Kanyakumari → Rameswaram",
       state: "TAMIL_NADU",
@@ -1051,7 +1057,7 @@ async function main() {
         popular: pkg.popular ?? false,
         isActive: true,
         sortOrder: pkg.sortOrder,
-        seoTitle: `${pkg.title} — Itinerary & Booking`,
+        seoTitle: pkg.seoTitle ?? `${pkg.title} — Itinerary & Booking`,
         seoDescription: pkg.shortDescription,
         seoKeywords: [
           `${pkg.destination} tour package`,
