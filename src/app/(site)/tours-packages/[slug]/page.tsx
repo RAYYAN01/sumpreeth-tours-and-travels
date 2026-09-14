@@ -125,6 +125,9 @@ export default async function PackageDetailPage({
               {settings.phone}
             </a>
           </div>
+          <p className="mt-5 text-xs text-forest-100/60">
+            {settings.trustYears} years on the road · {settings.trustTrips} trips completed · every driver vetted &amp; every vehicle GPS-tracked
+          </p>
         </div>
       </section>
 
