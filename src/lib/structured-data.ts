@@ -227,6 +227,24 @@ export function reviewJsonLd(
   };
 }
 
+/**
+ * Voice-engine optimization: marks specific on-page content (by CSS selector)
+ * as `Speakable` for voice assistants (Google Assistant/Actions, and other
+ * engines that read this property) — only the classes actually present on
+ * the page rendering this should be listed.
+ */
+export function speakableJsonLd(url: string, cssSelectors: string[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: cssSelectors,
+    },
+  };
+}
+
 /** FAQPage from the contact-page FAQ list. */
 export function faqJsonLd(items: { question: string; answer: string }[]) {
   return {

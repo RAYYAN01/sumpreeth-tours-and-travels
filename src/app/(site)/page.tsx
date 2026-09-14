@@ -17,8 +17,8 @@ import WhyChooseUs from "@/components/site/WhyChooseUs";
 import TestimonialCarousel from "@/components/site/TestimonialCarousel";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
-import { pageMeta } from "@/lib/seo";
-import { reviewJsonLd } from "@/lib/structured-data";
+import { pageMeta, SITE_URL } from "@/lib/seo";
+import { reviewJsonLd, speakableJsonLd } from "@/lib/structured-data";
 
 export const revalidate = 300;
 
@@ -75,6 +75,12 @@ export default async function HomePage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(testimonialRating) }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(speakableJsonLd(SITE_URL, [".speakable-overview"])),
+        }}
+      />
 
       {/* Hero */}
       <section className="relative isolate flex min-h-[92vh] items-center overflow-hidden">
@@ -90,10 +96,10 @@ export default async function HomePage() {
             <p className="inline-flex rounded-full bg-surface/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-saffron-200 ring-1 ring-white/20">
               {settings.hours}
             </p>
-            <h1 className="mt-5 text-display font-extrabold text-white">
+            <h1 className="speakable-overview mt-5 text-display font-extrabold text-white">
               {settings.heroHeadline}
             </h1>
-            <p className="mt-5 max-w-xl text-lead text-forest-100/90">
+            <p className="speakable-overview mt-5 max-w-xl text-lead text-forest-100/90">
               {settings.heroSubheadline}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">

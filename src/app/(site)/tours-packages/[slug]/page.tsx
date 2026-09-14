@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Check, MapPin, MessageCircle, Phone, X as XIcon, ExternalLink } from "lucide-react";
 import { getPackages, getPackageBySlug, getSiteSettings } from "@/lib/site";
-import { pageMeta, STATE_TOURISM_BOARD } from "@/lib/seo";
+import { pageMeta, STATE_TOURISM_BOARD, canonical } from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
-import { packageJsonLd, faqJsonLd } from "@/lib/structured-data";
+import { packageJsonLd, faqJsonLd, speakableJsonLd } from "@/lib/structured-data";
 import {
   PACKAGE_STATE_LABELS,
   type PackageState,
@@ -77,6 +77,17 @@ export default async function PackageDetailPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(pkg.faq)) }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            speakableJsonLd(canonical(`/tours-packages/${pkg.slug}`), [
+              ".speakable-overview",
+              ".speakable-faq",
+            ]),
+          ),
+        }}
+      />
 
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-forest-900 pt-28 text-white sm:pt-36">
@@ -134,7 +145,7 @@ export default async function PackageDetailPage({
       <Section className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-10">
           {/* Overview */}
-          <div className="reveal">
+          <div className="reveal speakable-overview">
             <h2 className="text-h3 font-bold text-ink">Overview</h2>
             <p className="mt-3 whitespace-pre-line text-bodytext">{pkg.description}</p>
           </div>
@@ -252,7 +263,7 @@ export default async function PackageDetailPage({
 
           {/* FAQ */}
           {pkg.faq.length > 0 && (
-            <div className="reveal">
+            <div className="reveal speakable-faq">
               <h2 className="text-h3 font-bold text-ink">Frequently Asked Questions</h2>
               <div className="mt-4">
                 <FaqAccordion

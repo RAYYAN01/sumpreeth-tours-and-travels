@@ -9,9 +9,9 @@ import {
   getVehicles,
   getSiteSettings,
 } from "@/lib/site";
-import { pageMeta, STATE_TOURISM_BOARD } from "@/lib/seo";
+import { pageMeta, STATE_TOURISM_BOARD, canonical } from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
-import { destinationJsonLd, faqJsonLd } from "@/lib/structured-data";
+import { destinationJsonLd, faqJsonLd, speakableJsonLd } from "@/lib/structured-data";
 import {
   DESTINATION_CATEGORY_LABELS,
   PACKAGE_STATE_LABELS,
@@ -113,6 +113,17 @@ export default async function DestinationDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faq)) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            speakableJsonLd(canonical(`/destination/${dest.slug}`), [
+              ".speakable-overview",
+              ".speakable-faq",
+            ]),
+          ),
+        }}
+      />
 
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-forest-900 pt-28 text-white sm:pt-36">
@@ -144,7 +155,7 @@ export default async function DestinationDetailPage({
           <h1 className="max-w-3xl text-h1 font-extrabold !text-white">
             Bangalore to {dest.name} Cab — One Way &amp; Round Trip Taxi
           </h1>
-          <p className="mt-4 max-w-2xl text-lead text-forest-100/85">
+          <p className="speakable-overview mt-4 max-w-2xl text-lead text-forest-100/85">
             {dest.description}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -240,7 +251,7 @@ export default async function DestinationDetailPage({
           )}
 
           {/* FAQ */}
-          <div className="reveal">
+          <div className="reveal speakable-faq">
             <h2 className="text-h3 font-bold text-ink">
               Frequently Asked Questions
             </h2>
