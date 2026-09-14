@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, MessageCircle, Star, TrendingUp } from "lucide-react";
 import type { PackageView } from "@/lib/site";
-import { rupees } from "@/lib/format";
 import { contactLink } from "@/lib/whatsapp";
 
 export default function PackageCard({
@@ -81,14 +80,9 @@ export default function PackageCard({
               <Clock className="h-3 w-3" />
               {pkg.durationNights} Nights / {pkg.durationDays} Days
             </span>
-            <span className="text-xl font-extrabold tabular-nums text-ink">
-              {pkg.startingPrice != null ? rupees(pkg.startingPrice) : "On request"}
+            <span className="text-base font-bold text-ink">
+              Price on request
             </span>
-            {pkg.startingPrice != null && (
-              <span className="ml-1 text-xs text-forest-500 dark:text-forest-400">
-                {pkg.priceType === "PER_PERSON" ? "per person" : "per package"}
-              </span>
-            )}
           </div>
           <a
             href={wa}

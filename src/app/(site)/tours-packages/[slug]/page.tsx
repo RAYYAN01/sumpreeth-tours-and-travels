@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Check, MapPin, MessageCircle, Phone, X as XIcon } from "lucide-react";
 import { getPackages, getPackageBySlug, getSiteSettings } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
-import { rupees } from "@/lib/format";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { packageJsonLd, faqJsonLd } from "@/lib/structured-data";
 import {
@@ -110,20 +109,10 @@ export default async function PackageDetailPage({
             {pkg.shortDescription}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <span className="text-2xl font-extrabold tabular-nums text-white">
-              {pkg.startingPrice != null ? rupees(pkg.startingPrice) : "On request"}
+            <span className="text-lg font-bold text-white">Price on request</span>
+            <span className="text-sm text-forest-100/70">
+              {pkg.durationNights}N / {pkg.durationDays}D
             </span>
-            {pkg.startingPrice != null && (
-              <span className="text-sm text-forest-100/70">
-                {pkg.priceType === "PER_PERSON" ? "per person" : "per package"} ·{" "}
-                {pkg.durationNights}N / {pkg.durationDays}D
-              </span>
-            )}
-            {pkg.startingPrice == null && (
-              <span className="text-sm text-forest-100/70">
-                {pkg.durationNights}N / {pkg.durationDays}D
-              </span>
-            )}
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-accent btn-shine">
@@ -230,15 +219,12 @@ export default async function PackageDetailPage({
 
           {/* Pricing note */}
           <div className="reveal rounded-2xl bg-forest-50 p-5 text-sm text-ink dark:bg-white/[0.04]">
-            <p className="font-semibold">
-              Starting from{" "}
-              {pkg.startingPrice != null ? rupees(pkg.startingPrice) : "— on request"}
-            </p>
+            <p className="font-semibold">Pricing on request</p>
             <p className="mt-1 text-bodytext">
-              Final pricing may vary based on vehicle, hotel category, travel dates,
-              number of travellers and itinerary. Tolls, parking, permits and state
-              taxes are charged at actuals. Share your dates and group size for an
-              exact quotation.
+              Pricing depends on vehicle, hotel category, travel dates, number of
+              travellers and itinerary. Tolls, parking, permits and state taxes are
+              charged at actuals. Share your dates and group size for an exact
+              quotation.
             </p>
           </div>
 

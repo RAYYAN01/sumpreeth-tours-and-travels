@@ -148,18 +148,6 @@ export function packageJsonLd(pkg: PackageView) {
     ),
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Tour package",
-    ...(pkg.startingPrice != null
-      ? {
-          offers: {
-            "@type": "Offer",
-            priceCurrency: "INR",
-            price: String(pkg.startingPrice),
-            availability: "https://schema.org/InStock",
-            url,
-            seller: { "@id": `${SITE_URL}/#business` },
-          },
-        }
-      : {}),
   };
 }
 

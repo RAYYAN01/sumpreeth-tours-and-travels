@@ -13,7 +13,7 @@ import {
 } from "@/lib/constants";
 import PackageCard from "./PackageCard";
 
-type Sort = "popular" | "price-asc" | "price-desc" | "duration";
+type Sort = "popular" | "duration";
 
 export default function PackagesView({
   packages,
@@ -45,10 +45,6 @@ export default function PackagesView({
     });
 
     list = [...list].sort((a, b) => {
-      if (sort === "price-asc")
-        return (a.startingPrice ?? Infinity) - (b.startingPrice ?? Infinity);
-      if (sort === "price-desc")
-        return (b.startingPrice ?? -1) - (a.startingPrice ?? -1);
       if (sort === "duration") return a.durationDays - b.durationDays;
       // "popular": featured, then popular, then explicit sortOrder
       return (
@@ -112,8 +108,6 @@ export default function PackagesView({
             className="field-input w-auto min-w-[9rem] flex-1 sm:flex-none"
           >
             <option value="popular">Sort: Popular first</option>
-            <option value="price-asc">Sort: Price — low to high</option>
-            <option value="price-desc">Sort: Price — high to low</option>
             <option value="duration">Sort: Shortest trip first</option>
           </select>
         </div>
