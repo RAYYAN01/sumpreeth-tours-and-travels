@@ -93,5 +93,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
+  for (const d of destinations) {
+    entries.push({
+      url: abs(`/destination/${d.slug}`),
+      lastModified: d.updatedAt ?? now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+      images: [absImg(d.imageUrl)],
+    });
+  }
+
   return entries;
 }

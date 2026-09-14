@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
-import type { Destination } from "@prisma/client";
+import type { DestinationView as Destination } from "@/lib/site";
 import {
   DESTINATION_CATEGORY_LABELS,
   DESTINATION_CATEGORY_ORDER,
@@ -45,8 +45,8 @@ const FEATURED = [
 
 const TABS: ("ALL" | DestinationCategory)[] = ["ALL", ...DESTINATION_CATEGORY_ORDER];
 
-function planHref(name: string) {
-  return `/contact?destination=${encodeURIComponent(name)}`;
+function planHref(d: Destination) {
+  return `/destination/${d.slug}`;
 }
 
 export default function DestinationView({
@@ -78,7 +78,7 @@ export default function DestinationView({
           {featured.map((d) => (
             <Link
               key={d.id}
-              href={planHref(d.name)}
+              href={planHref(d)}
               className="group relative block aspect-[4/3] overflow-hidden rounded-2xl shadow-card ring-1 ring-black/5"
             >
               <Image
@@ -144,7 +144,7 @@ export default function DestinationView({
               {items.map((d) => (
                 <li key={d.id} className="min-w-0">
                   <Link
-                    href={planHref(d.name)}
+                    href={planHref(d)}
                     className="group flex min-w-0 items-start justify-between gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-forest-50 dark:hover:bg-white/[0.04]"
                   >
                     <span className="min-w-0">

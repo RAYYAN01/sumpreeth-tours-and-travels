@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { destinationSchema } from "@/lib/validation";
 import { formObject } from "@/lib/form";
+import { encodeList } from "@/lib/packages";
 import { revalidatePublic } from "@/lib/revalidate";
 import { TAGS } from "@/lib/site";
 import type { ActionResult } from "@/components/admin/form";
@@ -50,11 +51,16 @@ export async function saveDestinationAction(
       name: d.name,
       slug,
       category: d.category,
+      state: d.state,
       description: d.description,
       imageUrl: d.imageUrl,
       distanceKm: d.distanceKm,
+      highlights: encodeList((d.highlights ?? "").split("\n")),
+      packageSlug: d.packageSlug || null,
       sortOrder: d.sortOrder,
       isActive: d.isActive,
+      seoTitle: d.seoTitle || null,
+      seoDescription: d.seoDescription || null,
     };
 
     if (id) await prisma.destination.update({ where: { id }, data });

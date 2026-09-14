@@ -1,10 +1,19 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { prisma } from "./db";
+import type { Destination } from "@prisma/client";
 import { decodeFeatures, type VehicleView } from "./features";
-import { decodePackage, type PackageView } from "./packages";
+import { decodePackage, decodeList, type PackageView } from "./packages";
 
 export type { VehicleView, PackageView };
+
+export type DestinationView = Omit<Destination, "highlights"> & {
+  highlights: string[];
+};
+
+function decodeDestination(row: Destination): DestinationView {
+  return { ...row, highlights: decodeList(row.highlights) };
+}
 
 /**
  * Cached read helpers for the public site. Each is tagged so the admin portal
@@ -94,12 +103,13 @@ export async function getVehicleBySlug(
 }
 
 export const getDestinations = unstable_cache(
-  async () => {
+  async (): Promise<DestinationView[]> => {
     try {
-      return await prisma.destination.findMany({
+      const rows = await prisma.destination.findMany({
         where: { isActive: true },
         orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       });
+      return rows.map(decodeDestination);
     } catch {
       return [];
     }
@@ -107,6 +117,14 @@ export const getDestinations = unstable_cache(
   ["destinations"],
   { tags: [TAGS.destinations], revalidate: 3600 },
 );
+
+/** Single active destination by slug, with highlights decoded. */
+export async function getDestinationBySlug(
+  slug: string,
+): Promise<DestinationView | null> {
+  const all = await getDestinations();
+  return all.find((d) => d.slug === slug) ?? null;
+}
 
 export const getTestimonials = unstable_cache(
   async () => {

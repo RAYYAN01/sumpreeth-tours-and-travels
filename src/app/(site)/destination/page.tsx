@@ -10,9 +10,9 @@ import Section from "@/components/site/Section";
 export const revalidate = 600;
 
 export const metadata = pageMeta({
-  title: "Destinations Across Karnataka & South India",
+  title: "One Way & Outstation Cabs from Bangalore",
   description:
-    "Cab and tempo traveller trips from Bangalore to Coorg, Chikmagalur, Hampi, Mysore, Dharmasthala, Gokarna and interior Karnataka towns, plus outstation routes to Ooty, Munnar, Tirupati and Hyderabad.",
+    "Book a one-way cab, round-trip taxi or local cab from Bangalore to Coorg, Chikmagalur, Hampi, Mysore, Dharmasthala, Gokarna, Ooty, Munnar, Tirupati, Hyderabad and 40+ destinations across Karnataka and South India.",
   path: "/destination",
   image: "/images/destinations/hero-bangalore.webp",
 });
@@ -29,8 +29,8 @@ export default async function DestinationPage() {
     <>
       <PageHeader
         trail={[["Destinations", "/destination"]]}
-        title="From city landmarks to interior villages"
-        intro="We cover every major Karnataka city and countless interior towns and villages, with extended outstation routes into Tamil Nadu, Kerala, Andhra Pradesh and Telangana. Pick a destination to start planning."
+        title="One Way, Round Trip & Local Cabs from Bangalore"
+        intro="Book a one-way cab, round-trip taxi or full-day local cab to every major Karnataka city and countless interior towns and villages, with outstation routes into Tamil Nadu, Kerala, Andhra Pradesh, Telangana, Goa and Puducherry. Pick a destination for route details, cab options and fares."
         image="/images/destinations/hero-bangalore.webp"
         imageAlt="Bengaluru skyline at dusk"
       />

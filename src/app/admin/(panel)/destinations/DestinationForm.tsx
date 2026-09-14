@@ -7,7 +7,10 @@ import { saveDestinationAction } from "./actions";
 import {
   DESTINATION_CATEGORY_LABELS,
   DESTINATION_CATEGORY_ORDER,
+  PACKAGE_STATE_LABELS,
+  PACKAGE_STATE_ORDER,
 } from "@/lib/constants";
+import { decodeList } from "@/lib/packages";
 import {
   emptyResult,
   SubmitButton,
@@ -38,8 +41,25 @@ export default function DestinationForm({ dest }: { dest?: Destination }) {
             label: DESTINATION_CATEGORY_LABELS[k],
           }))}
         />
+        <Select
+          name="state"
+          label="State"
+          defaultValue={dest?.state ?? PACKAGE_STATE_ORDER[0]}
+          error={fe.state}
+          options={PACKAGE_STATE_ORDER.map((k) => ({
+            value: k,
+            label: PACKAGE_STATE_LABELS[k],
+          }))}
+        />
         <Text name="imageUrl" label="Image URL" defaultValue={dest?.imageUrl} error={fe.imageUrl} required />
         <Text name="distanceKm" label="Distance from Bangalore (km)" type="number" defaultValue={dest?.distanceKm} error={fe.distanceKm} />
+        <Text
+          name="packageSlug"
+          label="Linked tour package slug (optional)"
+          defaultValue={dest?.packageSlug ?? ""}
+          error={fe.packageSlug}
+          hint="e.g. bangalore-to-coorg — shows a link to that multi-day package on this page."
+        />
       </div>
 
       <Textarea
@@ -50,6 +70,20 @@ export default function DestinationForm({ dest }: { dest?: Destination }) {
         rows={3}
         hint="One or two sentences."
       />
+
+      <Textarea
+        name="highlights"
+        label="Highlights"
+        defaultValue={dest ? decodeList(dest.highlights).join("\n") : ""}
+        error={fe.highlights}
+        rows={4}
+        hint="One highlight per line — real, specific things to see or do."
+      />
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Text name="seoTitle" label="SEO title (optional)" defaultValue={dest?.seoTitle ?? ""} error={fe.seoTitle} />
+        <Text name="seoDescription" label="SEO description (optional)" defaultValue={dest?.seoDescription ?? ""} error={fe.seoDescription} />
+      </div>
 
       <div className="flex items-end gap-6">
         <Text name="sortOrder" label="Sort order" type="number" defaultValue={dest?.sortOrder ?? 0} error={fe.sortOrder} />

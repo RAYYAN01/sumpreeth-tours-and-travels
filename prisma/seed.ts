@@ -10,6 +10,14 @@ type DestinationCategory =
   | "NATURE_FALLS"
   | "MAJOR_CITY"
   | "OUTSTATION_GETAWAY";
+type PackageStateSeed =
+  | "KARNATAKA"
+  | "KERALA"
+  | "TAMIL_NADU"
+  | "ANDHRA_PRADESH"
+  | "TELANGANA"
+  | "GOA"
+  | "PUDUCHERRY";
 
 const prisma = new PrismaClient();
 
@@ -339,76 +347,79 @@ async function main() {
   type DestSeed = {
     name: string;
     category: DestinationCategory;
+    state: PackageStateSeed;
     description: string;
     distanceKm?: number;
+    highlights: string[];
+    packageSlug?: string;
   };
 
   const destinations: DestSeed[] = [
     // Hill stations
-    { name: "Madikeri / Coorg", category: "HILL_STATION", description: "Misty coffee estates, waterfalls and valley viewpoints in the Western Ghats.", distanceKm: 260 },
-    { name: "Chikmagalur", category: "HILL_STATION", description: "Karnataka's coffee land with trekking trails up to Mullayanagiri, the state's highest peak.", distanceKm: 245 },
-    { name: "Savandurga Hills", category: "HILL_STATION", description: "One of Asia's largest monolithic hills, a popular day trip for hikes and sunrise views.", distanceKm: 55 },
-    { name: "Bilikal Rangaswamy Betta", category: "HILL_STATION", description: "Forest hill shrine near Kanakapura with panoramic ridge-line views.", distanceKm: 90 },
-    { name: "Chikkaballapura (Nandi region)", category: "HILL_STATION", description: "Gateway to Nandi Hills, Skandagiri and cool early-morning drives from the city.", distanceKm: 60 },
-    { name: "Sakleshpur", category: "HILL_STATION", description: "Misty Western Ghats hill town on the Bengaluru–Mangaluru route, with coffee estates and the scenic Green Route railway.", distanceKm: 220 },
+    { name: "Madikeri / Coorg", category: "HILL_STATION", state: "KARNATAKA", description: "Misty coffee estates, waterfalls and valley viewpoints in the Western Ghats.", distanceKm: 260, packageSlug: "bangalore-to-coorg", highlights: ["Abbey Falls and Raja's Seat viewpoint", "Dubare Elephant Camp on the Kaveri", "Namdroling Golden Temple at Kushalnagar"] },
+    { name: "Chikmagalur", category: "HILL_STATION", state: "KARNATAKA", description: "Karnataka's coffee land with trekking trails up to Mullayanagiri, the state's highest peak.", distanceKm: 245, packageSlug: "bangalore-to-chikmagalur", highlights: ["Mullayanagiri, Karnataka's highest peak", "Baba Budangiri hill shrine", "Working coffee estate stays"] },
+    { name: "Savandurga Hills", category: "HILL_STATION", state: "KARNATAKA", description: "One of Asia's largest monolithic hills, a popular day trip for hikes and sunrise views.", distanceKm: 55, highlights: ["One of Asia's largest monolithic hills", "Popular sunrise trek close to the city", "A base for local rock-climbing groups"] },
+    { name: "Bilikal Rangaswamy Betta", category: "HILL_STATION", state: "KARNATAKA", description: "Forest hill shrine near Kanakapura with panoramic ridge-line views.", distanceKm: 90, highlights: ["Forest hill shrine near Kanakapura", "Ridge-line views over the Cauvery valley", "A quieter day-trek away from crowded trails"] },
+    { name: "Chikkaballapura (Nandi region)", category: "HILL_STATION", state: "KARNATAKA", description: "Gateway to Nandi Hills, Skandagiri and cool early-morning drives from the city.", distanceKm: 60, highlights: ["Nandi Hills sunrise viewpoint", "Skandagiri night trekking", "Bhoga Nandeeswara Temple, one of Karnataka's oldest"] },
+    { name: "Sakleshpur", category: "HILL_STATION", state: "KARNATAKA", description: "Misty Western Ghats hill town on the Bengaluru–Mangaluru route, with coffee estates and the scenic Green Route railway.", distanceKm: 220, packageSlug: "bangalore-to-sakleshpur", highlights: ["Manjarabad Fort's star-shaped ramparts", "The historic Green Route railway trail", "Western Ghats coffee-estate stays"] },
 
     // Heritage & culture
-    { name: "Hampi", category: "HERITAGE", description: "UNESCO World Heritage ruins of the Vijayanagara Empire spread across a boulder landscape.", distanceKm: 340 },
-    { name: "Chitradurga", category: "HERITAGE", description: "The seven-walled hill fort of the Nayakas, wrapped in dramatic rock formations.", distanceKm: 200 },
-    { name: "Shravanabelagola", category: "HERITAGE", description: "Towering monolithic statue of Bahubali atop Vindhyagiri, a major Jain pilgrimage site.", distanceKm: 145 },
-    { name: "Srirangapatna", category: "HERITAGE", description: "Island fortress town of Tipu Sultan with palaces, temples and riverside history.", distanceKm: 125 },
-    { name: "Bangalore Palace", category: "HERITAGE", description: "Tudor-style royal residence of the Wadiyars in the heart of the city.", distanceKm: 5 },
-    { name: "Bijapur (Vijayapura)", category: "HERITAGE", description: "Home of the Gol Gumbaz and grand Adil Shahi monuments of the Deccan.", distanceKm: 530 },
-    { name: "Bagalkot / Badami-Aihole belt", category: "HERITAGE", description: "Cave temples and early Chalukyan rock architecture around Badami.", distanceKm: 460 },
-    { name: "Channapatna", category: "HERITAGE", description: "The 'toy town' famous for lacquered wooden toys, an easy stop on the Mysore road.", distanceKm: 60 },
+    { name: "Hampi", category: "HERITAGE", state: "KARNATAKA", description: "UNESCO World Heritage ruins of the Vijayanagara Empire spread across a boulder landscape.", distanceKm: 340, packageSlug: "bangalore-to-hampi", highlights: ["Virupaksha Temple and the Vittala stone chariot", "Boulder-strewn Vijayanagara ruins", "Hemakuta Hill sunset point"] },
+    { name: "Chitradurga", category: "HERITAGE", state: "KARNATAKA", description: "The seven-walled hill fort of the Nayakas, wrapped in dramatic rock formations.", distanceKm: 200, highlights: ["Seven-walled Nayaka-era hill fort", "Dramatic rock bastions and hidden step-wells", "The Onake Obavva cave, tied to a local legend"] },
+    { name: "Shravanabelagola", category: "HERITAGE", state: "KARNATAKA", description: "Towering monolithic statue of Bahubali atop Vindhyagiri, a major Jain pilgrimage site.", distanceKm: 145, highlights: ["57-foot Bahubali monolith atop Vindhyagiri", "Major Jain pilgrimage centre", "Mahamastakabhisheka festival held every 12 years"] },
+    { name: "Srirangapatna", category: "HERITAGE", state: "KARNATAKA", description: "Island fortress town of Tipu Sultan with palaces, temples and riverside history.", distanceKm: 125, highlights: ["Tipu Sultan's island fortress and Summer Palace", "Sri Ranganathaswamy Temple", "Close to Ranganathittu Bird Sanctuary"] },
+    { name: "Bangalore Palace", category: "HERITAGE", state: "KARNATAKA", description: "Tudor-style royal residence of the Wadiyars in the heart of the city.", distanceKm: 5, highlights: ["Tudor-style royal residence of the Wadiyars", "Antique furniture and royal portrait galleries", "Popular concert and event lawns"] },
+    { name: "Bijapur (Vijayapura)", category: "HERITAGE", state: "KARNATAKA", description: "Home of the Gol Gumbaz and grand Adil Shahi monuments of the Deccan.", distanceKm: 530, highlights: ["Gol Gumbaz, one of the world's largest domes", "Ibrahim Rauza's Indo-Islamic architecture", "Adil Shahi-era forts and mosques"] },
+    { name: "Bagalkot / Badami-Aihole belt", category: "HERITAGE", state: "KARNATAKA", description: "Cave temples and early Chalukyan rock architecture around Badami.", distanceKm: 460, highlights: ["Badami's rock-cut cave temples", "Aihole's early Chalukyan temple cluster", "Pattadakal, a UNESCO World Heritage site nearby"] },
+    { name: "Channapatna", category: "HERITAGE", state: "KARNATAKA", description: "The 'toy town' famous for lacquered wooden toys, an easy stop on the Mysore road.", distanceKm: 60, highlights: ["The 'toy town' famous for lacquered wooden toys", "Roadside workshops open to visitors", "A handy stop on the Bangalore–Mysore highway"] },
 
     // Pilgrimage
-    { name: "Dharmasthala", category: "PILGRIMAGE", description: "Renowned Manjunatha temple town in Dakshina Kannada, open to all faiths.", distanceKm: 295 },
-    { name: "Kukke Subramanya", category: "PILGRIMAGE", description: "Ancient serpent-deity temple set against the forested Kumara Parvatha.", distanceKm: 280 },
-    { name: "Sringeri", category: "PILGRIMAGE", description: "Sharada Peetham on the banks of the Tunga, founded by Adi Shankaracharya.", distanceKm: 330 },
-    { name: "Udupi", category: "PILGRIMAGE", description: "Krishna Matha temple town, also the birthplace of Udupi cuisine.", distanceKm: 400 },
-    { name: "Murudeshwar", category: "PILGRIMAGE", description: "Giant Shiva statue on a headland jutting into the Arabian Sea.", distanceKm: 460 },
-    { name: "Tirupati", category: "PILGRIMAGE", description: "Sri Venkateswara temple at Tirumala, one of the world's most-visited shrines.", distanceKm: 250 },
-    { name: "Mantralaya", category: "PILGRIMAGE", description: "Sri Raghavendra Swamy Mutt on the banks of the Tungabhadra, just across the Andhra border near Raichur.", distanceKm: 340 },
-    { name: "Rameswaram", category: "PILGRIMAGE", description: "Island temple town of the Ramanathaswamy shrine and Pamban bridge, one of the Char Dham sites.", distanceKm: 620 },
+    { name: "Dharmasthala", category: "PILGRIMAGE", state: "KARNATAKA", description: "Renowned Manjunatha temple town in Dakshina Kannada, open to all faiths.", distanceKm: 295, highlights: ["Sri Manjunatha Temple, open to all faiths", "Free community meals (Bhojanshala) for pilgrims", "Manjusha Museum of art and antiques"] },
+    { name: "Kukke Subramanya", category: "PILGRIMAGE", state: "KARNATAKA", description: "Ancient serpent-deity temple set against the forested Kumara Parvatha.", distanceKm: 280, highlights: ["Ancient serpent-deity (Naga) temple", "Set against the forested Kumara Parvatha peak", "Popular for Sarpa Samskara rituals"] },
+    { name: "Sringeri", category: "PILGRIMAGE", state: "KARNATAKA", description: "Sharada Peetham on the banks of the Tunga, founded by Adi Shankaracharya.", distanceKm: 330, highlights: ["Sharada Peetham founded by Adi Shankaracharya", "Vidyashankara Temple on the Tunga riverbank", "Gateway to the Kudremukh forest range"] },
+    { name: "Udupi", category: "PILGRIMAGE", state: "KARNATAKA", description: "Krishna Matha temple town, also the birthplace of Udupi cuisine.", distanceKm: 400, highlights: ["Krishna Matha and its famous Kanakana Kindi window", "Birthplace of Udupi cuisine", "Close to Malpe and St. Mary's Island beaches"] },
+    { name: "Murudeshwar", category: "PILGRIMAGE", state: "KARNATAKA", description: "Giant Shiva statue on a headland jutting into the Arabian Sea.", distanceKm: 460, highlights: ["One of the world's tallest Shiva statues", "A headland temple jutting into the Arabian Sea", "Ropeway ride to the Raja Gopura viewpoint"] },
+    { name: "Tirupati", category: "PILGRIMAGE", state: "ANDHRA_PRADESH", description: "Sri Venkateswara temple at Tirumala, one of the world's most-visited shrines.", distanceKm: 250, packageSlug: "bangalore-to-tirupati", highlights: ["Sri Venkateswara Temple at Tirumala", "One of the world's most-visited pilgrimage sites", "Scenic ghat-road drive up the seven hills"] },
+    { name: "Mantralaya", category: "PILGRIMAGE", state: "ANDHRA_PRADESH", description: "Sri Raghavendra Swamy Mutt on the banks of the Tungabhadra, just across the Andhra border near Raichur.", distanceKm: 340, highlights: ["Sri Raghavendra Swamy Mutt on the Tungabhadra", "Brindavana samadhi shrine", "A popular day pilgrimage near the Karnataka border"] },
+    { name: "Rameswaram", category: "PILGRIMAGE", state: "TAMIL_NADU", description: "Island temple town of the Ramanathaswamy shrine and Pamban bridge, one of the Char Dham sites.", distanceKm: 620, packageSlug: "bangalore-to-kanyakumari-rameswaram", highlights: ["Ramanathaswamy Temple's famous pillared corridor", "Pamban Bridge over the sea", "Dhanushkodi's ghost-town coastline"] },
 
     // Nature & falls
-    { name: "Shivanasamudra Falls", category: "NATURE_FALLS", description: "Twin segmented falls on the Kaveri — Gaganachukki and Bharachukki.", distanceKm: 135 },
-    { name: "Lalbagh Botanical Garden", category: "NATURE_FALLS", description: "240-acre heritage garden with a glass house and 200-year-old trees, inside Bangalore.", distanceKm: 6 },
-    { name: "Cubbon Park", category: "NATURE_FALLS", description: "Central green lung of Bangalore, ideal for a relaxed morning stop.", distanceKm: 3 },
-    { name: "Gokarna", category: "NATURE_FALLS", description: "Temple town and a string of quiet crescent beaches on the Karnataka coast.", distanceKm: 480 },
+    { name: "Shivanasamudra Falls", category: "NATURE_FALLS", state: "KARNATAKA", description: "Twin segmented falls on the Kaveri — Gaganachukki and Bharachukki.", distanceKm: 135, highlights: ["Twin falls — Gaganachukki and Bharachukki — on the Kaveri", "Best seen just after the monsoon", "Close to Srirangapatna and Somnathpur"] },
+    { name: "Lalbagh Botanical Garden", category: "NATURE_FALLS", state: "KARNATAKA", description: "240-acre heritage garden with a glass house and 200-year-old trees, inside Bangalore.", distanceKm: 6, highlights: ["240-acre heritage garden with a glass house", "200-year-old trees and a rock over 3,000 million years old", "Flower shows during Republic Day and Independence Day"] },
+    { name: "Cubbon Park", category: "NATURE_FALLS", state: "KARNATAKA", description: "Central green lung of Bangalore, ideal for a relaxed morning stop.", distanceKm: 3, highlights: ["Central green lung of Bangalore", "Century-old rain trees and walking trails", "The State Central Library and High Court nearby"] },
+    { name: "Gokarna", category: "NATURE_FALLS", state: "KARNATAKA", description: "Temple town and a string of quiet crescent beaches on the Karnataka coast.", distanceKm: 480, packageSlug: "bangalore-to-gokarna", highlights: ["Mahabaleshwar Temple darshan", "Om Beach, Kudle Beach and Half Moon Beach", "A quieter coastal alternative to Goa"] },
 
     // Major cities
-    { name: "Mysore", category: "MAJOR_CITY", description: "Palace city with Chamundi Hills, Brindavan Gardens and a rich royal legacy.", distanceKm: 145 },
-    { name: "Mangalore", category: "MAJOR_CITY", description: "Coastal commercial hub with beaches, temples and Mangalorean cuisine.", distanceKm: 350 },
-    { name: "Hassan", category: "MAJOR_CITY", description: "Base for the Hoysala temples of Belur and Halebeedu.", distanceKm: 185 },
-    { name: "Shivamogga", category: "MAJOR_CITY", description: "'Gateway to the Malnad' and the Jog Falls region.", distanceKm: 275 },
-    { name: "Hubli–Dharwad", category: "MAJOR_CITY", description: "North Karnataka's twin-city commercial and cultural centre.", distanceKm: 410 },
-    { name: "Belgaum (Belagavi)", category: "MAJOR_CITY", description: "Fort city near the Maharashtra border with a pleasant climate.", distanceKm: 500 },
-    { name: "Davanagere", category: "MAJOR_CITY", description: "Central Karnataka hub, famous for its benne dosa.", distanceKm: 260 },
-    { name: "Tumkur", category: "MAJOR_CITY", description: "Fast-growing city on the Bangalore–Pune highway, near Devarayanadurga.", distanceKm: 70 },
-    { name: "Hospet (Hosapete)", category: "MAJOR_CITY", description: "The road and rail base for visiting Hampi.", distanceKm: 320 },
-    { name: "Ballari (Bellary)", category: "MAJOR_CITY", description: "Historic fort city of the mining belt in eastern Karnataka.", distanceKm: 305 },
-    { name: "Raichur", category: "MAJOR_CITY", description: "Doab city between the Krishna and Tungabhadra with a medieval fort.", distanceKm: 410 },
-    { name: "Mandya", category: "MAJOR_CITY", description: "Sugarcane heartland on the Bangalore–Mysore corridor.", distanceKm: 100 },
-    { name: "Kushal Nagar", category: "MAJOR_CITY", description: "Town near Coorg with the Namdroling (Golden) Monastery at Bylakuppe.", distanceKm: 245 },
+    { name: "Mysore", category: "MAJOR_CITY", state: "KARNATAKA", description: "Palace city with Chamundi Hills, Brindavan Gardens and a rich royal legacy.", distanceKm: 145, packageSlug: "bangalore-to-mysore", highlights: ["Illuminated Mysore Palace", "Chamundi Hills temple", "Brindavan Gardens musical fountain"] },
+    { name: "Mangalore", category: "MAJOR_CITY", state: "KARNATAKA", description: "Coastal commercial hub with beaches, temples and Mangalorean cuisine.", distanceKm: 350, highlights: ["Panambur and Tannirbhavi beaches", "Historic coastal temples", "Well-known Mangalorean seafood cuisine"] },
+    { name: "Hassan", category: "MAJOR_CITY", state: "KARNATAKA", description: "Base for the Hoysala temples of Belur and Halebeedu.", distanceKm: 185, highlights: ["Base for the Hoysala temples of Belur and Halebeedu", "Intricate stone carving up close", "Gateway to Sakleshpur and Sringeri"] },
+    { name: "Shivamogga", category: "MAJOR_CITY", state: "KARNATAKA", description: "'Gateway to the Malnad' and the Jog Falls region.", distanceKm: 275, highlights: ["'Gateway to the Malnad' hill region", "Close to Jog Falls, India's second-highest falls", "Tyavarekoppa Lion & Tiger Reserve nearby"] },
+    { name: "Hubli–Dharwad", category: "MAJOR_CITY", state: "KARNATAKA", description: "North Karnataka's twin-city commercial and cultural centre.", distanceKm: 410, highlights: ["North Karnataka's twin-city commercial hub", "Famous Dharwad peda sweet", "Old-town heritage streets around Unkal Lake"] },
+    { name: "Belgaum (Belagavi)", category: "MAJOR_CITY", state: "KARNATAKA", description: "Fort city near the Maharashtra border with a pleasant climate.", distanceKm: 500, highlights: ["Belgaum Fort near the Maharashtra border", "Pleasant year-round climate", "Kamal Basti's Jain architecture"] },
+    { name: "Davanagere", category: "MAJOR_CITY", state: "KARNATAKA", description: "Central Karnataka hub, famous for its benne dosa.", distanceKm: 260, highlights: ["Famous for its benne (butter) dosa", "Central Karnataka trading hub", "Close to the Kondajji forest range"] },
+    { name: "Tumkur", category: "MAJOR_CITY", state: "KARNATAKA", description: "Fast-growing city on the Bangalore–Pune highway, near Devarayanadurga.", distanceKm: 70, highlights: ["Devarayanadurga hill temple nearby", "Siddaganga Mutt, a well-known education centre", "On the Bangalore–Pune highway"] },
+    { name: "Hospet (Hosapete)", category: "MAJOR_CITY", state: "KARNATAKA", description: "The road and rail base for visiting Hampi.", distanceKm: 320, highlights: ["The road and rail base for visiting Hampi", "Tungabhadra Dam and gardens nearby", "Kamalapura's Archaeological Museum"] },
+    { name: "Ballari (Bellary)", category: "MAJOR_CITY", state: "KARNATAKA", description: "Historic fort city of the mining belt in eastern Karnataka.", distanceKm: 305, highlights: ["Historic fort city of the mining belt", "Gandhi Nagar market and old-town bazaars", "Close to the Hampi heritage zone"] },
+    { name: "Raichur", category: "MAJOR_CITY", state: "KARNATAKA", description: "Doab city between the Krishna and Tungabhadra with a medieval fort.", distanceKm: 410, highlights: ["Doab city between the Krishna and Tungabhadra", "Medieval Raichur Fort", "Historic mosques and temples side by side"] },
+    { name: "Mandya", category: "MAJOR_CITY", state: "KARNATAKA", description: "Sugarcane heartland on the Bangalore–Mysore corridor.", distanceKm: 100, highlights: ["Sugarcane heartland on the Bangalore–Mysore corridor", "Close to the Krishna Raja Sagara (KRS) dam", "A convenient stop en route to Coorg or Mysore"] },
+    { name: "Kushal Nagar", category: "MAJOR_CITY", state: "KARNATAKA", description: "Town near Coorg with the Namdroling (Golden) Monastery at Bylakuppe.", distanceKm: 245, highlights: ["Namdroling (Golden) Monastery at Bylakuppe", "Gateway town to Coorg", "Dubare elephant camp nearby"] },
 
     // Outstation getaways (South India)
-    { name: "Ooty", category: "OUTSTATION_GETAWAY", description: "The 'Queen of the Nilgiris' — tea gardens, lake and toy train.", distanceKm: 270 },
-    { name: "Kodaikanal", category: "OUTSTATION_GETAWAY", description: "Tamil Nadu hill station around a star-shaped lake and pine forests.", distanceKm: 465 },
-    { name: "Munnar", category: "OUTSTATION_GETAWAY", description: "Rolling Kerala tea country with Eravikulam National Park nearby.", distanceKm: 490 },
-    { name: "Wayanad", category: "OUTSTATION_GETAWAY", description: "Kerala's forested plateau with caves, waterfalls and wildlife.", distanceKm: 290 },
-    { name: "Coimbatore", category: "OUTSTATION_GETAWAY", description: "Industrial gateway city at the foot of the Western Ghats.", distanceKm: 360 },
-    { name: "Chennai", category: "OUTSTATION_GETAWAY", description: "Tamil Nadu's capital on the Coromandel Coast.", distanceKm: 350 },
-    { name: "Trichy (Tiruchirappalli)", category: "OUTSTATION_GETAWAY", description: "Rockfort city and the vast Srirangam temple complex.", distanceKm: 490 },
-    { name: "Madurai", category: "OUTSTATION_GETAWAY", description: "Temple city built around the Meenakshi Amman shrine.", distanceKm: 435 },
-    { name: "Pondicherry", category: "OUTSTATION_GETAWAY", description: "French-quarter streets, seafront promenade and Auroville.", distanceKm: 410 },
-    { name: "Hyderabad", category: "OUTSTATION_GETAWAY", description: "Telangana's capital — Charminar, Golconda and Hussain Sagar.", distanceKm: 570 },
-    { name: "Vijayawada", category: "OUTSTATION_GETAWAY", description: "Andhra Pradesh city on the Krishna river, near Amaravati.", distanceKm: 660 },
-    { name: "Kanyakumari", category: "OUTSTATION_GETAWAY", description: "India's southern tip where three seas meet — sunrise and sunset over water.", distanceKm: 690 },
-    { name: "Goa", category: "OUTSTATION_GETAWAY", description: "Beaches, Portuguese-era churches and easy nightlife on the Konkan coast.", distanceKm: 560 },
-    { name: "Alleppey (Kerala Backwaters)", category: "OUTSTATION_GETAWAY", description: "Houseboat cruises through the palm-fringed backwater canals of Alappuzha.", distanceKm: 590 },
-    { name: "Trivandrum & Kovalam", category: "OUTSTATION_GETAWAY", description: "Kerala's capital with the Padmanabhaswamy temple and the crescent beaches of Kovalam.", distanceKm: 715 },
+    { name: "Ooty", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "The 'Queen of the Nilgiris' — tea gardens, lake and toy train.", distanceKm: 270, packageSlug: "bangalore-to-ooty", highlights: ["Ooty Lake boating", "Doddabetta Peak viewpoint", "Nilgiri tea estates and the toy train route"] },
+    { name: "Kodaikanal", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Tamil Nadu hill station around a star-shaped lake and pine forests.", distanceKm: 465, packageSlug: "bangalore-to-kodaikanal", highlights: ["Star-shaped Kodai Lake", "Coaker's Walk and Pillar Rocks viewpoints", "Pine forests and Bryant Park"] },
+    { name: "Munnar", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Rolling Kerala tea country with Eravikulam National Park nearby.", distanceKm: 490, packageSlug: "bangalore-to-munnar", highlights: ["Rolling tea gardens as far as the eye can see", "Eravikulam National Park's Nilgiri Tahr", "Top Station viewpoint on the Kerala–TN border"] },
+    { name: "Wayanad", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Kerala's forested plateau with caves, waterfalls and wildlife.", distanceKm: 290, packageSlug: "bangalore-to-wayanad", highlights: ["Edakkal Caves' prehistoric rock carvings", "Banasura Sagar Dam", "Soochipara and Meenmutty waterfalls"] },
+    { name: "Coimbatore", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Industrial gateway city at the foot of the Western Ghats.", distanceKm: 360, highlights: ["Industrial gateway at the foot of the Western Ghats", "A base for Ooty and Valparai hill trips", "Marudamalai temple and Isha Yoga Center nearby"] },
+    { name: "Chennai", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Tamil Nadu's capital on the Coromandel Coast.", distanceKm: 350, highlights: ["Marina Beach, one of the world's longest urban beaches", "Kapaleeshwarar Temple in Mylapore", "Fort St. George's colonial history"] },
+    { name: "Trichy (Tiruchirappalli)", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Rockfort city and the vast Srirangam temple complex.", distanceKm: 490, highlights: ["Rockfort Temple perched on an ancient outcrop", "The vast Srirangam temple complex nearby", "Rock-cut cave temples with Pallava-era carvings"] },
+    { name: "Madurai", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "Temple city built around the Meenakshi Amman shrine.", distanceKm: 435, highlights: ["Meenakshi Amman Temple's towering gopurams", "Thirumalai Nayakkar Mahal palace", "One of India's oldest continuously inhabited cities"] },
+    { name: "Pondicherry", category: "OUTSTATION_GETAWAY", state: "PUDUCHERRY", description: "French-quarter streets, seafront promenade and Auroville.", distanceKm: 410, packageSlug: "bangalore-to-pondicherry", highlights: ["French Quarter's colonial streets", "Auroville and the Matrimandir", "Promenade and Paradise beaches"] },
+    { name: "Hyderabad", category: "OUTSTATION_GETAWAY", state: "TELANGANA", description: "Telangana's capital — Charminar, Golconda and Hussain Sagar.", distanceKm: 570, highlights: ["Charminar and the old-city bazaars", "Golconda Fort's acoustic engineering", "Hussain Sagar lake and the Buddha statue"] },
+    { name: "Vijayawada", category: "OUTSTATION_GETAWAY", state: "ANDHRA_PRADESH", description: "Andhra Pradesh city on the Krishna river, near Amaravati.", distanceKm: 660, highlights: ["Kanaka Durga Temple on Indrakeeladri hill", "Prakasam Barrage across the Krishna river", "Undavalli cave temples nearby"] },
+    { name: "Kanyakumari", category: "OUTSTATION_GETAWAY", state: "TAMIL_NADU", description: "India's southern tip where three seas meet — sunrise and sunset over water.", distanceKm: 690, packageSlug: "bangalore-to-kanyakumari-rameswaram", highlights: ["Vivekananda Rock Memorial", "Thiruvalluvar Statue", "Sunrise and sunset where three seas meet"] },
+    { name: "Goa", category: "OUTSTATION_GETAWAY", state: "GOA", description: "Beaches, Portuguese-era churches and easy nightlife on the Konkan coast.", distanceKm: 560, packageSlug: "bangalore-to-goa", highlights: ["Baga, Calangute and Palolem beaches", "Basilica of Bom Jesus in Old Goa", "Fort Aguada and Portuguese-era churches"] },
+    { name: "Alleppey (Kerala Backwaters)", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Houseboat cruises through the palm-fringed backwater canals of Alappuzha.", distanceKm: 590, highlights: ["Houseboat cruises through palm-fringed canals", "Kerala's 'Venice of the East'", "Alappuzha Beach and lighthouse"] },
+    { name: "Trivandrum & Kovalam", category: "OUTSTATION_GETAWAY", state: "KERALA", description: "Kerala's capital with the Padmanabhaswamy temple and the crescent beaches of Kovalam.", distanceKm: 715, highlights: ["Padmanabhaswamy Temple", "Kovalam's crescent lighthouse beach", "Napier Museum and Kerala capital sights"] },
   ];
 
   let order = 0;
@@ -419,11 +430,16 @@ async function main() {
       name: d.name,
       slug,
       category: d.category,
+      state: d.state,
       description: d.description,
       distanceKm: d.distanceKm ?? null,
+      highlights: JSON.stringify(d.highlights),
+      packageSlug: d.packageSlug ?? null,
       imageUrl: DEST_IMG[d.name] ?? destImageFor(d.category),
       sortOrder: order,
       isActive: true,
+      seoTitle: `Bangalore to ${d.name} Cab — One Way & Round Trip`,
+      seoDescription: `Book a one-way or round-trip cab from Bangalore to ${d.name}. ${d.description}`.slice(0, 165),
     };
     await prisma.destination.upsert({
       where: { slug },

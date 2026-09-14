@@ -1,9 +1,10 @@
 import { BUSINESS, SITE_NAME, SITE_URL, canonical } from "./seo";
-import type { SiteSettingsData } from "./site";
+import type { SiteSettingsData, DestinationView } from "./site";
 import type { VehicleView } from "./features";
 import { vehiclePhotos } from "./features";
 import type { PackageView } from "./packages";
 import { packagePhotos } from "./packages";
+import { PACKAGE_STATE_LABELS, type PackageState } from "./constants";
 
 /**
  * Site-wide JSON-LD graph: the local business (TravelAgency / TaxiService /
@@ -148,6 +149,45 @@ export function packageJsonLd(pkg: PackageView) {
     ),
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Tour package",
+  };
+}
+
+/**
+ * Cab/travel Service + informational TouristDestination for a Bangalore-origin
+ * route page (e.g. "Bangalore to Coorg cab"). One `Service` referencing the
+ * single business `@id` via `areaServed`, not a second LocalBusiness — a
+ * service area is not a branch.
+ */
+export function destinationJsonLd(dest: DestinationView) {
+  const url = canonical(`/destination/${dest.slug}`);
+  const stateName = PACKAGE_STATE_LABELS[dest.state as PackageState] ?? dest.state;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristDestination",
+        name: dest.name,
+        description: dest.description,
+        url,
+        image: canonical(dest.imageUrl),
+        containedInPlace: {
+          "@type": "AdministrativeArea",
+          name: stateName,
+        },
+      },
+      {
+        "@type": "Service",
+        serviceType: "Outstation cab and one-way taxi service",
+        name: `Bangalore to ${dest.name} cab service`,
+        description: `One-way and round-trip cab booking from Bangalore to ${dest.name}.`,
+        url,
+        provider: { "@id": `${SITE_URL}/#business` },
+        areaServed: {
+          "@type": "AdministrativeArea",
+          name: dest.name,
+        },
+      },
+    ],
   };
 }
 

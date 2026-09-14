@@ -85,15 +85,23 @@ model Destination {
   name        String
   slug        String   @unique
   category    String // HILL_STATION | HERITAGE | PILGRIMAGE | NATURE_FALLS | MAJOR_CITY | OUTSTATION_GETAWAY
+  state       String   @default("KARNATAKA")
   description String
   imageUrl    String
   distanceKm  Int?
+  highlights  String   @default("[]")
+  // Optional slug of a matching TourPackage — cross-links the cab-route page
+  // to a multi-day package for the same place, when one exists.
+  packageSlug String?
   sortOrder   Int      @default(0)
   isActive    Boolean  @default(true)
+  seoTitle       String?
+  seoDescription String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([category, sortOrder])
+  @@index([state, isActive])
 }
 
 // Testimonials

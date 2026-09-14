@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
-import type { Destination } from "@prisma/client";
+import type { DestinationView } from "@/lib/site";
 import { distanceLabel } from "@/lib/format";
 
-export default function DestinationCard({ dest }: { dest: Destination }) {
+export default function DestinationCard({ dest }: { dest: DestinationView }) {
   return (
     <article className="group card-interactive relative flex h-full flex-col overflow-hidden">
       <div className="card-media aspect-[4/3] shrink-0">
@@ -26,7 +26,7 @@ export default function DestinationCard({ dest }: { dest: Destination }) {
         )}
         <p className="mt-2 flex-1 text-sm text-bodytext">{dest.description}</p>
         <Link
-          href={`/contact?destination=${encodeURIComponent(dest.name)}`}
+          href={`/destination/${dest.slug}`}
           className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-bodytext after:absolute after:inset-0 hover:text-ink"
         >
           Plan this trip

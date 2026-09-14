@@ -118,11 +118,16 @@ export const vehicleSchema = z.object({
 export const destinationSchema = z.object({
   name: z.string().trim().min(2).max(80),
   category: destinationCategoryEnum,
+  state: packageStateEnum,
   description: z.string().trim().min(10).max(400),
   imageUrl: imageRef,
   distanceKm: intFromForm,
+  highlights: z.string().trim().max(1000).optional().or(z.literal("")),
+  packageSlug: z.string().trim().max(160).optional().or(z.literal("")),
   sortOrder: z.coerce.number().int().min(0).max(999).default(0),
   isActive: z.coerce.boolean().default(true),
+  seoTitle: z.string().trim().max(90).optional().or(z.literal("")),
+  seoDescription: z.string().trim().max(170).optional().or(z.literal("")),
 });
 
 export const testimonialSchema = z.object({
