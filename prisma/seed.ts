@@ -1035,7 +1035,7 @@ async function main() {
         popular: pkg.popular ?? false,
         isActive: true,
         sortOrder: pkg.sortOrder,
-        seoTitle: `${pkg.title} | Sumpreeth Tours and Travels`,
+        seoTitle: `${pkg.title} — Itinerary & Booking`,
         seoDescription: pkg.shortDescription,
         seoKeywords: [pkg.destination, pkg.route, ...pkg.tags.slice(0, 3)].join(", "),
       },

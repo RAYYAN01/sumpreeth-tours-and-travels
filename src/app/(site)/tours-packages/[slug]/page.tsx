@@ -33,7 +33,7 @@ export async function generateMetadata({
   if (!pkg) return { title: "Package not found", robots: { index: false } };
 
   return pageMeta({
-    title: pkg.seoTitle || `${pkg.title} — Rates & Itinerary`,
+    title: pkg.seoTitle || `${pkg.title} — Itinerary & Booking`,
     description:
       pkg.seoDescription ||
       `${pkg.shortDescription} ${pkg.durationNights} nights / ${pkg.durationDays} days from Bangalore.`,
