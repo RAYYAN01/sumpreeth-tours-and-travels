@@ -17,7 +17,8 @@ datasource db {
 // and is kept unchanged on PostgreSQL for stability.
 // ---------------------------------------------------------------------------
 
-// Enquiries / leads captured from the public booking widget & contact form
+// Enquiries / leads captured from the public booking widget, contact form and
+// tour package enquiry form — one shared table/admin screen for every lead.
 model Enquiry {
   id             String   @id @default(cuid())
   name           String
@@ -30,6 +31,13 @@ model Enquiry {
   status         String   @default("NEW") // NEW | CONTACTED | BOOKED | CLOSED
   adminNotes     String?
   sourcePage     String   @default("home")
+
+  // Populated only for tour-package enquiries (serviceType = TOUR_PACKAGE).
+  packageSlug        String?
+  packageTitle       String?
+  travellers         Int?
+  vehiclePreference  String?
+
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -158,4 +166,55 @@ model AdminOtp {
   expiresAt DateTime
   attempts  Int      @default(0)
   createdAt DateTime @default(now())
+}
+
+// Tours & Packages — Bangalore-origin South India tour packages. All list-type
+// fields (gallery/itinerary/inclusions/exclusions/vehicleOptions/
+// pickupLocations/tags/faq) are JSON strings, decoded in src/lib/packages.ts,
+// matching the Vehicle.features convention above.
+model TourPackage {
+  id          String @id @default(cuid())
+  title       String
+  slug        String @unique
+  origin      String @default("Bangalore")
+  destination String // e.g. "Coorg"
+  route       String // e.g. "Bangalore → Coorg"
+  state       String // KARNATAKA | KERALA | TAMIL_NADU | ANDHRA_PRADESH | TELANGANA | GOA | PUDUCHERRY
+  region      String @default("SOUTH_INDIA")
+  category    String @default("[]") // JSON array of PackageCategory codes
+
+  durationDays   Int
+  durationNights Int
+  startingPrice  Int?
+  priceType      String @default("PER_PACKAGE") // PER_PACKAGE | PER_PERSON
+
+  shortDescription String
+  description      String
+  featuredImage    String
+  gallery          String @default("[]")
+
+  itinerary       String @default("[]") // [{day,title,description}]
+  inclusions      String @default("[]")
+  exclusions      String @default("[]")
+  vehicleOptions  String @default("[]")
+  pickupLocations String @default("[]")
+  tags            String @default("[]") // used as "highlights"
+  faq             String @default("[]") // [{question,answer}]
+
+  featured  Boolean @default(false)
+  popular   Boolean @default(false)
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([state, isActive])
+  @@index([featured])
+  @@index([popular])
+  @@index([sortOrder])
 }

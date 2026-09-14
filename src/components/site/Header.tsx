@@ -4,12 +4,27 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
-const NAV = [
+const PACKAGE_LINKS: { href: string; label: string }[] = [
+  { href: "/tours-packages", label: "All Tour Packages" },
+  { href: "/tours-packages?state=KARNATAKA", label: "Karnataka Tour Packages" },
+  { href: "/tours-packages?state=KERALA", label: "Kerala Tour Packages" },
+  { href: "/tours-packages?state=TAMIL_NADU", label: "Tamil Nadu Tour Packages" },
+  { href: "/tours-packages?state=ANDHRA_PRADESH", label: "Andhra Pradesh Tour Packages" },
+  { href: "/tours-packages?state=GOA", label: "Goa Tour Packages" },
+  { href: "/tours-packages?category=WEEKEND", label: "Weekend Getaways" },
+  { href: "/tours-packages?category=FAMILY", label: "Family Tour Packages" },
+  { href: "/tours-packages?category=HONEYMOON", label: "Honeymoon Packages" },
+  { href: "/tours-packages?category=GROUP", label: "Corporate / Group Tours" },
+  { href: "/tours-packages?category=CUSTOM", label: "Customized Tour Packages" },
+];
+
+const NAV: { href: string; label: string; children?: typeof PACKAGE_LINKS }[] = [
   { href: "/", label: "Home" },
   { href: "/fleet", label: "Fleet" },
+  { href: "/tours-packages", label: "Tours & Packages", children: PACKAGE_LINKS },
   { href: "/destination", label: "Destination" },
   { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
@@ -114,23 +129,44 @@ export default function Header({ phone, whatsappHref }: Props) {
               item.href === "/"
                 ? pathname === "/"
                 : pathname.startsWith(item.href);
+            const linkCls = `flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+              solid
+                ? active
+                  ? "bg-forest-100 dark:bg-white/[0.08] text-ink"
+                  : "text-bodytext hover:bg-forest-50 dark:hover:bg-white/[0.04]"
+                : active
+                  ? "bg-surface/20 text-white"
+                  : "text-white/90 hover:bg-surface/10"
+            }`;
+
+            if (!item.children) {
+              return (
+                <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={linkCls}>
+                  {item.label}
+                </Link>
+              );
+            }
+
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-                  solid
-                    ? active
-                      ? "bg-forest-100 dark:bg-white/[0.08] text-ink"
-                      : "text-bodytext hover:bg-forest-50 dark:hover:bg-white/[0.04]"
-                    : active
-                      ? "bg-surface/20 text-white"
-                      : "text-white/90 hover:bg-surface/10"
-                }`}
-              >
-                {item.label}
-              </Link>
+              <div key={item.href} className="group/nav relative">
+                <Link href={item.href} aria-current={active ? "page" : undefined} className={linkCls}>
+                  {item.label}
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover/nav:rotate-180 group-focus-within/nav:rotate-180" />
+                </Link>
+                <div
+                  className="invisible absolute left-0 top-full z-10 grid w-[30rem] grid-cols-2 gap-x-2 gap-y-0.5 rounded-2xl bg-surface p-3 opacity-0 shadow-card-hover ring-1 ring-black/5 transition-[opacity,visibility] duration-150 group-hover/nav:visible group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:opacity-100 dark:ring-white/10"
+                >
+                  {item.children.map((c) => (
+                    <Link
+                      key={c.href}
+                      href={c.href}
+                      className="rounded-lg px-3 py-2 text-sm text-bodytext hover:bg-forest-50 hover:text-ink dark:hover:bg-white/[0.06]"
+                    >
+                      {c.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             );
           })}
         </nav>
@@ -222,6 +258,30 @@ export default function Header({ phone, whatsappHref }: Props) {
                 item.href === "/"
                   ? pathname === "/"
                   : pathname.startsWith(item.href);
+
+              if (item.children) {
+                return (
+                  <details key={item.href} className="group/m">
+                    <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-4 py-3 text-lg font-semibold text-ink hover:bg-forest-50 [&::-webkit-details-marker]:hidden dark:hover:bg-white/[0.04]">
+                      {item.label}
+                      <ChevronDown className="h-5 w-5 text-forest-400 transition-transform group-open/m:rotate-180" />
+                    </summary>
+                    <div className="ml-2 flex flex-col gap-0.5 border-l border-line pb-1 pl-3">
+                      {item.children.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          onClick={() => setOpen(false)}
+                          className="rounded-lg px-3 py-2.5 text-base text-bodytext hover:bg-forest-50 hover:text-ink dark:hover:bg-white/[0.04]"
+                        >
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </details>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}

@@ -2,8 +2,9 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { prisma } from "./db";
 import { decodeFeatures, type VehicleView } from "./features";
+import { decodePackage, type PackageView } from "./packages";
 
-export type { VehicleView };
+export type { VehicleView, PackageView };
 
 /**
  * Cached read helpers for the public site. Each is tagged so the admin portal
@@ -17,6 +18,7 @@ export const TAGS = {
   destinations: "destinations",
   testimonials: "testimonials",
   faqs: "faqs",
+  packages: "packages",
 } as const;
 
 const FALLBACK_SETTINGS = {
@@ -120,6 +122,28 @@ export const getTestimonials = unstable_cache(
   ["testimonials"],
   { tags: [TAGS.testimonials], revalidate: 3600 },
 );
+
+export const getPackages = unstable_cache(
+  async (): Promise<PackageView[]> => {
+    try {
+      const rows = await prisma.tourPackage.findMany({
+        where: { isActive: true },
+        orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
+      });
+      return rows.map(decodePackage);
+    } catch {
+      return [];
+    }
+  },
+  ["packages"],
+  { tags: [TAGS.packages], revalidate: 3600 },
+);
+
+/** Single active package by slug, with every JSON column decoded. */
+export async function getPackageBySlug(slug: string): Promise<PackageView | null> {
+  const all = await getPackages();
+  return all.find((p) => p.slug === slug) ?? null;
+}
 
 export const getFaqs = unstable_cache(
   async () => {

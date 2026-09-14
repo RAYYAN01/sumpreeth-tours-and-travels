@@ -62,6 +62,10 @@ export async function POST(req: NextRequest) {
         pickupAt: data.pickupAt ? new Date(data.pickupAt) : null,
         message: data.message || null,
         sourcePage: data.sourcePage || "home",
+        packageSlug: data.packageSlug || null,
+        packageTitle: data.packageTitle || null,
+        travellers: data.travellers ?? null,
+        vehiclePreference: data.vehiclePreference || null,
       },
       select: { id: true },
     });

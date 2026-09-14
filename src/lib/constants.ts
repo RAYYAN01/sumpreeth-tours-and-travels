@@ -73,6 +73,79 @@ export const DESTINATION_CATEGORY_ORDER: DestinationCategory[] = [
   "OUTSTATION_GETAWAY",
 ];
 
+// --- Tours & Packages --------------------------------------------------------
+
+export type PackageState =
+  | "KARNATAKA"
+  | "KERALA"
+  | "TAMIL_NADU"
+  | "ANDHRA_PRADESH"
+  | "TELANGANA"
+  | "GOA"
+  | "PUDUCHERRY";
+
+export const PACKAGE_STATE_LABELS: Record<PackageState, string> = {
+  KARNATAKA: "Karnataka",
+  KERALA: "Kerala",
+  TAMIL_NADU: "Tamil Nadu",
+  ANDHRA_PRADESH: "Andhra Pradesh",
+  TELANGANA: "Telangana",
+  GOA: "Goa",
+  PUDUCHERRY: "Puducherry",
+};
+
+export const PACKAGE_STATE_ORDER: PackageState[] = [
+  "KARNATAKA",
+  "KERALA",
+  "TAMIL_NADU",
+  "ANDHRA_PRADESH",
+  "TELANGANA",
+  "GOA",
+  "PUDUCHERRY",
+];
+
+export type PackageCategory =
+  | "FAMILY"
+  | "HONEYMOON"
+  | "WEEKEND"
+  | "ADVENTURE"
+  | "PILGRIMAGE"
+  | "WILDLIFE"
+  | "GROUP"
+  | "CORPORATE"
+  | "CUSTOM";
+
+export const PACKAGE_CATEGORY_LABELS: Record<PackageCategory, string> = {
+  FAMILY: "Family Tours",
+  HONEYMOON: "Honeymoon Packages",
+  WEEKEND: "Weekend Getaways",
+  ADVENTURE: "Adventure Tours",
+  PILGRIMAGE: "Pilgrimage Tours",
+  WILDLIFE: "Wildlife Tours",
+  GROUP: "Group Tours",
+  CORPORATE: "Corporate Tours",
+  CUSTOM: "Customized Tours",
+};
+
+export const PACKAGE_CATEGORY_ORDER: PackageCategory[] = [
+  "FAMILY",
+  "HONEYMOON",
+  "WEEKEND",
+  "ADVENTURE",
+  "PILGRIMAGE",
+  "WILDLIFE",
+  "GROUP",
+  "CORPORATE",
+  "CUSTOM",
+];
+
+export type PackagePriceType = "PER_PACKAGE" | "PER_PERSON";
+
+export const PACKAGE_PRICE_TYPE_LABELS: Record<PackagePriceType, string> = {
+  PER_PACKAGE: "per package",
+  PER_PERSON: "per person",
+};
+
 // `__Host-` prefix in production hardens the cookie (requires Secure, no
 // Domain, Path=/). Browsers reject that prefix over plain http, so dev keeps
 // the bare name.

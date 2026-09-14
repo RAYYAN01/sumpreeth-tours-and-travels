@@ -2,6 +2,8 @@ import { BUSINESS, SITE_NAME, SITE_URL, canonical } from "./seo";
 import type { SiteSettingsData } from "./site";
 import type { VehicleView } from "./features";
 import { vehiclePhotos } from "./features";
+import type { PackageView } from "./packages";
+import { packagePhotos } from "./packages";
 
 /**
  * Site-wide JSON-LD graph: the local business (TravelAgency / TaxiService /
@@ -123,6 +125,35 @@ export function vehicleJsonLd(vehicle: VehicleView, tagline: string) {
             "@type": "Offer",
             priceCurrency: "INR",
             price: String(startingFare),
+            availability: "https://schema.org/InStock",
+            url,
+            seller: { "@id": `${SITE_URL}/#business` },
+          },
+        }
+      : {}),
+  };
+}
+
+/** Product + Offer for a tour package detail page. */
+export function packageJsonLd(pkg: PackageView) {
+  const url = canonical(`/tours-packages/${pkg.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pkg.title,
+    description: pkg.shortDescription,
+    url,
+    image: packagePhotos(pkg).map((src) =>
+      src.startsWith("http") ? src : canonical(src),
+    ),
+    brand: { "@type": "Brand", name: SITE_NAME },
+    category: "Tour package",
+    ...(pkg.startingPrice != null
+      ? {
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "INR",
+            price: String(pkg.startingPrice),
             availability: "https://schema.org/InStock",
             url,
             seller: { "@id": `${SITE_URL}/#business` },

@@ -26,6 +26,30 @@ export const destinationCategoryEnum = z.enum([
   "OUTSTATION_GETAWAY",
 ]);
 
+export const packageStateEnum = z.enum([
+  "KARNATAKA",
+  "KERALA",
+  "TAMIL_NADU",
+  "ANDHRA_PRADESH",
+  "TELANGANA",
+  "GOA",
+  "PUDUCHERRY",
+]);
+
+export const packageCategoryEnum = z.enum([
+  "FAMILY",
+  "HONEYMOON",
+  "WEEKEND",
+  "ADVENTURE",
+  "PILGRIMAGE",
+  "WILDLIFE",
+  "GROUP",
+  "CORPORATE",
+  "CUSTOM",
+]);
+
+export const packagePriceTypeEnum = z.enum(["PER_PACKAGE", "PER_PERSON"]);
+
 /** Public enquiry form (booking widget + contact page). */
 export const enquiryInputSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(80),
@@ -41,6 +65,11 @@ export const enquiryInputSchema = z.object({
   pickupAt: z.string().trim().max(40).optional().or(z.literal("")),
   message: z.string().trim().max(1000).optional().or(z.literal("")),
   sourcePage: z.string().trim().max(40).optional(),
+  // Populated only when the enquiry comes from a tour package page.
+  packageSlug: z.string().trim().max(140).optional().or(z.literal("")),
+  packageTitle: z.string().trim().max(140).optional().or(z.literal("")),
+  travellers: z.coerce.number().int().min(1).max(200).optional(),
+  vehiclePreference: z.string().trim().max(60).optional().or(z.literal("")),
   // Honeypot — must stay empty.
   company: z.string().max(0).optional(),
 });
@@ -111,6 +140,37 @@ export const faqSchema = z.object({
   answer: z.string().trim().min(5).max(1200),
   sortOrder: z.coerce.number().int().min(0).max(999).default(0),
   isActive: z.coerce.boolean().default(true),
+});
+
+export const packageSchema = z.object({
+  title: z.string().trim().min(4, "Enter a title").max(120),
+  origin: z.string().trim().min(2).max(60).default("Bangalore"),
+  destination: z.string().trim().min(2, "Enter the destination").max(80),
+  route: z.string().trim().min(4, "Enter the route").max(160),
+  state: packageStateEnum,
+  category: z.array(packageCategoryEnum).default([]),
+  durationDays: z.coerce.number().int().min(1).max(30),
+  durationNights: z.coerce.number().int().min(0).max(30),
+  startingPrice: intFromForm,
+  priceType: packagePriceTypeEnum.default("PER_PACKAGE"),
+  shortDescription: z.string().trim().min(10, "Enter a short description").max(220),
+  description: z.string().trim().min(20, "Enter a fuller description").max(4000),
+  featuredImage: imageRef,
+  gallery: z.string().trim().max(4000).optional().or(z.literal("")),
+  itinerary: z.string().trim().max(6000).optional().or(z.literal("")),
+  inclusions: z.string().trim().max(2000).optional().or(z.literal("")),
+  exclusions: z.string().trim().max(2000).optional().or(z.literal("")),
+  vehicleOptions: z.string().trim().max(600).optional().or(z.literal("")),
+  pickupLocations: z.string().trim().max(600).optional().or(z.literal("")),
+  tags: z.string().trim().max(600).optional().or(z.literal("")),
+  faq: z.string().trim().max(4000).optional().or(z.literal("")),
+  featured: z.coerce.boolean().default(false),
+  popular: z.coerce.boolean().default(false),
+  isActive: z.coerce.boolean().default(true),
+  sortOrder: z.coerce.number().int().min(0).max(999).default(0),
+  seoTitle: z.string().trim().max(70).optional().or(z.literal("")),
+  seoDescription: z.string().trim().max(170).optional().or(z.literal("")),
+  seoKeywords: z.string().trim().max(300).optional().or(z.literal("")),
 });
 
 export const siteSettingsSchema = z.object({

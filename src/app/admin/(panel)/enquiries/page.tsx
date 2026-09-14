@@ -165,10 +165,20 @@ export default async function EnquiriesPage({
                   </td>
                   <td className="px-4 py-3">
                     {SERVICE_TYPE_LABELS[e.serviceType as ServiceType]}
+                    {e.packageTitle && (
+                      <div className="mt-0.5 text-xs font-medium text-saffron-600">
+                        {e.packageTitle}
+                      </div>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-forest-700/80">
                     {e.pickupLocation}
                     {e.dropLocation ? ` → ${e.dropLocation}` : ""}
+                    {e.travellers != null && (
+                      <div className="text-xs text-forest-700/60">
+                        {e.travellers} traveller{e.travellers === 1 ? "" : "s"}
+                      </div>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <StatusBadge status={e.status as EnquiryStatus} />

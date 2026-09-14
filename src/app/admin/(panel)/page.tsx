@@ -6,6 +6,7 @@ import {
   Layers,
   Car,
   MapPin,
+  Package,
   MessageSquareQuote,
   HelpCircle,
 } from "lucide-react";
@@ -42,10 +43,12 @@ export default async function DashboardPage() {
         prisma.destination.count(),
         prisma.testimonial.count(),
         prisma.faqItem.count(),
+        prisma.tourPackage.count(),
       ]),
     ]);
 
-  const [vehicleCount, destinationCount, testimonialCount, faqCount] = counts;
+  const [vehicleCount, destinationCount, testimonialCount, faqCount, packageCount] =
+    counts;
 
   const stats = [
     {
@@ -79,6 +82,12 @@ export default async function DashboardPage() {
   ];
 
   const content: [string, number, string, React.ReactNode][] = [
+    [
+      "Tour packages",
+      packageCount,
+      "/admin/packages",
+      <Package key="p" className="h-4 w-4" />,
+    ],
     ["Vehicles", vehicleCount, "/admin/fleet", <Car key="c" className="h-4 w-4" />],
     [
       "Destinations",

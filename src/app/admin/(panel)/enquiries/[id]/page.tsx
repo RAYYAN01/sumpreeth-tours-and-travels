@@ -46,6 +46,15 @@ export default async function EnquiryDetailPage({
     ["Name", enquiry.name],
     ["Phone", enquiry.phone],
     ["Service", SERVICE_TYPE_LABELS[enquiry.serviceType as ServiceType]],
+    ...(enquiry.packageTitle
+      ? ([["Package", enquiry.packageTitle]] as [string, string][])
+      : []),
+    ...(enquiry.travellers != null
+      ? ([["Travellers", String(enquiry.travellers)]] as [string, string][])
+      : []),
+    ...(enquiry.vehiclePreference
+      ? ([["Vehicle preference", enquiry.vehiclePreference]] as [string, string][])
+      : []),
     ["Pickup", enquiry.pickupLocation],
     ["Drop", enquiry.dropLocation ?? "—"],
     ["Preferred time", formatDateTime(enquiry.pickupAt)],

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getVehicles, getDestinations } from "@/lib/site";
+import { getVehicles, getDestinations, getPackages } from "@/lib/site";
 import { vehiclePhotos } from "@/lib/features";
+import { packagePhotos } from "@/lib/packages";
 import { SITE_URL } from "@/lib/seo";
 
 export const revalidate = 3600;
@@ -15,10 +16,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let vehicles: Awaited<ReturnType<typeof getVehicles>> = [];
   let destinations: Awaited<ReturnType<typeof getDestinations>> = [];
+  let packages: Awaited<ReturnType<typeof getPackages>> = [];
   try {
-    [vehicles, destinations] = await Promise.all([
+    [vehicles, destinations, packages] = await Promise.all([
       getVehicles(),
       getDestinations(),
+      getPackages(),
     ]);
   } catch {
     /* fall back to routes only */
@@ -36,6 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const entries: Entry[] = [
     { url: abs("/"), lastModified: now, changeFrequency: "weekly", priority: 1 },
+    {
+      url: abs("/tours-packages"),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
     {
       url: abs("/fleet"),
       lastModified: now,
@@ -71,6 +80,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
       images: vehiclePhotos(v).map(absImg).slice(0, 10),
+    });
+  }
+
+  for (const p of packages) {
+    entries.push({
+      url: abs(`/tours-packages/${p.slug}`),
+      lastModified: p.updatedAt ?? now,
+      changeFrequency: "weekly",
+      priority: p.featured ? 0.85 : 0.75,
+      images: packagePhotos(p).map(absImg).slice(0, 10),
     });
   }
 

@@ -9,6 +9,7 @@ import {
   Inbox,
   Car,
   MapPin,
+  Package,
   MessageSquareQuote,
   HelpCircle,
   FileText,
@@ -23,6 +24,7 @@ import { logoutAction } from "@/app/admin/(panel)/logout";
 const LINKS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/enquiries", label: "Enquiries", icon: Inbox },
+  { href: "/admin/packages", label: "Tours & Packages", icon: Package },
   { href: "/admin/fleet", label: "Fleet", icon: Car },
   { href: "/admin/destinations", label: "Destinations", icon: MapPin },
   { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
