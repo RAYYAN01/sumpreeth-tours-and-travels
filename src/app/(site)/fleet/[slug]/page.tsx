@@ -11,7 +11,7 @@ import {
   MessageCircle,
   Phone,
 } from "lucide-react";
-import { getVehicleBySlug, getVehicles, getSiteSettings } from "@/lib/site";
+import { getVehicleBySlug, getVehicles, getSiteSettings, getDestinations } from "@/lib/site";
 import { vehiclePhotos } from "@/lib/features";
 import { vehicleGuide } from "@/lib/vehicle-content";
 import { contactLink, telLink } from "@/lib/whatsapp";
@@ -62,10 +62,11 @@ export default async function VehicleDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [vehicle, allVehicles, settings] = await Promise.all([
+  const [vehicle, allVehicles, settings, destinations] = await Promise.all([
     getVehicleBySlug(slug),
     getVehicles(),
     getSiteSettings(),
+    getDestinations(),
   ]);
 
   if (!vehicle) notFound();
@@ -73,6 +74,10 @@ export default async function VehicleDetailPage({
   const guide = vehicleGuide(vehicle);
   const photos = vehiclePhotos(vehicle);
   const others = allVehicles.filter((v) => v.slug !== vehicle.slug).slice(0, 3);
+  const isSedan = vehicle.category === "CAR" && vehicle.seats.startsWith("4");
+  const popularRoutes = isSedan
+    ? destinations.filter((d) => d.packageSlug).slice(0, 6)
+    : [];
 
   const wa = contactLink(
     settings.whatsappNumber,
@@ -206,19 +211,36 @@ export default async function VehicleDetailPage({
       </Section>
 
       <Section size="sm">
-        <div className="flex flex-col gap-3 rounded-2xl bg-forest-50 p-5 dark:bg-white/[0.04] sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-ink">
-            Know where you&apos;re headed? Browse routes and distances, or send
-            your trip details for a quick quote.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/destination" className="btn-ghost btn-sm">
-              Browse destinations
-            </Link>
-            <Link href="/contact" className="btn-outline btn-sm">
-              Get a quote
-            </Link>
+        <div className="rounded-2xl bg-forest-50 p-5 dark:bg-white/[0.04]">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-ink">
+              {popularRoutes.length > 0
+                ? `Popular one-way sedan routes from Bangalore:`
+                : "Know where you're headed? Browse routes and distances, or send your trip details for a quick quote."}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/destination" className="btn-ghost btn-sm">
+                Browse destinations
+              </Link>
+              <Link href="/contact" className="btn-outline btn-sm">
+                Get a quote
+              </Link>
+            </div>
           </div>
+          {popularRoutes.length > 0 && (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {popularRoutes.map((d) => (
+                <li key={d.id}>
+                  <Link
+                    href={`/destination/${d.slug}`}
+                    className="inline-block rounded-full bg-surface px-3.5 py-1.5 text-xs font-semibold text-forest-800 ring-1 ring-line hover:bg-forest-100 dark:bg-white/[0.04] dark:text-forest-200"
+                  >
+                    {vehicle.name} to {d.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </Section>
 

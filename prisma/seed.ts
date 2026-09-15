@@ -1063,6 +1063,7 @@ async function main() {
           `${pkg.destination} tour package`,
           `Bangalore to ${pkg.destination} cab`,
           `${pkg.destination} one way taxi`,
+          `one way sedan Bangalore to ${pkg.destination}`,
         ].join(", "),
       },
     });

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Check, MapPin, MessageCircle, Phone, X as XIcon, ExternalLink, ArrowRight } from "lucide-react";
-import { getPackages, getPackageBySlug, getSiteSettings, getDestinations } from "@/lib/site";
+import { getPackages, getPackageBySlug, getSiteSettings, getDestinations, getVehicles } from "@/lib/site";
 import { pageMeta, STATE_TOURISM_BOARD, canonical } from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { packageJsonLd, faqJsonLd, speakableJsonLd } from "@/lib/structured-data";
@@ -50,11 +50,12 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [pkg, allPackages, settings, destinations] = await Promise.all([
+  const [pkg, allPackages, settings, destinations, vehicles] = await Promise.all([
     getPackageBySlug(slug),
     getPackages(),
     getSiteSettings(),
     getDestinations(),
+    getVehicles(),
   ]);
   if (!pkg) notFound();
 
@@ -68,6 +69,8 @@ export default async function PackageDetailPage({
     .slice(0, 3);
 
   const linkedDestination = destinations.find((d) => d.packageSlug === pkg.slug);
+  const sedan = vehicles.find((v) => v.category === "CAR" && v.seats.startsWith("4"));
+  const suv = vehicles.find((v) => v.category === "CAR" && !v.seats.startsWith("4"));
 
   return (
     <>
@@ -223,6 +226,25 @@ export default async function PackageDetailPage({
           {pkg.vehicleOptions.length > 0 && (
             <div className="reveal">
               <h2 className="text-h4 font-bold text-ink">Vehicle Options</h2>
+              {(sedan || suv) && (
+                <p className="mt-2 text-sm text-bodytext">
+                  {sedan && (
+                    <>
+                      Choose a{" "}
+                      <Link href={`/fleet/${sedan.slug}`} className="font-semibold text-forest-700 underline dark:text-forest-300">
+                        one-way sedan
+                      </Link>
+                      {suv && " or "}
+                    </>
+                  )}
+                  {suv && (
+                    <Link href={`/fleet/${suv.slug}`} className="font-semibold text-forest-700 underline dark:text-forest-300">
+                      an SUV
+                    </Link>
+                  )}{" "}
+                  for the {pkg.route} route.
+                </p>
+              )}
               <ul className="mt-3 flex flex-wrap gap-2">
                 {pkg.vehicleOptions.map((v) => (
                   <li

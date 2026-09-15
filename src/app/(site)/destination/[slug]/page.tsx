@@ -52,6 +52,8 @@ export async function generateMetadata({
       `Bangalore to ${dest.name} cab`,
       `${dest.name} one way taxi`,
       `${dest.name} outstation cab`,
+      `one way sedan Bangalore to ${dest.name}`,
+      `SUV Bangalore to ${dest.name}`,
     ].join(", "),
   });
 }
@@ -76,6 +78,8 @@ export default async function DestinationDetailPage({
 
   const stateLabel = PACKAGE_STATE_LABELS[dest.state as PackageState] ?? dest.state;
   const stateBoard = STATE_TOURISM_BOARD[dest.state as PackageState];
+  const sedan = vehicles.find((v) => v.category === "CAR" && v.seats.startsWith("4"));
+  const suv = vehicles.find((v) => v.category === "CAR" && !v.seats.startsWith("4"));
   const wa = contactLink(
     settings.whatsappNumber,
     `Hi, I need a cab from Bangalore to ${dest.name}. Please share availability and fares.`,
@@ -231,11 +235,46 @@ export default async function DestinationDetailPage({
           {vehicles.length > 0 && (
             <div className="reveal">
               <h2 className="text-h3 font-bold text-ink">
-                Cabs available for this route
+                One-Way &amp; Round-Trip Cabs for This Route
               </h2>
               <p className="mt-2 text-sm text-bodytext">
-                Compare one-way, round-trip and local rates for every vehicle on
-                the <Link href="/fleet" className="font-semibold text-forest-700 underline dark:text-forest-300">fleet &amp; rates page</Link>.
+                {sedan && suv ? (
+                  <>
+                    Take a{" "}
+                    <Link href={`/fleet/${sedan.slug}`} className="font-semibold text-forest-700 underline dark:text-forest-300">
+                      one-way sedan from Bangalore to {dest.name}
+                    </Link>
+                    , or{" "}
+                    <Link href={`/fleet/${suv.slug}`} className="font-semibold text-forest-700 underline dark:text-forest-300">
+                      an SUV
+                    </Link>{" "}
+                    for more luggage and legroom
+                  </>
+                ) : sedan ? (
+                  <>
+                    Take a{" "}
+                    <Link href={`/fleet/${sedan.slug}`} className="font-semibold text-forest-700 underline dark:text-forest-300">
+                      one-way sedan from Bangalore to {dest.name}
+                    </Link>
+                  </>
+                ) : suv ? (
+                  <>
+                    Take{" "}
+                    <Link href={`/fleet/${suv.slug}`} className="font-semibold text-forest-700 underline dark:text-forest-300">
+                      an SUV from Bangalore to {dest.name}
+                    </Link>{" "}
+                    for more luggage and legroom
+                  </>
+                ) : (
+                  "Compare one-way, round-trip and local rates"
+                )}
+                {(sedan || suv) && " — or check "}
+                {!sedan && !suv && " for every vehicle on the "}
+                {(sedan || suv) && "round-trip and local rates for every vehicle on the "}
+                <Link href="/fleet" className="font-semibold text-forest-700 underline dark:text-forest-300">
+                  fleet &amp; rates page
+                </Link>
+                .
               </p>
               <div className="mt-5 grid gap-6 sm:grid-cols-2">
                 {vehicles.slice(0, 4).map((v) => (
