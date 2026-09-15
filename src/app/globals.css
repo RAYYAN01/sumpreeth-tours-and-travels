@@ -115,8 +115,11 @@
       rgba(255, 255, 255, 0.45) 50%,
       transparent 100%
     );
-    transform: skewX(-18deg);
+    /* Animate `transform` (composited), not `left` — sweeps the same
+       distance without triggering layout/paint on every frame. */
+    transform: skewX(-18deg) translateX(0);
     animation: btn-shine 3.4s ease-in-out infinite;
+    will-change: transform;
   }
   @media (prefers-reduced-motion: reduce) {
     .btn-shine::after {
@@ -242,9 +245,9 @@
 @keyframes btn-shine {
   0%,
   55% {
-    left: -60%;
+    transform: skewX(-18deg) translateX(0);
   }
   100% {
-    left: 120%;
+    transform: skewX(-18deg) translateX(400%);
   }
 }
