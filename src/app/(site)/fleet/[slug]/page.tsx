@@ -50,7 +50,7 @@ export async function generateMetadata({
       : "";
   return pageMeta({
     title: `${vehicle.name} (${vehicle.seats} seater) — Rates & Booking`,
-    description: `${guide.tagline}${from} Book on WhatsApp or call — GPS-tracked, driven by verified drivers across Karnataka.`,
+    description: `${guide.tagline}${from} GPS-tracked, verified drivers.`.slice(0, 158),
     path: `/fleet/${vehicle.slug}`,
     image: vehiclePhotos(vehicle)[0] ?? "/logo.png",
   });

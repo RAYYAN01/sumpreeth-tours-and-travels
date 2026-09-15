@@ -77,6 +77,14 @@ type PageMetaInput = {
  */
 export const DEFAULT_OG_IMAGE = "/og.jpg";
 
+/** Trims to Google's ~160-char display budget, cutting at a word boundary. */
+function truncateDescription(text: string, max = 158): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trim();
+}
+
 export function pageMeta({
   title,
   description,
@@ -86,12 +94,13 @@ export function pageMeta({
   keywords,
 }: PageMetaInput): Metadata {
   const url = canonical(path);
+  const desc = truncateDescription(description);
   // Top-level `title` stays bare so the root layout template appends the brand;
   // OG/Twitter get the fully-qualified title since no template applies there.
   const fullTitle = `${title} | ${SITE_NAME}`;
   return {
     title,
-    description,
+    description: desc,
     ...(keywords ? { keywords } : {}),
     alternates: { canonical: url },
     robots: noindex
