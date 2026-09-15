@@ -17,13 +17,15 @@ import Section from "@/components/site/Section";
 
 export const revalidate = 3600;
 
-export const metadata = pageMeta({
-  title: "About Us",
-  description:
-    "Sumpreeth Tours and Travels is a Bangalore-based 24/7 cab and outstation travel service covering Karnataka & South India, with vetted drivers and GPS-tracked vehicles.",
-  path: "/about",
-  image: "/images/fleet/IMG-20260901-WA0040.jpg",
-});
+export async function generateMetadata() {
+  const settings = await getSiteSettings();
+  return pageMeta({
+    title: "About Us",
+    description: `Sumpreeth Tours and Travels is a Bangalore-based 24/7 cab and outstation travel service — ${settings.trustYears} years, ${settings.trustTrips} trips, vetted drivers and GPS-tracked vehicles across Karnataka & South India.`,
+    path: "/about",
+    image: "/images/fleet/IMG-20260901-WA0040.jpg",
+  });
+}
 
 const DRIVER_STANDARDS = [
   "Address verification",

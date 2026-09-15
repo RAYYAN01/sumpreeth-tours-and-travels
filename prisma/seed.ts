@@ -442,7 +442,7 @@ async function main() {
       sortOrder: order,
       isActive: true,
       seoTitle: `Bangalore to ${short} Cab — One Way & Round Trip`,
-      seoDescription: `Book a one-way or round-trip cab from Bangalore to ${short}. ${d.description}`.slice(0, 165),
+      seoDescription: `Book a one-way or round-trip cab from Bangalore to ${short} — vetted drivers, transparent fares. ${d.description}`,
     };
     await prisma.destination.upsert({
       where: { slug },

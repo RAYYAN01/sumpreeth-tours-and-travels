@@ -22,12 +22,14 @@ import { reviewJsonLd, speakableJsonLd } from "@/lib/structured-data";
 
 export const revalidate = 300;
 
-export const metadata = pageMeta({
-  title: "Bangalore Cabs & Karnataka Outstation Travel",
-  description:
-    "24/7 Bangalore cab rental — one-way, round trip, airport & local trips, plus tempo travellers and buses for outstation tours across Karnataka & South India.",
-  path: "/",
-});
+export async function generateMetadata() {
+  const settings = await getSiteSettings();
+  return pageMeta({
+    title: "Bangalore Cabs & Karnataka Outstation Travel",
+    description: `24/7 Bangalore cab rental — one-way, round trip & airport transfers, plus outstation tours across Karnataka & South India. ${settings.trustYears} years, ${settings.trustTrips} trips, vetted drivers.`,
+    path: "/",
+  });
+}
 
 const PREVIEW_DESTS = [
   "Madikeri / Coorg",
