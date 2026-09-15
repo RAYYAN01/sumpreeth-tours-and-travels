@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Check, MapPin, MessageCircle, Phone, X as XIcon, ExternalLink } from "lucide-react";
-import { getPackages, getPackageBySlug, getSiteSettings } from "@/lib/site";
+import Link from "next/link";
+import { Check, MapPin, MessageCircle, Phone, X as XIcon, ExternalLink, ArrowRight } from "lucide-react";
+import { getPackages, getPackageBySlug, getSiteSettings, getDestinations } from "@/lib/site";
 import { pageMeta, STATE_TOURISM_BOARD, canonical } from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { packageJsonLd, faqJsonLd, speakableJsonLd } from "@/lib/structured-data";
@@ -49,10 +50,11 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [pkg, allPackages, settings] = await Promise.all([
+  const [pkg, allPackages, settings, destinations] = await Promise.all([
     getPackageBySlug(slug),
     getPackages(),
     getSiteSettings(),
+    getDestinations(),
   ]);
   if (!pkg) notFound();
 
@@ -64,6 +66,8 @@ export default async function PackageDetailPage({
   const related = allPackages
     .filter((p) => p.slug !== pkg.slug && p.state === pkg.state)
     .slice(0, 3);
+
+  const linkedDestination = destinations.find((d) => d.packageSlug === pkg.slug);
 
   return (
     <>
@@ -229,6 +233,30 @@ export default async function PackageDetailPage({
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {/* Linked destination info */}
+          {linkedDestination && (
+            <div className="reveal card flex flex-wrap items-center justify-between gap-4 p-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-saffron-600">
+                  Just need a cab, not the full itinerary?
+                </p>
+                <h3 className="mt-1 font-bold text-ink">
+                  Bangalore to {linkedDestination.name} cab — one way &amp; round trip
+                </h3>
+                <p className="mt-1 text-sm text-bodytext">
+                  Route details, distance and cab options for a self-planned trip.
+                </p>
+              </div>
+              <Link
+                href={`/destination/${linkedDestination.slug}`}
+                className="btn-outline btn-sm shrink-0"
+              >
+                View route &amp; cab options
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           )}
 

@@ -5,6 +5,7 @@ import {
   getVehicles,
   getDestinations,
   getTestimonials,
+  getPackages,
 } from "@/lib/site";
 import { contactLink } from "@/lib/whatsapp";
 import EnquiryForm from "@/components/site/EnquiryForm";
@@ -13,6 +14,7 @@ import SectionHeading from "@/components/site/SectionHeading";
 import BentoStats from "@/components/site/BentoStats";
 import VehicleCard from "@/components/site/VehicleCard";
 import DestinationCard from "@/components/site/DestinationCard";
+import PackageCard from "@/components/site/PackageCard";
 import WhyChooseUs from "@/components/site/WhyChooseUs";
 import TestimonialCarousel from "@/components/site/TestimonialCarousel";
 import CtaBanner from "@/components/site/CtaBanner";
@@ -41,12 +43,14 @@ const PREVIEW_DESTS = [
 ];
 
 export default async function HomePage() {
-  const [settings, vehicles, destinations, testimonials] = await Promise.all([
-    getSiteSettings(),
-    getVehicles(),
-    getDestinations(),
-    getTestimonials(),
-  ]);
+  const [settings, vehicles, destinations, testimonials, packages] =
+    await Promise.all([
+      getSiteSettings(),
+      getVehicles(),
+      getDestinations(),
+      getTestimonials(),
+      getPackages(),
+    ]);
 
   const waHref = contactLink(settings.whatsappNumber);
 
@@ -55,6 +59,10 @@ export default async function HomePage() {
     vehicles.find((v) => v.category === "CAR" && v.seats.startsWith("7")),
     vehicles.find((v) => v.category === "TEMPO_TRAVELLER"),
   ].filter(Boolean) as typeof vehicles;
+
+  const packagePreview = [...packages]
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || a.sortOrder - b.sortOrder)
+    .slice(0, 3);
 
   const destPreview =
     destinations.filter((d) => PREVIEW_DESTS.includes(d.name)).slice(0, 6);
@@ -165,6 +173,33 @@ export default async function HomePage() {
           ))}
         </div>
       </Section>
+
+      {/* Tour packages */}
+      {packagePreview.length > 0 && (
+        <Section>
+          <div className="reveal flex items-end justify-between gap-6">
+            <SectionHeading
+              eyebrow="Tours & Packages"
+              title="Ready-made multi-day trips from Bangalore"
+              intro="Planned itineraries with sightseeing, vehicle options and transparent inclusions — or ask us to customize one."
+            />
+            <Link
+              href="/tours-packages"
+              className="group hidden shrink-0 items-center gap-1.5 text-sm font-semibold text-bodytext hover:text-ink sm:inline-flex"
+            >
+              All tour packages
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-8">
+            {packagePreview.map((p) => (
+              <div key={p.id} className="reveal h-full">
+                <PackageCard pkg={p} whatsappNumber={settings.whatsappNumber} />
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* Popular destinations */}
       <Section bleed="surface">
