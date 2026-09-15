@@ -1,11 +1,13 @@
+import { Suspense } from "react";
 import { getSiteSettings, getPackages } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
-import { PACKAGE_STATE_ORDER, PACKAGE_CATEGORY_ORDER } from "@/lib/constants";
 import PageHeader from "@/components/site/PageHeader";
 import PackagesView from "@/components/site/PackagesView";
 import CtaBanner from "@/components/site/CtaBanner";
 import Section from "@/components/site/Section";
 import { contactLink } from "@/lib/whatsapp";
+
+export const revalidate = 600;
 
 export const metadata = pageMeta({
   title: "Tours & Packages from Bangalore",
@@ -15,23 +17,12 @@ export const metadata = pageMeta({
   image: "/images/destinations/coorg-getaway.webp",
 });
 
-export default async function ToursPackagesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ state?: string; category?: string }>;
-}) {
-  const [{ state, category }, settings, packages] = await Promise.all([
-    searchParams,
+export default async function ToursPackagesPage() {
+  const [settings, packages] = await Promise.all([
     getSiteSettings(),
     getPackages(),
   ]);
   const waHref = contactLink(settings.whatsappNumber);
-  const initialState = (PACKAGE_STATE_ORDER as string[]).includes(state ?? "")
-    ? (state as (typeof PACKAGE_STATE_ORDER)[number])
-    : "ALL";
-  const initialCategory = (PACKAGE_CATEGORY_ORDER as string[]).includes(category ?? "")
-    ? (category as (typeof PACKAGE_CATEGORY_ORDER)[number])
-    : "ALL";
 
   return (
     <>
@@ -45,12 +36,9 @@ export default async function ToursPackagesPage({
       />
 
       <Section>
-        <PackagesView
-          packages={packages}
-          whatsappNumber={settings.whatsappNumber}
-          initialState={initialState}
-          initialCategory={initialCategory}
-        />
+        <Suspense fallback={null}>
+          <PackagesView packages={packages} whatsappNumber={settings.whatsappNumber} />
+        </Suspense>
       </Section>
 
       <CtaBanner text={settings.ctaBannerText} phone={settings.phone} whatsappHref={waHref} />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import type { PackageView } from "@/lib/site";
 import {
@@ -15,17 +16,37 @@ import PackageCard from "./PackageCard";
 
 type Sort = "popular" | "duration";
 
+/** Reads `?state=`/`?category=` client-side so the page itself can stay
+ * fully static instead of being forced into per-request server rendering
+ * just to read the query string for a deep link from the header nav. */
+function useInitialFilters(): {
+  initialState: "ALL" | PackageState;
+  initialCategory: "ALL" | PackageCategory;
+} {
+  const searchParams = useSearchParams();
+  const state = searchParams.get("state");
+  const category = searchParams.get("category");
+  const initialState: "ALL" | PackageState = (PACKAGE_STATE_ORDER as string[]).includes(
+    state ?? "",
+  )
+    ? (state as PackageState)
+    : "ALL";
+  const initialCategory: "ALL" | PackageCategory = (
+    PACKAGE_CATEGORY_ORDER as string[]
+  ).includes(category ?? "")
+    ? (category as PackageCategory)
+    : "ALL";
+  return { initialState, initialCategory };
+}
+
 export default function PackagesView({
   packages,
   whatsappNumber,
-  initialState = "ALL",
-  initialCategory = "ALL",
 }: {
   packages: PackageView[];
   whatsappNumber: string;
-  initialState?: "ALL" | PackageState;
-  initialCategory?: "ALL" | PackageCategory;
 }) {
+  const { initialState, initialCategory } = useInitialFilters();
   const [q, setQ] = useState("");
   const [state, setState] = useState<"ALL" | PackageState>(initialState);
   const [category, setCategory] = useState<"ALL" | PackageCategory>(initialCategory);

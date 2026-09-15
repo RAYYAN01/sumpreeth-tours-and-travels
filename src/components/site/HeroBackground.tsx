@@ -59,7 +59,7 @@ export default function HeroBackground({
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           onError={() => setShowVideo(false)}
         />
       )}

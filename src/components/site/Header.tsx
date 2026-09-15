@@ -78,7 +78,7 @@ export default function Header({ phone, whatsappHref }: Props) {
     <header
       className={`fixed inset-x-0 top-0 z-[60] transition-colors duration-300 ${
         solid
-          ? "bg-page/95 shadow-sm backdrop-blur"
+          ? "bg-page/95 shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -209,12 +209,13 @@ export default function Header({ phone, whatsappHref }: Props) {
       </div>
     </header>
 
-      {/* Mobile full-screen menu — rendered as a SIBLING of <header>, not a
-          child: the header's `backdrop-blur` (backdrop-filter) establishes a
-          containing block for `position: fixed` descendants, which would
-          otherwise confine this overlay to the header's own ~64-80px box
-          instead of the full viewport. Self-contained with its own header
-          row so it never depends on matching the header's exact height. */}
+      {/* Mobile full-screen menu — kept as a SIBLING of <header>, not a
+          child, so it can never be confined to the header's own box
+          regardless of any future `filter`/`transform` on the header
+          (a containing-block hazard for `position: fixed` descendants —
+          this previously happened via `backdrop-blur`, since removed for
+          scroll performance). Self-contained with its own header row so
+          it never depends on matching the header's exact height. */}
       {open && (
         <div
           role="dialog"

@@ -205,6 +205,13 @@
   .reveal.reveal-armed {
     opacity: 0;
     transform: translateY(24px);
+  }
+
+  /* `will-change` only while the element is still waiting to reveal — drop it
+     the instant `.is-visible` lands so pages with many `.reveal` items (the
+     destination/package grids) don't leave dozens of GPU layers pinned open
+     after the animation finishes. */
+  .reveal.reveal-armed:not(.is-visible) {
     will-change: opacity, transform;
   }
 
