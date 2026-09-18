@@ -7,6 +7,7 @@ const EXPLORE: [string, string][] = [
   ["/", "Home"],
   ["/fleet", "Fleet & rates"],
   ["/destination", "Destinations"],
+  ["/areas-we-serve", "Areas we serve"],
   ["/gallery", "Photo gallery"],
   ["/about", "About us"],
   ["/contact", "Contact & FAQ"],

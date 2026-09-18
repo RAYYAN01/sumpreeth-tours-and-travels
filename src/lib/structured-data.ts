@@ -259,6 +259,22 @@ export function faqJsonLd(items: { question: string; answer: string }[]) {
   };
 }
 
+/**
+ * One Service entity referencing every town/taluk actually listed on the
+ * "Areas We Serve" page — matches visible content exactly (a real coverage
+ * list), never a set of individual fake-business listings.
+ */
+export function serviceAreaJsonLd(townNames: string[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "One-way, round-trip and local taxi service",
+    name: "Sumpreeth Tours and Travels — Karnataka service area",
+    provider: { "@id": `${SITE_URL}/#business` },
+    areaServed: townNames.map((name) => ({ "@type": "Place", name })),
+  };
+}
+
 /** BreadcrumbList from an ordered [label, path] trail (path relative). */
 export function breadcrumbJsonLd(trail: [string, string][]) {
   return {

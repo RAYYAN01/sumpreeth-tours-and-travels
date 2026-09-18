@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getSiteSettings, getDestinations } from "@/lib/site";
 import { contactLink } from "@/lib/whatsapp";
 import { pageMeta } from "@/lib/seo";
@@ -43,8 +44,12 @@ export default async function DestinationPage() {
         <DestinationView destinations={destinations} />
 
         <p className="mt-10 rounded-2xl bg-forest-50 p-5 text-sm text-ink dark:bg-white/[0.04]">
-          Don&apos;t see your town? We build custom routes across Karnataka&apos;s
-          interior on request — just share your pickup and drop points.
+          Don&apos;t see your town? We cover every district and taluk across
+          Karnataka —{" "}
+          <Link href="/areas-we-serve" className="font-semibold text-forest-700 underline dark:text-forest-300">
+            see our full coverage list
+          </Link>
+          , or just share your pickup and drop points.
         </p>
       </Section>
 

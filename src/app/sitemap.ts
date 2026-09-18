@@ -62,6 +62,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       images: destImages,
     },
     {
+      url: abs("/areas-we-serve"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: abs("/gallery"),
       lastModified: now,
       changeFrequency: "monthly",
