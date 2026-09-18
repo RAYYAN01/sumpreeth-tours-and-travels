@@ -16,6 +16,39 @@ export const STATE_TOURISM_BOARD: Record<PackageState, { name: string; url: stri
   PUDUCHERRY: { name: "Puducherry Tourism (Govt. of Puducherry)", url: "https://www.py.gov.in/tourism-0" },
 };
 
+/** National-level tourism authority — cited alongside the state board on
+ * every destination/package page. Real Ministry of Tourism, Govt. of India
+ * portal, verified before hardcoding. */
+export const INCREDIBLE_INDIA = {
+  name: "Incredible India (Ministry of Tourism, Govt. of India)",
+  url: "https://www.incredibleindia.gov.in/en",
+};
+
+/**
+ * Site-specific official authorities — only added where independently
+ * verified real and directly relevant (a protected monument's ASI page, a
+ * temple's own government-trust site), matched by a lowercase substring of
+ * the destination/package name. Deliberately small: no fabricated deep
+ * links for sites not individually checked.
+ */
+export const SITE_SPECIFIC_AUTHORITY: { match: string; name: string; url: string }[] = [
+  {
+    match: "hampi",
+    name: "Archaeological Survey of India — Hampi Circle",
+    url: "https://asi.nic.in/hampi/",
+  },
+  {
+    match: "tirupati",
+    name: "Tirumala Tirupati Devasthanams (Govt. of Andhra Pradesh)",
+    url: "https://ttdevasthanams.ap.gov.in/",
+  },
+];
+
+export function findSiteSpecificAuthority(name: string) {
+  const lower = name.toLowerCase();
+  return SITE_SPECIFIC_AUTHORITY.find((s) => lower.includes(s.match));
+}
+
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 

@@ -9,7 +9,13 @@ import {
   getVehicles,
   getSiteSettings,
 } from "@/lib/site";
-import { pageMeta, STATE_TOURISM_BOARD, canonical } from "@/lib/seo";
+import {
+  pageMeta,
+  STATE_TOURISM_BOARD,
+  INCREDIBLE_INDIA,
+  findSiteSpecificAuthority,
+  canonical,
+} from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { destinationJsonLd, faqJsonLd, speakableJsonLd } from "@/lib/structured-data";
 import {
@@ -78,6 +84,10 @@ export default async function DestinationDetailPage({
 
   const stateLabel = PACKAGE_STATE_LABELS[dest.state as PackageState] ?? dest.state;
   const stateBoard = STATE_TOURISM_BOARD[dest.state as PackageState];
+  const siteSpecific = findSiteSpecificAuthority(dest.name);
+  const authorityLinks = [stateBoard, siteSpecific, INCREDIBLE_INDIA].filter(
+    (x): x is { name: string; url: string } => Boolean(x),
+  );
   const sedan = vehicles.find((v) => v.category === "CAR" && v.seats.startsWith("4"));
   const suv = vehicles.find((v) => v.category === "CAR" && !v.seats.startsWith("4"));
   const wa = contactLink(
@@ -334,22 +344,28 @@ export default async function DestinationDetailPage({
             </Link>
           </div>
 
-          {stateBoard && (
+          {authorityLinks.length > 0 && (
             <div className="card mt-6 p-5">
               <h2 className="text-sm font-bold text-ink">Official travel information</h2>
               <p className="mt-1.5 text-xs text-bodytext">
                 For government travel advisories, permits and civic details on{" "}
-                {dest.name}, see the official {stateBoard.name}.
+                {dest.name}, see:
               </p>
-              <a
-                href={stateBoard.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-forest-700 dark:text-forest-300"
-              >
-                {stateBoard.name}
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
+              <ul className="mt-3 space-y-2">
+                {authorityLinks.map((link) => (
+                  <li key={link.url}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-forest-700 dark:text-forest-300"
+                    >
+                      {link.name}
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>

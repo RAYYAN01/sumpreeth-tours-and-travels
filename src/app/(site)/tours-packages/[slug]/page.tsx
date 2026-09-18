@@ -3,7 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check, MapPin, MessageCircle, Phone, X as XIcon, ExternalLink, ArrowRight } from "lucide-react";
 import { getPackages, getPackageBySlug, getSiteSettings, getDestinations, getVehicles } from "@/lib/site";
-import { pageMeta, STATE_TOURISM_BOARD, canonical } from "@/lib/seo";
+import {
+  pageMeta,
+  STATE_TOURISM_BOARD,
+  INCREDIBLE_INDIA,
+  findSiteSpecificAuthority,
+  canonical,
+} from "@/lib/seo";
 import { contactLink, telLink } from "@/lib/whatsapp";
 import { packageJsonLd, faqJsonLd, speakableJsonLd } from "@/lib/structured-data";
 import {
@@ -69,6 +75,12 @@ export default async function PackageDetailPage({
     .slice(0, 3);
 
   const linkedDestination = destinations.find((d) => d.packageSlug === pkg.slug);
+  const siteSpecific = findSiteSpecificAuthority(pkg.destination);
+  const authorityLinks = [
+    STATE_TOURISM_BOARD[pkg.state as PackageState],
+    siteSpecific,
+    INCREDIBLE_INDIA,
+  ].filter((x): x is { name: string; url: string } => Boolean(x));
   const sedan = vehicles.find((v) => v.category === "CAR" && v.seats.startsWith("4"));
   const suv = vehicles.find((v) => v.category === "CAR" && !v.seats.startsWith("4"));
 
@@ -293,22 +305,26 @@ export default async function PackageDetailPage({
             </p>
           </div>
 
-          {/* Official tourism board citation */}
-          {STATE_TOURISM_BOARD[pkg.state as PackageState] && (
-            <p className="reveal text-xs text-muted">
-              For government travel advisories on {pkg.destination}, see the
-              official{" "}
-              <a
-                href={STATE_TOURISM_BOARD[pkg.state as PackageState].url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-forest-700 hover:underline dark:text-forest-300"
-              >
-                {STATE_TOURISM_BOARD[pkg.state as PackageState].name}
-                <ExternalLink className="h-3 w-3" />
-              </a>
-              .
-            </p>
+          {/* Official tourism/authority citations */}
+          {authorityLinks.length > 0 && (
+            <div className="reveal text-xs text-muted">
+              <p>For government travel advisories on {pkg.destination}, see:</p>
+              <ul className="mt-1.5 space-y-1">
+                {authorityLinks.map((link) => (
+                  <li key={link.url}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-semibold text-forest-700 hover:underline dark:text-forest-300"
+                    >
+                      {link.name}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           {/* FAQ */}
