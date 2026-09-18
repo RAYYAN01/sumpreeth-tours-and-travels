@@ -24,6 +24,12 @@ export default async function AreasWeServePage() {
     getDestinations(),
   ]);
   const destSlugs = new Set(destinations.map((d) => d.slug));
+  // A few list entries use a shorter/alternate name than the destination
+  // page's own title (e.g. "KGF" vs "Kolar Gold Fields").
+  const TOWN_ALIASES: Record<string, string> = {
+    kgf: "kolar-gold-fields",
+    gokak: "gokak-falls",
+  };
   const waHref = contactLink(settings.whatsappNumber);
   const allTowns = KARNATAKA_AREAS.flatMap((d) => d.towns);
 
@@ -58,7 +64,8 @@ export default async function AreasWeServePage() {
               </h2>
               <ul className="mt-3 flex flex-wrap gap-1.5">
                 {d.towns.map((town) => {
-                  const slug = slugify(town);
+                  const rawSlug = slugify(town);
+                  const slug = TOWN_ALIASES[rawSlug] ?? rawSlug;
                   const hasPage = destSlugs.has(slug);
                   return (
                     <li key={town}>
