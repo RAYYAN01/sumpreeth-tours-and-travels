@@ -32,19 +32,26 @@ export async function saveDestinationAction(
     };
   }
   const d = parsed.data;
-  const base = slugify(d.name) || "destination";
 
   try {
-    // Ensure a unique slug (ignoring the current row on edit).
-    let slug = base;
-    let n = 1;
-    while (
-      await prisma.destination.findFirst({
-        where: { slug, ...(id ? { NOT: { id } } : {}) },
-        select: { id: true },
-      })
-    ) {
-      slug = `${base}-${++n}`;
+    // Slugs are stable identifiers, not derived from the name on every
+    // save — regenerating one on edit would silently break any already
+    // indexed or shared URL. Only a brand-new destination gets a fresh slug.
+    let slug: string;
+    if (id) {
+      const existing = await prisma.destination.findUnique({
+        where: { id },
+        select: { slug: true },
+      });
+      if (!existing) return { error: "Destination not found." };
+      slug = existing.slug;
+    } else {
+      const base = slugify(d.name) || "destination";
+      slug = base;
+      let n = 1;
+      while (await prisma.destination.findFirst({ where: { slug }, select: { id: true } })) {
+        slug = `${base}-${++n}`;
+      }
     }
 
     const data = {

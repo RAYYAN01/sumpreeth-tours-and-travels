@@ -28,16 +28,25 @@ export async function saveVehicleAction(
   }
   const v = parsed.data;
 
-  // Build a unique slug from the name (kept stable on edit unless it collides).
-  const base = slugify(v.name) || "vehicle";
-  let slug = base;
-  for (let i = 2; i < 50; i++) {
-    const clash = await prisma.vehicle.findFirst({
-      where: { slug, NOT: id ? { id } : undefined },
-      select: { id: true },
+  // Slugs are stable identifiers, not derived from the name on every save —
+  // regenerating one on edit would silently break any already indexed or
+  // shared URL. Only a brand-new vehicle gets a fresh slug.
+  let slug: string;
+  if (id) {
+    const existing = await prisma.vehicle.findUnique({
+      where: { id },
+      select: { slug: true },
     });
-    if (!clash) break;
-    slug = `${base}-${i}`;
+    if (!existing) return { error: "Vehicle not found." };
+    slug = existing.slug;
+  } else {
+    const base = slugify(v.name) || "vehicle";
+    slug = base;
+    for (let i = 2; i < 50; i++) {
+      const clash = await prisma.vehicle.findFirst({ where: { slug }, select: { id: true } });
+      if (!clash) break;
+      slug = `${base}-${i}`;
+    }
   }
 
   const data = {

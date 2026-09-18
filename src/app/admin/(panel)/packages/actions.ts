@@ -32,18 +32,26 @@ export async function savePackageAction(
     };
   }
   const p = parsed.data;
-  const base = slugify(p.title) || "package";
 
   try {
-    let slug = base;
-    let n = 1;
-    while (
-      await prisma.tourPackage.findFirst({
-        where: { slug, ...(id ? { NOT: { id } } : {}) },
-        select: { id: true },
-      })
-    ) {
-      slug = `${base}-${++n}`;
+    // Slugs are stable identifiers, not derived from the title on every
+    // save — regenerating one on edit would silently break any already
+    // indexed or shared URL. Only a brand-new package gets a fresh slug.
+    let slug: string;
+    if (id) {
+      const existing = await prisma.tourPackage.findUnique({
+        where: { id },
+        select: { slug: true },
+      });
+      if (!existing) return { error: "Package not found." };
+      slug = existing.slug;
+    } else {
+      const base = slugify(p.title) || "package";
+      slug = base;
+      let n = 1;
+      while (await prisma.tourPackage.findFirst({ where: { slug }, select: { id: true } })) {
+        slug = `${base}-${++n}`;
+      }
     }
 
     const data = {
